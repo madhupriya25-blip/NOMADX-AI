@@ -1,0 +1,1826 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NomadX AI - Restaurant Discovery</title>
+
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <style>
+        /* ================= GLOBAL ================= */
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0B192C;
+            color: #ffffff;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+        
+         ::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+         ::-webkit-scrollbar-track {
+            background: #0B192C;
+        }
+        
+         ::-webkit-scrollbar-thumb {
+            background: #FF6500;
+            border-radius: 10px;
+        }
+        /* ================= NAVBAR ================= */
+        
+        .navbar-custom {
+            background: rgba(11, 25, 44, 0.92);
+            backdrop-filter: blur(18px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            padding: 12px 30px;
+            position: sticky;
+            top: 0;
+            z-index: 1050;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4);
+        }
+        
+        .navbar-custom .logo {
+            font-size: 24px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #FF6500, #FF8C42);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .navbar-custom .logo i {
+            color: #FF6500;
+            font-size: 26px;
+        }
+        
+        .navbar-custom .logo span {
+            color: #ffffff;
+            font-weight: 300;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 22px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .nav-links a {
+            color: rgba(255, 255, 255, 0.6);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s;
+            padding: 6px 0;
+            position: relative;
+        }
+        
+        .nav-links a:hover {
+            color: #ffffff;
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #FF6500;
+            transition: width 0.3s;
+        }
+        
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        
+        .nav-links a.active {
+            color: #FF6500;
+        }
+        
+        .nav-links a.active::after {
+            width: 100%;
+        }
+        
+        .profile-dropdown {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 6px 14px 6px 6px;
+            border-radius: 50px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            background: rgba(255, 255, 255, 0.03);
+            transition: all 0.3s;
+            position: relative;
+        }
+        
+        .profile-dropdown:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 101, 0, 0.3);
+        }
+        
+        .profile-dropdown .avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #FF6500, #FF8C42);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 14px;
+            color: #fff;
+            flex-shrink: 0;
+        }
+        
+        .profile-dropdown .user-name {
+            font-size: 14px;
+            font-weight: 500;
+            color: #fff;
+        }
+        
+        .profile-dropdown .dropdown-arrow {
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 12px;
+        }
+        
+        .profile-menu {
+            position: absolute;
+            top: 72px;
+            right: 30px;
+            background: rgba(11, 25, 44, 0.97);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 20px;
+            padding: 20px;
+            min-width: 340px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+            display: none;
+            z-index: 1060;
+            animation: slideDown 0.3s ease;
+        }
+        
+        .profile-menu.show {
+            display: block;
+        }
+        
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px) scale(0.98);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+        
+        .profile-menu .menu-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        }
+        
+        .profile-menu .menu-header .avatar-lg {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #FF6500, #FF8C42);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: 700;
+            color: #fff;
+            flex-shrink: 0;
+        }
+        
+        .profile-menu .menu-header .user-info h5 {
+            margin: 0;
+            font-weight: 600;
+            font-size: 16px;
+            color: #fff;
+        }
+        
+        .profile-menu .menu-header .user-info p {
+            margin: 0;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.5);
+        }
+        
+        .profile-menu .menu-divider {
+            height: 1px;
+            background: rgba(255, 255, 255, 0.06);
+            margin: 12px 0;
+        }
+        
+        .profile-menu .menu-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 10px 14px;
+            border-radius: 12px;
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: all 0.2s;
+            cursor: pointer;
+            font-size: 14px;
+            border: none;
+            background: none;
+            width: 100%;
+            text-align: left;
+        }
+        
+        .profile-menu .menu-item:hover {
+            background: rgba(255, 101, 0, 0.1);
+            color: #FF6500;
+        }
+        
+        .profile-menu .menu-item i {
+            width: 20px;
+            color: #FF6500;
+        }
+        
+        .profile-menu .menu-item.logout {
+            color: #ef4444;
+        }
+        
+        .profile-menu .menu-item.logout i {
+            color: #ef4444;
+        }
+        
+        .profile-menu .menu-item.logout:hover {
+            background: rgba(239, 68, 68, 0.1);
+        }
+        /* ================= HERO ================= */
+        
+        .hero-section {
+            background: linear-gradient(135deg, rgba(30, 62, 98, 0.3), rgba(11, 25, 44, 0.5));
+            backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 28px;
+            padding: 30px 35px;
+            margin: 24px 0 30px;
+            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.3);
+        }
+        
+        .hero-section h1 {
+            font-size: 32px;
+            font-weight: 800;
+        }
+        
+        .hero-section h1 i {
+            color: #f59e0b;
+        }
+        
+        .hero-section p {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 16px;
+            margin-top: 6px;
+        }
+        /* ================= SEARCH ================= */
+        
+        .search-wrapper {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+        
+        .search-wrapper input {
+            flex: 1;
+            padding: 12px 20px;
+            border-radius: 60px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
+            font-family: inherit;
+            font-size: 14px;
+            outline: none;
+            min-width: 200px;
+            transition: all 0.3s;
+        }
+        
+        .search-wrapper input:focus {
+            border-color: #FF6500;
+            box-shadow: 0 0 20px rgba(255, 101, 0, 0.1);
+        }
+        
+        .search-wrapper input::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+        }
+        
+        .search-wrapper .btn-primary-sm {
+            padding: 12px 28px;
+            border-radius: 60px;
+            border: none;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: linear-gradient(135deg, #FF6500, #e05a00);
+            color: #fff;
+            box-shadow: 0 4px 20px rgba(255, 101, 0, 0.3);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-wrapper .btn-primary-sm:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(255, 101, 0, 0.4);
+        }
+        
+        .search-wrapper .btn-location {
+            padding: 12px 24px;
+            border-radius: 60px;
+            border: none;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: linear-gradient(135deg, #6C63FF, #8A2BE2);
+            color: #fff;
+            box-shadow: 0 4px 20px rgba(108, 99, 255, 0.3);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-wrapper .btn-location:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(108, 99, 255, 0.4);
+        }
+        /* ================= FILTERS ================= */
+        
+        .filter-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin: 20px 0 25px;
+            padding: 15px 20px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+        }
+        
+        .filter-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        
+        .filter-group label {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.5);
+            font-weight: 500;
+        }
+        
+        .filter-group select,
+        .filter-group input {
+            padding: 8px 16px;
+            border-radius: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
+            font-family: inherit;
+            font-size: 13px;
+            outline: none;
+        }
+        
+        .filter-group select:focus,
+        .filter-group input:focus {
+            border-color: #FF6500;
+        }
+        
+        .filter-group select option {
+            background: #0B192C;
+        }
+        
+        .price-badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+        
+        .price-budget {
+            background: rgba(34, 197, 94, 0.2);
+            color: #22c55e;
+        }
+        
+        .price-mid {
+            background: rgba(245, 158, 11, 0.2);
+            color: #f59e0b;
+        }
+        
+        .price-luxury {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+        }
+        /* ================= RECOMMENDATION BANNER ================= */
+        
+        .recommendation-banner {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.12), rgba(16, 185, 129, 0.02));
+            border: 1px solid rgba(16, 185, 129, 0.15);
+            border-radius: 24px;
+            padding: 20px 26px;
+            margin-bottom: 24px;
+            display: none;
+        }
+        
+        .recommendation-banner.show {
+            display: block;
+            animation: slideDown 0.5s ease;
+        }
+        
+        .recommendation-banner .rec-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #34d399;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .recommendation-banner .rec-message {
+            margin-top: 8px;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        
+        .recommendation-banner .rec-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 12px;
+        }
+        
+        .recommendation-banner .rec-list .rec-item {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 8px 18px;
+            border-radius: 30px;
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .recommendation-banner .rec-list .rec-item:hover {
+            background: rgba(255, 101, 0, 0.15);
+            border-color: #FF6500;
+        }
+        
+        .recommendation-banner .rec-list .rec-item .dish {
+            color: #fbbf24;
+            font-weight: 600;
+        }
+        /* ================= RESULTS ================= */
+        
+        .results-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .results-count {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.5);
+        }
+        
+        .results-count span {
+            color: #FF6500;
+            font-weight: 700;
+        }
+        
+        .restaurant-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 24px;
+            margin-bottom: 30px;
+        }
+        
+        .restaurant-card {
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(12px);
+            border-radius: 24px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.4s;
+        }
+        
+        .restaurant-card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(255, 101, 0, 0.2);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+        }
+        
+        .restaurant-card .card-image {
+            height: 200px;
+            width: 100%;
+            object-fit: cover;
+        }
+        
+        .restaurant-card .card-body {
+            padding: 20px 22px;
+        }
+        
+        .restaurant-card .card-body .name {
+            font-size: 18px;
+            font-weight: 700;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .restaurant-card .card-body .rating {
+            background: #fbbf24;
+            color: #1e293b;
+            padding: 2px 10px;
+            border-radius: 30px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+        
+        .restaurant-card .card-body .location {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.5);
+            margin: 6px 0;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .restaurant-card .card-body .price-category {
+            margin: 8px 0;
+        }
+        
+        .restaurant-card .card-body .cuisine-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin: 8px 0;
+        }
+        
+        .restaurant-card .card-body .cuisine-tags .tag {
+            background: rgba(255, 255, 255, 0.06);
+            padding: 4px 12px;
+            border-radius: 30px;
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
+        .restaurant-card .card-body .contact-info {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.5);
+            margin: 8px 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .restaurant-card .card-body .contact-info i {
+            color: #60a5fa;
+        }
+        
+        .restaurant-card .card-body .dish-recommendation {
+            background: rgba(255, 101, 0, 0.08);
+            border-left: 3px solid #FF6500;
+            padding: 10px 14px;
+            border-radius: 12px;
+            margin: 10px 0;
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.8);
+        }
+        
+        .restaurant-card .card-body .dish-recommendation .dish-name {
+            color: #fbbf24;
+            font-weight: 600;
+        }
+        
+        .restaurant-card .card-body .actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 12px;
+        }
+        
+        .restaurant-card .card-body .actions button {
+            padding: 8px 16px;
+            border-radius: 30px;
+            border: none;
+            font-weight: 600;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .restaurant-card .card-body .actions .btn-book {
+            background: linear-gradient(135deg, #FF6500, #e05a00);
+            color: #fff;
+        }
+        
+        .restaurant-card .card-body .actions .btn-book:hover {
+            transform: scale(1.05);
+        }
+        
+        .restaurant-card .card-body .actions .btn-map {
+            background: rgba(255, 255, 255, 0.06);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+        
+        .restaurant-card .card-body .actions .btn-map:hover {
+            background: rgba(255, 255, 255, 0.12);
+        }
+        /* ================= LOADING ================= */
+        
+        .loading-spinner {
+            text-align: center;
+            padding: 60px;
+            color: rgba(255, 255, 255, 0.5);
+        }
+        
+        .loading-spinner i {
+            font-size: 40px;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        /* ================= TOAST ================= */
+        
+        .toast-container-custom {
+            position: fixed;
+            top: 90px;
+            right: 20px;
+            z-index: 9999;
+        }
+        
+        .toast-custom {
+            background: rgba(11, 25, 44, 0.95);
+            backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 16px 24px;
+            color: #fff;
+            margin-bottom: 10px;
+            min-width: 300px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            animation: slideIn 0.4s ease;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        .toast-custom .toast-title {
+            font-weight: 600;
+            font-size: 15px;
+        }
+        
+        .toast-custom .toast-message {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.6);
+            margin-top: 4px;
+        }
+        
+        .toast-custom .toast-close {
+            float: right;
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.4);
+            cursor: pointer;
+            font-size: 18px;
+        }
+        /* ================= RESPONSIVE ================= */
+        
+        @media (max-width: 992px) {
+            .navbar-custom .container-fluid {
+                flex-wrap: wrap;
+                gap: 12px;
+            }
+            .nav-links {
+                gap: 14px;
+            }
+            .nav-links a {
+                font-size: 12px;
+            }
+            .restaurant-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .navbar-custom {
+                padding: 10px 16px;
+            }
+            .navbar-custom .logo {
+                font-size: 20px;
+            }
+            .nav-links {
+                gap: 10px;
+                width: 100%;
+                justify-content: center;
+            }
+            .nav-links a {
+                font-size: 11px;
+            }
+            .profile-dropdown .user-name {
+                display: none;
+            }
+            .hero-section {
+                padding: 20px;
+            }
+            .hero-section h1 {
+                font-size: 24px;
+            }
+            .search-wrapper input {
+                min-width: 150px;
+            }
+            .restaurant-grid {
+                grid-template-columns: 1fr;
+            }
+            .filter-bar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .profile-menu {
+                right: 10px;
+                left: 10px;
+                min-width: auto;
+                width: auto;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .navbar-custom .logo {
+                font-size: 17px;
+            }
+            .profile-dropdown {
+                padding: 4px 10px 4px 4px;
+            }
+            .profile-dropdown .avatar {
+                width: 30px;
+                height: 30px;
+                font-size: 12px;
+            }
+            .hero-section h1 {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ================= NAVBAR ================= -->
+    <nav class="navbar navbar-custom">
+        <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap">
+            <a href="#" class="logo">
+                <i class="fas fa-compass"></i> NomadX <span>AI</span>
+            </a>
+            <div class="nav-links">
+                <a href="/dashboard">Dashboard</a>
+                <a href="/hotels">Hotels</a>
+                <a href="/restaurants" class="active">Restaurants</a>
+                <a href="/rentals">Rentals</a>
+                <a href="/map">Maps</a>
+                <a href="/weather">Weather</a>
+                <a href="/emergency">Emergency</a>
+                <a href="/chatbot">AI Chatbot</a>
+                <a href="/booking">Bookings</a>
+                <a href="/logout">Logout</a>
+            </div>
+            <div class="profile-dropdown" id="profileToggle">
+                <div class="avatar" id="profileAvatar">
+                    <span id="avatarInitials">JD</span>
+                </div>
+                <span class="user-name" id="displayName">John Doe</span>
+                <i class="fas fa-chevron-down dropdown-arrow"></i>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ================= PROFILE MENU ================= -->
+    <div class="profile-menu" id="profileMenu">
+        <div class="menu-header">
+            <div class="avatar-lg">JD</div>
+            <div class="user-info">
+                <h5>John Doe</h5>
+                <p>john.doe@email.com</p>
+            </div>
+        </div>
+        <div class="menu-divider"></div>
+        <button class="menu-item" onclick="showToast('✏️ Edit profile coming soon')">
+            <i class="fas fa-user-edit"></i> Edit Profile
+        </button>
+        <button class="menu-item" onclick="showToast('🔧 Settings coming soon')">
+            <i class="fas fa-cog"></i> Settings
+        </button>
+        <div class="menu-divider"></div>
+        <button class="menu-item logout" onclick="if(confirm('Logout?')){window.location.href='/logout'}">
+            <i class="fas fa-sign-out-alt"></i> Logout
+        </button>
+    </div>
+
+    <!-- ================= TOAST ================= -->
+    <div class="toast-container-custom" id="toastContainer"></div>
+
+    <!-- ================= MAIN CONTENT ================= -->
+    <div class="container-fluid px-4">
+
+        <!-- Hero Section -->
+        <div class="hero-section">
+            <h1><i class="fas fa-utensils"></i> Restaurant Discovery</h1>
+            <p>Discover the best restaurants worldwide, explore local cuisines, and get AI-powered dish recommendations.</p>
+            <div class="search-wrapper">
+                <input type="text" id="searchInput" placeholder="Search by city, cuisine, or restaurant name..." value="London">
+                <button class="btn-primary-sm" id="searchBtn"><i class="fas fa-search"></i> Search</button>
+                <button class="btn-location" id="locationBtn"><i class="fas fa-location-dot"></i> Near Me</button>
+            </div>
+        </div>
+
+        <!-- Recommendation Banner -->
+        <div class="recommendation-banner" id="recommendationBanner">
+            <div class="rec-title" id="recTitle">🍽️ Chef's Recommendations</div>
+            <div class="rec-message" id="recMessage">Loading recommendations...</div>
+            <div class="rec-list" id="recList"></div>
+        </div>
+
+        <!-- Filter Bar -->
+        <div class="filter-bar">
+            <div class="filter-group">
+                <label>⭐ Rating</label>
+                <select id="ratingFilter">
+                    <option value="all">All Ratings</option>
+                    <option value="4.5">4.5+</option>
+                    <option value="4.0">4.0+</option>
+                    <option value="3.5">3.5+</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label>💰 Price</label>
+                <select id="priceFilter">
+                    <option value="all">All Prices</option>
+                    <option value="budget">Budget ($)</option>
+                    <option value="mid">Moderate ($$)</option>
+                    <option value="luxury">Luxury ($$$)</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label>🍽️ Cuisine</label>
+                <select id="cuisineFilter">
+                    <option value="all">All Cuisines</option>
+                    <option value="indian">Indian</option>
+                    <option value="italian">Italian</option>
+                    <option value="chinese">Chinese</option>
+                    <option value="japanese">Japanese</option>
+                    <option value="mexican">Mexican</option>
+                    <option value="french">French</option>
+                    <option value="thai">Thai</option>
+                    <option value="american">American</option>
+                    <option value="seafood">Seafood</option>
+                    <option value="vegetarian">Vegetarian</option>
+                    <option value="mediterranean">Mediterranean</option>
+                    <option value="spanish">Spanish</option>
+                    <option value="korean">Korean</option>
+                    <option value="vietnamese">Vietnamese</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Results Header -->
+        <div class="results-header">
+            <h2 style="font-size:20px;"><i class="fas fa-store" style="color:#FF6500;"></i> Restaurants</h2>
+            <span class="results-count">Showing <span id="resultCount">0</span> restaurants</span>
+        </div>
+
+        <!-- Loading -->
+        <div id="loadingSpinner" class="loading-spinner" style="display:none;">
+            <i class="fas fa-spinner fa-spin"></i>
+            <p style="margin-top:12px;">Searching for restaurants...</p>
+        </div>
+
+        <!-- Restaurant Grid -->
+        <div class="restaurant-grid" id="restaurantGrid">
+            <!-- Rendered by JavaScript -->
+        </div>
+
+        <!-- Footer -->
+        <div style="text-align: center; padding: 30px 0 20px; color: rgba(255,255,255,0.2); font-size: 13px; border-top: 1px solid rgba(255,255,255,0.04); margin-top: 10px;">
+            © 2026 NomadX AI — Restaurant Discovery | Explore Global Cuisines
+        </div>
+
+    </div>
+
+    <!-- ================= SCRIPTS ================= -->
+    <script>
+        // ================= EXPANDED RESTAURANT DATABASE (WORLDWIDE) =================
+        const restaurantDatabase = [
+            // ===== INDIA =====
+            {
+                id: 1,
+                name: "Spice Route Palace",
+                city: "Bengaluru",
+                country: "India",
+                rating: 4.7,
+                price: "mid",
+                cuisine: "Indian, North Indian",
+                phone: "+91 80 2222 1234",
+                address: "Kumara Krupa Road, Bengaluru",
+                image: "https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=400&h=250&fit=crop",
+                recommendedDish: "Butter Chicken with Garlic Naan",
+                specialty: "Authentic Mughlai cuisine"
+            }, {
+                id: 2,
+                name: "Mylari Hotel",
+                city: "Mysuru",
+                country: "India",
+                rating: 4.8,
+                price: "budget",
+                cuisine: "South Indian, Indian",
+                phone: "+91 821 244 2345",
+                address: "Nazarabad, Mysuru",
+                image: "https://images.unsplash.com/photo-1627308599195-60f1f5a5a04f?w=400&h=250&fit=crop",
+                recommendedDish: "Masala Dosa with Chutney",
+                specialty: "Legendary dosas since 1938"
+            }, {
+                id: 3,
+                name: "Chokhi Dhani",
+                city: "Jaipur",
+                country: "India",
+                rating: 4.6,
+                price: "mid",
+                cuisine: "Rajasthani, Indian",
+                phone: "+91 141 252 2222",
+                address: "JLN Marg, Jaipur",
+                image: "https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=400&h=250&fit=crop",
+                recommendedDish: "Dal Baati Churma",
+                specialty: "Traditional Rajasthani thali"
+            }, {
+                id: 4,
+                name: "Leopold Cafe",
+                city: "Mumbai",
+                country: "India",
+                rating: 4.5,
+                price: "mid",
+                cuisine: "Indian, Continental",
+                phone: "+91 22 2282 8181",
+                address: "Colaba, Mumbai",
+                image: "https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=400&h=250&fit=crop",
+                recommendedDish: "Bombay Grilled Sandwich",
+                specialty: "Iconic Mumbai cafe since 1871"
+            }, {
+                id: 5,
+                name: "Gajalee Seafood",
+                city: "Mangalore",
+                country: "India",
+                rating: 4.6,
+                price: "mid",
+                cuisine: "Seafood, Indian",
+                phone: "+91 824 244 9999",
+                address: "Hampankatta, Mangalore",
+                image: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=400&h=250&fit=crop",
+                recommendedDish: "Fish Thali",
+                specialty: "Fresh coastal seafood"
+            }, {
+                id: 6,
+                name: "Viva Panjim",
+                city: "Panaji",
+                country: "India",
+                rating: 4.4,
+                price: "budget",
+                cuisine: "Goan, Seafood",
+                phone: "+91 832 242 2676",
+                address: "Fontainhas, Panaji",
+                image: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=400&h=250&fit=crop",
+                recommendedDish: "Goan Fish Curry",
+                specialty: "Authentic Goan cuisine"
+            }, {
+                id: 7,
+                name: "Karim's",
+                city: "Delhi",
+                country: "India",
+                rating: 4.7,
+                price: "mid",
+                cuisine: "Mughlai, Indian",
+                phone: "+91 11 2326 9880",
+                address: "Jama Masjid, Delhi",
+                image: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=400&h=250&fit=crop",
+                recommendedDish: "Mutton Burra Kebab",
+                specialty: "Legendary Mughlai cuisine since 1913"
+            }, {
+                id: 8,
+                name: "Murugan Idli Shop",
+                city: "Chennai",
+                country: "India",
+                rating: 4.5,
+                price: "budget",
+                cuisine: "South Indian",
+                phone: "+91 44 2815 2233",
+                address: "T Nagar, Chennai",
+                image: "https://images.unsplash.com/photo-1589302168068-964664d93dc0?w=400&h=250&fit=crop",
+                recommendedDish: "Idli with Sambar",
+                specialty: "Famous South Indian breakfast"
+            }, {
+                id: 9,
+                name: "Paragon Restaurant",
+                city: "Kochi",
+                country: "India",
+                rating: 4.6,
+                price: "mid",
+                cuisine: "Kerala, Seafood",
+                phone: "+91 484 235 1234",
+                address: "MG Road, Kochi",
+                image: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=400&h=250&fit=crop",
+                recommendedDish: "Kerala Fish Curry",
+                specialty: "Authentic Kerala cuisine"
+            }, {
+                id: 10,
+                name: "Taj Mahal Restaurant",
+                city: "Hyderabad",
+                country: "India",
+                rating: 4.4,
+                price: "mid",
+                cuisine: "Hyderabadi, Indian",
+                phone: "+91 40 2345 6789",
+                address: "Banjara Hills, Hyderabad",
+                image: "https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=400&h=250&fit=crop",
+                recommendedDish: "Hyderabadi Biryani",
+                specialty: "Famous for authentic biryani"
+            },
+
+            // ===== USA =====
+            {
+                id: 11,
+                name: "Katz's Delicatessen",
+                city: "New York City",
+                country: "USA",
+                rating: 4.8,
+                price: "mid",
+                cuisine: "American, Deli",
+                phone: "+1 212 254 2246",
+                address: "205 E Houston St, NYC",
+                image: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=400&h=250&fit=crop",
+                recommendedDish: "Pastrami Sandwich",
+                specialty: "Famous NYC deli since 1888"
+            }, {
+                id: 12,
+                name: "Peter Luger Steakhouse",
+                city: "New York City",
+                country: "USA",
+                rating: 4.9,
+                price: "luxury",
+                cuisine: "American, Steakhouse",
+                phone: "+1 718 387 7400",
+                address: "178 Broadway, Brooklyn",
+                image: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=400&h=250&fit=crop",
+                recommendedDish: "Porterhouse Steak",
+                specialty: "Legendary steakhouse since 1887"
+            }, {
+                id: 13,
+                name: "In-N-Out Burger",
+                city: "Los Angeles",
+                country: "USA",
+                rating: 4.7,
+                price: "budget",
+                cuisine: "American, Fast Food",
+                phone: "+1 800 786 1000",
+                address: "Multiple Locations, LA",
+                image: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=400&h=250&fit=crop",
+                recommendedDish: "Double-Double Burger",
+                specialty: "Iconic California burger chain"
+            }, {
+                id: 14,
+                name: "The French Laundry",
+                city: "San Francisco",
+                country: "USA",
+                rating: 4.9,
+                price: "luxury",
+                cuisine: "French, Fine Dining",
+                phone: "+1 707 944 2380",
+                address: "6640 Washington St, Yountville",
+                image: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=400&h=250&fit=crop",
+                recommendedDish: "Tasting Menu",
+                specialty: "Three Michelin Star Restaurant"
+            }, {
+                id: 15,
+                name: "Joe's Stone Crab",
+                city: "Miami",
+                country: "USA",
+                rating: 4.6,
+                price: "luxury",
+                cuisine: "Seafood, American",
+                phone: "+1 305 673 0365",
+                address: "11 Washington Ave, Miami Beach",
+                image: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=400&h=250&fit=crop",
+                recommendedDish: "Stone Crab Claws",
+                specialty: "World-famous seafood since 1913"
+            },
+
+            // ===== EUROPE =====
+            {
+                id: 16,
+                name: "Le Cinq",
+                city: "Paris",
+                country: "France",
+                rating: 4.9,
+                price: "luxury",
+                cuisine: "French, Fine Dining",
+                phone: "+33 1 49 52 71 54",
+                address: "31 Av. George V, Paris",
+                image: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=400&h=250&fit=crop",
+                recommendedDish: "Truffle Risotto with Lobster",
+                specialty: "Michelin Star French Cuisine"
+            }, {
+                id: 17,
+                name: "Café de Flore",
+                city: "Paris",
+                country: "France",
+                rating: 4.4,
+                price: "mid",
+                cuisine: "French, Cafe",
+                phone: "+33 1 45 48 55 26",
+                address: "172 Blvd Saint-Germain, Paris",
+                image: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=400&h=250&fit=crop",
+                recommendedDish: "Croque Monsieur",
+                specialty: "Historic Parisian café"
+            }, {
+                id: 18,
+                name: "Dishoom",
+                city: "London",
+                country: "UK",
+                rating: 4.7,
+                price: "mid",
+                cuisine: "Indian, British-Indian",
+                phone: "+44 20 7420 9320",
+                address: "12 Upper St Martin's Ln, London",
+                image: "https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=400&h=250&fit=crop",
+                recommendedDish: "Chicken Tikka Masala",
+                specialty: "Bombay-inspired cuisine"
+            }, {
+                id: 19,
+                name: "The Ledbury",
+                city: "London",
+                country: "UK",
+                rating: 4.9,
+                price: "luxury",
+                cuisine: "British, European",
+                phone: "+44 20 7792 9090",
+                address: "127 Ledbury Rd, London",
+                image: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=400&h=250&fit=crop",
+                recommendedDish: "Roasted Scallops",
+                specialty: "Michelin Star British Cuisine"
+            }, {
+                id: 20,
+                name: "Pizza Gino",
+                city: "Rome",
+                country: "Italy",
+                rating: 4.6,
+                price: "budget",
+                cuisine: "Italian, Pizza",
+                phone: "+39 06 1234 5678",
+                address: "Via della Scala, Rome",
+                image: "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=400&h=250&fit=crop",
+                recommendedDish: "Margherita Pizza",
+                specialty: "Traditional wood-fired pizza"
+            }, {
+                id: 21,
+                name: "Osteria Francescana",
+                city: "Modena",
+                country: "Italy",
+                rating: 4.9,
+                price: "luxury",
+                cuisine: "Italian, Fine Dining",
+                phone: "+39 059 223912",
+                address: "Via Stella, 22, Modena",
+                image: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=400&h=250&fit=crop",
+                recommendedDish: "Five Ages of Parmigiano",
+                specialty: "Three Michelin Star Restaurant"
+            }, {
+                id: 22,
+                name: "El Celler de Can Roca",
+                city: "Girona",
+                country: "Spain",
+                rating: 4.9,
+                price: "luxury",
+                cuisine: "Spanish, Fine Dining",
+                phone: "+34 972 222 157",
+                address: "Can Sunyer, 48, Girona",
+                image: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=400&h=250&fit=crop",
+                recommendedDish: "Tasting Menu",
+                specialty: "Three Michelin Star Spanish Cuisine"
+            }, {
+                id: 23,
+                name: "Noma",
+                city: "Copenhagen",
+                country: "Denmark",
+                rating: 4.9,
+                price: "luxury",
+                cuisine: "Nordic, Fine Dining",
+                phone: "+45 3296 3297",
+                address: "Refshalevej 96, Copenhagen",
+                image: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=400&h=250&fit=crop",
+                recommendedDish: "Seasonal Tasting Menu",
+                specialty: "World-famous Nordic cuisine"
+            },
+
+            // ===== ASIA =====
+            {
+                id: 24,
+                name: "Sukiyabashi Jiro",
+                city: "Tokyo",
+                country: "Japan",
+                rating: 4.9,
+                price: "luxury",
+                cuisine: "Japanese, Sushi",
+                phone: "+81 3 3535 3600",
+                address: "Chiyoda, Tokyo",
+                image: "https://images.unsplash.com/photo-1551183053-bf91a1d81141?w=400&h=250&fit=crop",
+                recommendedDish: "Omakase Sushi Set",
+                specialty: "Legendary sushi by Jiro"
+            }, {
+                id: 25,
+                name: "Ichiran Shibuya",
+                city: "Tokyo",
+                country: "Japan",
+                rating: 4.6,
+                price: "budget",
+                cuisine: "Japanese, Ramen",
+                phone: "+81 3 3464 7781",
+                address: "Shibuya, Tokyo",
+                image: "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=400&h=250&fit=crop",
+                recommendedDish: "Tonkotsu Ramen",
+                specialty: "Famous tonkotsu broth"
+            }, {
+                id: 26,
+                name: "Din Tai Fung",
+                city: "Singapore",
+                country: "Singapore",
+                rating: 4.7,
+                price: "mid",
+                cuisine: "Taiwanese, Chinese",
+                phone: "+65 6655 9999",
+                address: "Paragon Shopping Centre, Singapore",
+                image: "https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=400&h=250&fit=crop",
+                recommendedDish: "Xiao Long Bao",
+                specialty: "World-famous soup dumplings"
+            }, {
+                id: 27,
+                name: "Al Ustad Special Kabab",
+                city: "Dubai",
+                country: "UAE",
+                rating: 4.7,
+                price: "budget",
+                cuisine: "Middle Eastern, Iranian",
+                phone: "+971 4 397 1933",
+                address: "Al Mankhool, Dubai",
+                image: "https://images.unsplash.com/photo-1589302168068-964664d93dc0?w=400&h=250&fit=crop",
+                recommendedDish: "Kubideh Kabab",
+                specialty: "Authentic Iranian kababs"
+            }, {
+                id: 28,
+                name: "At.mosphere",
+                city: "Dubai",
+                country: "UAE",
+                rating: 4.8,
+                price: "luxury",
+                cuisine: "International, Fine Dining",
+                phone: "+971 4 888 3828",
+                address: "Burj Khalifa, 122nd Floor",
+                image: "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=400&h=250&fit=crop",
+                recommendedDish: "Wagyu Steak with Truffle",
+                specialty: "Dining at the highest restaurant"
+            }, {
+                id: 29,
+                name: "Bangkok's Best",
+                city: "Bangkok",
+                country: "Thailand",
+                rating: 4.6,
+                price: "budget",
+                cuisine: "Thai, Street Food",
+                phone: "+66 2 123 4567",
+                address: "Sukhumvit, Bangkok",
+                image: "https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=400&h=250&fit=crop",
+                recommendedDish: "Pad Thai",
+                specialty: "Authentic Thai street food"
+            }, {
+                id: 30,
+                name: "Violet Oon Singapore",
+                city: "Singapore",
+                country: "Singapore",
+                rating: 4.6,
+                price: "mid",
+                cuisine: "Peranakan, Singaporean",
+                phone: "+65 9834 9935",
+                address: "Claymore Connect, Singapore",
+                image: "https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=400&h=250&fit=crop",
+                recommendedDish: "Nasi Lemak",
+                specialty: "Authentic Peranakan cuisine"
+            },
+
+            // ===== AUSTRALIA =====
+            {
+                id: 31,
+                name: "Quay",
+                city: "Sydney",
+                country: "Australia",
+                rating: 4.8,
+                price: "luxury",
+                cuisine: "Australian, Fine Dining",
+                phone: "+61 2 9251 5600",
+                address: "Overseas Passenger Terminal, Sydney",
+                image: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=400&h=250&fit=crop",
+                recommendedDish: "Snow Egg",
+                specialty: "Iconic Sydney fine dining"
+            }, {
+                id: 32,
+                name: "Attica",
+                city: "Melbourne",
+                country: "Australia",
+                rating: 4.9,
+                price: "luxury",
+                cuisine: "Australian, Fine Dining",
+                phone: "+61 3 9530 0111",
+                address: "74 Glen Eira Rd, Melbourne",
+                image: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=400&h=250&fit=crop",
+                recommendedDish: "Tasting Menu",
+                specialty: "Top 50 Restaurant in the World"
+            },
+
+            // ===== AFRICA =====
+            {
+                id: 33,
+                name: "The Test Kitchen",
+                city: "Cape Town",
+                country: "South Africa",
+                rating: 4.8,
+                price: "luxury",
+                cuisine: "South African, Fine Dining",
+                phone: "+27 21 447 2337",
+                address: "The Old Biscuit Mill, Cape Town",
+                image: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=400&h=250&fit=crop",
+                recommendedDish: "Tasting Menu",
+                specialty: "Africa's best restaurant"
+            }, {
+                id: 34,
+                name: "Abyssinia",
+                city: "Cairo",
+                country: "Egypt",
+                rating: 4.3,
+                price: "budget",
+                cuisine: "Ethiopian, Middle Eastern",
+                phone: "+20 2 1234 5678",
+                address: "Downtown Cairo",
+                image: "https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=400&h=250&fit=crop",
+                recommendedDish: "Injera with Doro Wat",
+                specialty: "Authentic Ethiopian cuisine"
+            },
+
+            // ===== SOUTH AMERICA =====
+            {
+                id: 35,
+                name: "Central",
+                city: "Lima",
+                country: "Peru",
+                rating: 4.9,
+                price: "luxury",
+                cuisine: "Peruvian, Fine Dining",
+                phone: "+51 1 242 8515",
+                address: "Calle Santa Isabel, Lima",
+                image: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=400&h=250&fit=crop",
+                recommendedDish: "Tasting Menu",
+                specialty: "Best Restaurant in South America"
+            }, {
+                id: 36,
+                name: "Fogo de Chão",
+                city: "São Paulo",
+                country: "Brazil",
+                rating: 4.5,
+                price: "mid",
+                cuisine: "Brazilian, Steakhouse",
+                phone: "+55 11 1234 5678",
+                address: "Alameda Santos, São Paulo",
+                image: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=400&h=250&fit=crop",
+                recommendedDish: "Picanha Steak",
+                specialty: "Traditional Brazilian churrascaria"
+            },
+
+            // ===== MIDDLE EAST =====
+            {
+                id: 37,
+                name: "Zuma Dubai",
+                city: "Dubai",
+                country: "UAE",
+                rating: 4.8,
+                price: "luxury",
+                cuisine: "Japanese, Asian",
+                phone: "+971 4 425 5660",
+                address: "DIFC, Dubai",
+                image: "https://images.unsplash.com/photo-1551183053-bf91a1d81141?w=400&h=250&fit=crop",
+                recommendedDish: "Black Cod",
+                specialty: "World-class Japanese cuisine"
+            }, {
+                id: 38,
+                name: "Abu Dhabi Grand",
+                city: "Abu Dhabi",
+                country: "UAE",
+                rating: 4.6,
+                price: "mid",
+                cuisine: "Middle Eastern, International",
+                phone: "+971 2 1234 5678",
+                address: "Corniche Road, Abu Dhabi",
+                image: "https://images.unsplash.com/photo-1589302168068-964664d93dc0?w=400&h=250&fit=crop",
+                recommendedDish: "Mixed Grill",
+                specialty: "Authentic Middle Eastern cuisine"
+            },
+
+            // ===== EUROPE (Additional) =====
+            {
+                id: 39,
+                name: "Restaurant Gordon Ramsay",
+                city: "London",
+                country: "UK",
+                rating: 4.9,
+                price: "luxury",
+                cuisine: "British, Fine Dining",
+                phone: "+44 20 7593 1111",
+                address: "68 Royal Hospital Rd, London",
+                image: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=400&h=250&fit=crop",
+                recommendedDish: "Beef Wellington",
+                specialty: "Three Michelin Star Restaurant"
+            }, {
+                id: 40,
+                name: "Sacher Cafe",
+                city: "Vienna",
+                country: "Austria",
+                rating: 4.5,
+                price: "mid",
+                cuisine: "Austrian, Cafe",
+                phone: "+43 1 51456 0",
+                address: "Philharmonikerstrasse 4, Vienna",
+                image: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=400&h=250&fit=crop",
+                recommendedDish: "Sacher Torte",
+                specialty: "Famous Viennese chocolate cake"
+            }, {
+                id: 41,
+                name: "Cafe Central",
+                city: "Vienna",
+                country: "Austria",
+                rating: 4.4,
+                price: "mid",
+                cuisine: "Austrian, Cafe",
+                phone: "+43 1 533 3761",
+                address: "Herrengasse 14, Vienna",
+                image: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=400&h=250&fit=crop",
+                recommendedDish: "Apfelstrudel",
+                specialty: "Historic Viennese cafe"
+            }, {
+                id: 42,
+                name: "Hofbrauhaus",
+                city: "Munich",
+                country: "Germany",
+                rating: 4.3,
+                price: "mid",
+                cuisine: "German, Bavarian",
+                phone: "+49 89 2901360",
+                address: "Platzl 9, Munich",
+                image: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=400&h=250&fit=crop",
+                recommendedDish: "Schweinshaxe",
+                specialty: "Famous Bavarian beer hall"
+            }
+        ];
+
+        // ================= STATE =================
+        let currentRestaurants = [...restaurantDatabase];
+        let currentCity = 'London';
+
+        // ================= TOAST =================
+        function showToast(message, title = '') {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = 'toast-custom';
+            const iconMap = {
+                'Success': '✅',
+                'Error': '⚠️',
+                'Warning': '⚠️',
+                'Info': 'ℹ️'
+            };
+            const icon = iconMap[title] || 'ℹ️';
+            toast.innerHTML = `
+                <button class="toast-close" onclick="this.parentElement.remove()">×</button>
+                <div class="toast-title">${title ? icon + ' ' + title : 'ℹ️ Notification'}</div>
+                <div class="toast-message">${message}</div>
+            `;
+            container.appendChild(toast);
+            setTimeout(() => {
+                if (toast.parentElement) {
+                    toast.style.opacity = '0';
+                    toast.style.transition = 'opacity 0.4s';
+                    setTimeout(() => {
+                        if (toast.parentElement) toast.remove();
+                    }, 400);
+                }
+            }, 5000);
+        }
+
+        // ================= GET PRICE LABEL =================
+        function getPriceLabel(price) {
+            const map = {
+                budget: '💰 Budget',
+                mid: '💰💰 Moderate',
+                luxury: '💰💰💰 Luxury'
+            };
+            return map[price] || price;
+        }
+
+        function getPriceBadge(price) {
+            const map = {
+                budget: 'price-budget',
+                mid: 'price-mid',
+                luxury: 'price-luxury'
+            };
+            return map[price] || '';
+        }
+
+        function getRatingStars(rating) {
+            const full = Math.floor(rating);
+            const half = rating % 1 >= 0.5 ? 1 : 0;
+            let stars = '';
+            for (let i = 0; i < full; i++) stars += '⭐';
+            if (half) stars += '⭐';
+            return stars;
+        }
+
+        // ================= RENDER RESTAURANTS =================
+        function renderRestaurants(restaurants) {
+            const grid = document.getElementById('restaurantGrid');
+            const count = document.getElementById('resultCount');
+
+            if (!restaurants || restaurants.length === 0) {
+                grid.innerHTML = `
+                    <div style="grid-column:1/-1; text-align:center; padding:60px; background:rgba(255,255,255,0.03); border-radius:24px;">
+                        <i class="fas fa-utensils" style="font-size:48px; color:rgba(255,255,255,0.2);"></i>
+                        <p style="margin-top:15px; color:rgba(255,255,255,0.5);">No restaurants found. Try a different search!</p>
+                        <p style="font-size:13px; color:rgba(255,255,255,0.3);">Try searching for: London, Paris, Tokyo, Dubai, New York, Singapore, Mumbai, Sydney, Cape Town...</p>
+                    </div>
+                `;
+                count.textContent = '0';
+                return;
+            }
+
+            count.textContent = restaurants.length;
+
+            grid.innerHTML = restaurants.map(rest => `
+                <div class="restaurant-card">
+                    <img class="card-image" src="${rest.image}" alt="${rest.name}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=400&h=250&fit=crop'">
+                    <div class="card-body">
+                        <div class="name">
+                            ${rest.name}
+                            <span class="rating">${getRatingStars(rest.rating)} ${rest.rating}</span>
+                        </div>
+                        <div class="location"><i class="fas fa-map-marker-alt"></i> ${rest.city}, ${rest.country}</div>
+                        <div class="price-category">
+                            <span class="price-badge ${getPriceBadge(rest.price)}">${getPriceLabel(rest.price)}</span>
+                        </div>
+                        <div class="cuisine-tags">
+                            ${rest.cuisine.split(',').map(c => `<span class="tag">${c.trim()}</span>`).join('')}
+                        </div>
+                        <div class="contact-info"><i class="fas fa-phone"></i> ${rest.phone}</div>
+                        <div class="contact-info"><i class="fas fa-location-dot"></i> ${rest.address}</div>
+                        <div class="dish-recommendation">
+                            <i class="fas fa-star" style="color:#fbbf24;"></i> <strong>Recommended:</strong> 
+                            <span class="dish-name">${rest.recommendedDish}</span>
+                            <br><span style="font-size:12px; color:rgba(255,255,255,0.5);">${rest.specialty}</span>
+                        </div>
+                        <div class="actions">
+                            <button class="btn-book" onclick="showToast('📞 Booking ${rest.name}...')"><i class="fas fa-calendar-check"></i> Book Table</button>
+                            <button class="btn-map" onclick="showToast('🗺️ Loading map for ${rest.name}...')"><i class="fas fa-map"></i> Map</button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // ================= FILTER & SEARCH =================
+        function filterRestaurants() {
+            const searchQuery = document.getElementById('searchInput').value.toLowerCase().trim();
+            const ratingFilter = document.getElementById('ratingFilter').value;
+            const priceFilter = document.getElementById('priceFilter').value;
+            const cuisineFilter = document.getElementById('cuisineFilter').value;
+
+            let filtered = [...restaurantDatabase];
+
+            // Search filter
+            if (searchQuery) {
+                filtered = filtered.filter(rest =>
+                    rest.name.toLowerCase().includes(searchQuery) ||
+                    rest.city.toLowerCase().includes(searchQuery) ||
+                    rest.country.toLowerCase().includes(searchQuery) ||
+                    rest.cuisine.toLowerCase().includes(searchQuery)
+                );
+            }
+
+            // Rating filter
+            if (ratingFilter !== 'all') {
+                const minRating = parseFloat(ratingFilter);
+                filtered = filtered.filter(rest => rest.rating >= minRating);
+            }
+
+            // Price filter
+            if (priceFilter !== 'all') {
+                filtered = filtered.filter(rest => rest.price === priceFilter);
+            }
+
+            // Cuisine filter
+            if (cuisineFilter !== 'all') {
+                filtered = filtered.filter(rest =>
+                    rest.cuisine.toLowerCase().includes(cuisineFilter)
+                );
+            }
+
+            currentRestaurants = filtered;
+            renderRestaurants(filtered);
+            generateRecommendations(filtered);
+        }
+
+        // ================= GENERATE RECOMMENDATIONS =================
+        function generateRecommendations(restaurants) {
+            const banner = document.getElementById('recommendationBanner');
+            const title = document.getElementById('recTitle');
+            const message = document.getElementById('recMessage');
+            const list = document.getElementById('recList');
+
+            if (!restaurants || restaurants.length === 0) {
+                banner.classList.remove('show');
+                return;
+            }
+
+            // Find top rated restaurants
+            const topRated = [...restaurants].sort((a, b) => b.rating - a.rating).slice(0, 3);
+
+            // Find budget friendly
+            const budgetOptions = restaurants.filter(r => r.price === 'budget').slice(0, 2);
+
+            title.innerHTML = '🍽️ Chef\'s Recommendations & Local Favorites';
+            message.innerHTML = `
+                Based on your search, here are the top-rated restaurants and must-try dishes in this area.
+                <br>🌟 <strong>Top Pick:</strong> ${topRated[0]?.name || 'Explore our recommendations below!'}
+            `;
+
+            let recHtml = '';
+            topRated.forEach(rest => {
+                recHtml += `
+                    <span class="rec-item" onclick="document.getElementById('searchInput').value='${rest.name}';filterRestaurants();">
+                        <i class="fas fa-star" style="color:#fbbf24;"></i> ${rest.name} 
+                        <span class="dish">(${rest.recommendedDish})</span>
+                    </span>
+                `;
+            });
+
+            if (budgetOptions.length > 0) {
+                recHtml += `
+                    <span class="rec-item" style="border-color:rgba(34,197,94,0.3);">
+                        <i class="fas fa-wallet" style="color:#22c55e;"></i> Budget Pick: ${budgetOptions[0].name}
+                    </span>
+                `;
+            }
+
+            list.innerHTML = recHtml;
+            banner.classList.add('show');
+        }
+
+        // ================= SEARCH =================
+        function performSearch() {
+            const loading = document.getElementById('loadingSpinner');
+            const grid = document.getElementById('restaurantGrid');
+
+            loading.style.display = 'block';
+            grid.innerHTML = '';
+
+            setTimeout(() => {
+                filterRestaurants();
+                loading.style.display = 'none';
+            }, 300);
+        }
+
+        // ================= DETECT LOCATION =================
+        function detectLocation() {
+            if (!navigator.geolocation) {
+                showToast('⚠️ Geolocation not supported', 'Error');
+                return;
+            }
+
+            showToast('📍 Detecting your location...', 'Info');
+            navigator.geolocation.getCurrentPosition(
+                async (position) => {
+                    const { latitude, longitude } = position.coords;
+                    try {
+                        const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}&zoom=10`);
+                        const data = await response.json();
+                        if (data && data.address) {
+                            const city = data.address.city || data.address.town || data.address.village || 'Unknown';
+                            document.getElementById('searchInput').value = city;
+                            currentCity = city;
+                            performSearch();
+                            showToast(`📍 Showing restaurants near ${city}`, 'Success');
+                        }
+                    } catch (error) {
+                        showToast('⚠️ Could not detect city, showing all restaurants', 'Info');
+                        performSearch();
+                    }
+                },
+                (error) => {
+                    showToast('⚠️ Location unavailable, showing all restaurants', 'Info');
+                    performSearch();
+                },
+                { enableHighAccuracy: true, timeout: 15000 }
+            );
+        }
+
+        // ================= EVENT LISTENERS =================
+        document.addEventListener('DOMContentLoaded', function() {
+            // Profile dropdown
+            const profileToggle = document.getElementById('profileToggle');
+            const profileMenu = document.getElementById('profileMenu');
+            if (profileToggle && profileMenu) {
+                profileToggle.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    profileMenu.classList.toggle('show');
+                });
+                document.addEventListener('click', (e) => {
+                    if (!profileToggle.contains(e.target) && !profileMenu.contains(e.target)) {
+                        profileMenu.classList.remove('show');
+                    }
+                });
+            }
+
+            // Search
+            document.getElementById('searchBtn').addEventListener('click', performSearch);
+            document.getElementById('searchInput').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') performSearch();
+            });
+
+            // Location
+            document.getElementById('locationBtn').addEventListener('click', detectLocation);
+
+            // Filters
+            document.getElementById('ratingFilter').addEventListener('change', performSearch);
+            document.getElementById('priceFilter').addEventListener('change', performSearch);
+            document.getElementById('cuisineFilter').addEventListener('change', performSearch);
+
+            // Initial load
+            const lastCity = localStorage.getItem('lastRestaurantCity');
+            if (lastCity) {
+                document.getElementById('searchInput').value = lastCity;
+            }
+            performSearch();
+
+            console.log('🍽️ Restaurant Discovery loaded!');
+            console.log('📊 Total restaurants in database:', restaurantDatabase.length);
+        });
+    </script>
+
+</body>
+
+</html>

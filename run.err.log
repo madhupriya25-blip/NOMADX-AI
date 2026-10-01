@@ -1,0 +1,529 @@
+[2026-07-11 15:06:50,928] WARNING in extensions: NomadX production backend dependencies are not installed; legacy Flask routes remain active.
+WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on http://127.0.0.1:5000
+Press CTRL+C to quit
+127.0.0.1 - - [11/Jul/2026 15:07:03] "GET /api/emergency/helplines?country=India&state=Karnataka&category=women_safety HTTP/1.1" 401 -
+127.0.0.1 - - [11/Jul/2026 15:09:08] "GET /emergency HTTP/1.1" 302 -
+127.0.0.1 - - [11/Jul/2026 15:09:08] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2026 15:09:08] "GET /static/css/style.css HTTP/1.1" 304 -
+127.0.0.1 - - [11/Jul/2026 15:09:13] "GET /enter?next=login HTTP/1.1" 302 -
+127.0.0.1 - - [11/Jul/2026 15:09:13] "GET /login HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2026 15:09:13] "GET /static/css/style.css HTTP/1.1" 304 -
+127.0.0.1 - - [11/Jul/2026 15:09:13] "GET /static/js/app.js HTTP/1.1" 304 -
+127.0.0.1 - - [11/Jul/2026 15:09:13] "GET /favicon.ico HTTP/1.1" 404 -
+127.0.0.1 - - [11/Jul/2026 15:09:26] "POST /login HTTP/1.1" 302 -
+127.0.0.1 - - [11/Jul/2026 15:09:26] "GET /dashboard HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2026 15:09:27] "GET /static/css/style.css HTTP/1.1" 304 -
+127.0.0.1 - - [11/Jul/2026 15:09:31] "GET /emergency HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2026 15:09:31] "GET /static/css/style.css HTTP/1.1" 304 -
+127.0.0.1 - - [11/Jul/2026 15:09:31] "GET /static/js/app.js HTTP/1.1" 304 -
+127.0.0.1 - - [11/Jul/2026 15:09:31] "GET /api/emergency/helplines?country=India&state=&category=universal HTTP/1.1" 200 -
+C:\Users\shree vaishnavi\Desktop\NomadX AI\app.py:1744: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+  datetime.utcnow().isoformat(timespec="seconds"),
+127.0.0.1 - - [11/Jul/2026 15:09:35] "POST /live_location HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2026 15:09:49] "GET /api/emergency/services?lat=12.886467866807623&lon=77.62173189386026&category=universal HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2026 15:11:06] "GET /api/emergency/helplines?country=Australia&state=california&category=ambulance HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2026 15:11:11] "GET /api/emergency/helplines?country=Australia&state=california&category=ambulance HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2026 15:11:20] "GET /api/emergency/helplines?country=Australia&state=california&category=women_safety HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2026 15:12:07] "GET /api/emergency/helplines?country=Australia&state=Queensland&category=women_safety HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2026 15:12:22] "GET /api/emergency/helplines?country=Australia&state=Queensland&category=ambulance HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2026 15:12:47] "GET /api/emergency/helplines?country=Australia&state=Victoria&category=ambulance HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2026 15:20:18] "GET /api/emergency/helplines?country=Australia&state=&category=ambulance HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2026 15:20:21] "GET /api/emergency/helplines?country=Australia&state=&category=ambulance HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2026 15:20:35] "GET /api/emergency/helplines?country=United+States&state=&category=ambulance HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2026 15:22:31] "GET /emergency HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2026 15:22:31] "GET /static/js/app.js HTTP/1.1" 304 -
+127.0.0.1 - - [11/Jul/2026 15:22:31] "GET /static/css/style.css HTTP/1.1" 304 -
+127.0.0.1 - - [11/Jul/2026 15:22:31] "GET /api/emergency/helplines?country=India&state=&category=universal HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2026 15:22:36] "POST /live_location HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2026 15:22:51] "GET /api/emergency/services?lat=12.886342741940632&lon=77.62175270906478&category=universal HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2026 15:38:08] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2026 15:38:09] "GET /static/css/style.css HTTP/1.1" 304 -
+127.0.0.1 - - [11/Jul/2026 15:38:09] "GET /static/css/style.css HTTP/1.1" 304 -
+127.0.0.1 - - [11/Jul/2026 15:38:14] "GET /enter?next=login HTTP/1.1" 302 -
+127.0.0.1 - - [11/Jul/2026 15:38:14] "GET /login HTTP/1.1" 302 -
+127.0.0.1 - - [11/Jul/2026 15:38:14] "GET /dashboard HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2026 15:38:14] "GET /static/css/style.css HTTP/1.1" 304 -
+127.0.0.1 - - [11/Jul/2026 15:38:29] "GET /emergency HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2026 15:38:29] "GET /static/css/style.css HTTP/1.1" 304 -
+127.0.0.1 - - [11/Jul/2026 15:47:54] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2026 15:47:54] "GET /static/css/style.css HTTP/1.1" 304 -
+127.0.0.1 - - [11/Jul/2026 15:47:57] "GET /enter?next=login HTTP/1.1" 302 -
+127.0.0.1 - - [11/Jul/2026 15:47:57] "GET /login HTTP/1.1" 302 -
+127.0.0.1 - - [11/Jul/2026 15:47:57] "GET /dashboard HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2026 15:47:57] "GET /static/css/style.css HTTP/1.1" 304 -
+127.0.0.1 - - [11/Jul/2026 15:48:05] "GET /emergency HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2026 15:48:05] "GET /static/css/style.css HTTP/1.1" 304 -
+127.0.0.1 - - [11/Jul/2026 15:59:02] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2026 15:59:02] "GET /static/css/style.css HTTP/1.1" 304 -
+127.0.0.1 - - [11/Jul/2026 15:59:02] "GET /static/css/style.css HTTP/1.1" 304 -
+127.0.0.1 - - [11/Jul/2026 15:59:04] "GET /enter?next=login HTTP/1.1" 302 -
+127.0.0.1 - - [11/Jul/2026 15:59:04] "GET /login HTTP/1.1" 302 -
+127.0.0.1 - - [11/Jul/2026 15:59:04] "GET /dashboard HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2026 15:59:04] "GET /static/css/style.css HTTP/1.1" 304 -
+127.0.0.1 - - [11/Jul/2026 15:59:08] "GET /emergency HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2026 15:59:08] "GET /static/css/style.css HTTP/1.1" 304 -
+127.0.0.1 - - [11/Jul/2026 15:59:10] "GET /api/emergency/search?q=India&category=all HTTP/1.1" 404 -
+127.0.0.1 - - [11/Jul/2026 15:59:14] "GET /api/emergency/search?q=India&category=all HTTP/1.1" 404 -
+127.0.0.1 - - [11/Jul/2026 15:59:44] "GET /api/emergency/search?q=India&category=all HTTP/1.1" 404 -
+127.0.0.1 - - [11/Jul/2026 16:01:37] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2026 16:01:37] "GET /static/css/style.css HTTP/1.1" 304 -
+127.0.0.1 - - [11/Jul/2026 16:01:37] "GET /static/css/style.css HTTP/1.1" 304 -
+127.0.0.1 - - [11/Jul/2026 16:01:40] "GET /enter?next=login HTTP/1.1" 302 -
+127.0.0.1 - - [11/Jul/2026 16:01:40] "GET /login HTTP/1.1" 302 -
+127.0.0.1 - - [11/Jul/2026 16:01:40] "GET /dashboard HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2026 16:01:40] "GET /static/css/style.css HTTP/1.1" 304 -
+127.0.0.1 - - [11/Jul/2026 16:01:42] "GET /emergency HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2026 16:01:42] "GET /static/css/style.css HTTP/1.1" 304 -
+127.0.0.1 - - [11/Jul/2026 16:09:17] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2026 16:09:17] "GET /static/css/style.css HTTP/1.1" 304 -
+127.0.0.1 - - [11/Jul/2026 16:09:18] "GET /static/css/style.css HTTP/1.1" 304 -
+127.0.0.1 - - [11/Jul/2026 16:09:19] "GET /enter?next=login HTTP/1.1" 302 -
+127.0.0.1 - - [11/Jul/2026 16:09:19] "GET /login HTTP/1.1" 302 -
+127.0.0.1 - - [11/Jul/2026 16:09:19] "GET /dashboard HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2026 16:09:19] "GET /static/css/style.css HTTP/1.1" 304 -
+127.0.0.1 - - [11/Jul/2026 16:09:21] "GET /emergency HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2026 16:09:21] "GET /static/css/style.css HTTP/1.1" 304 -
+127.0.0.1 - - [11/Jul/2026 16:09:24] "GET /api/emergency/search?q=India&category=all HTTP/1.1" 404 -
+127.0.0.1 - - [11/Jul/2026 16:09:27] "GET /api/emergency/search?q=India&category=all HTTP/1.1" 404 -
+127.0.0.1 - - [11/Jul/2026 16:09:39] "GET /api/emergency/search?q=India&category=all HTTP/1.1" 404 -
+127.0.0.1 - - [11/Jul/2026 16:09:40] "GET /api/emergency/search?q=India&category=all HTTP/1.1" 404 -
+127.0.0.1 - - [11/Jul/2026 16:09:41] "GET /api/emergency/search?q=India&category=all HTTP/1.1" 404 -
+127.0.0.1 - - [11/Jul/2026 16:09:41] "GET /api/emergency/search?q=India&category=all HTTP/1.1" 404 -
+127.0.0.1 - - [11/Jul/2026 16:09:41] "GET /api/emergency/search?q=India&category=all HTTP/1.1" 404 -
+127.0.0.1 - - [11/Jul/2026 16:09:41] "GET /api/emergency/search?q=India&category=all HTTP/1.1" 404 -
+127.0.0.1 - - [11/Jul/2026 16:09:41] "GET /api/emergency/search?q=India&category=all HTTP/1.1" 404 -
+127.0.0.1 - - [11/Jul/2026 16:09:42] "GET /api/emergency/search?q=India&category=all HTTP/1.1" 404 -
+127.0.0.1 - - [11/Jul/2026 16:09:42] "GET /api/emergency/search?q=India&category=all HTTP/1.1" 404 -
+127.0.0.1 - - [11/Jul/2026 16:14:10] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2026 16:14:10] "GET /static/css/style.css HTTP/1.1" 304 -
+127.0.0.1 - - [11/Jul/2026 16:14:10] "GET /static/css/style.css HTTP/1.1" 304 -
+127.0.0.1 - - [11/Jul/2026 16:14:12] "GET /enter?next=login HTTP/1.1" 302 -
+127.0.0.1 - - [11/Jul/2026 16:14:12] "GET /login HTTP/1.1" 302 -
+127.0.0.1 - - [11/Jul/2026 16:14:12] "GET /dashboard HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2026 16:14:12] "GET /static/css/style.css HTTP/1.1" 304 -
+127.0.0.1 - - [11/Jul/2026 16:14:17] "GET /emergency HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2026 16:14:17] "GET /static/css/style.css HTTP/1.1" 304 -
+127.0.0.1 - - [11/Jul/2026 16:14:18] "GET /api/emergency/search?q=India&category=all HTTP/1.1" 404 -
+127.0.0.1 - - [11/Jul/2026 16:14:24] "GET /api/emergency/search?q=India&category=all HTTP/1.1" 404 -
+127.0.0.1 - - [11/Jul/2026 16:14:38] "GET /api/emergency/search?q=India&category=all HTTP/1.1" 404 -
+127.0.0.1 - - [11/Jul/2026 16:14:44] "GET /api/emergency/search?q=India&category=all HTTP/1.1" 404 -
+127.0.0.1 - - [11/Jul/2026 16:14:44] "GET /api/emergency/search?q=India&category=all HTTP/1.1" 404 -
+127.0.0.1 - - [11/Jul/2026 16:14:44] "GET /api/emergency/search?q=India&category=all HTTP/1.1" 404 -
+127.0.0.1 - - [11/Jul/2026 16:14:45] "GET /api/emergency/search?q=India&category=all HTTP/1.1" 404 -
+127.0.0.1 - - [11/Jul/2026 16:14:45] "GET /api/emergency/search?q=India&category=all HTTP/1.1" 404 -
+127.0.0.1 - - [11/Jul/2026 16:14:45] "GET /api/emergency/search?q=India&category=all HTTP/1.1" 404 -
+127.0.0.1 - - [11/Jul/2026 16:16:10] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2026 16:16:11] "GET /static/css/style.css HTTP/1.1" 304 -
+127.0.0.1 - - [11/Jul/2026 16:16:11] "GET /static/css/style.css HTTP/1.1" 304 -
+127.0.0.1 - - [11/Jul/2026 16:16:13] "GET /enter?next=login HTTP/1.1" 302 -
+127.0.0.1 - - [11/Jul/2026 16:16:13] "GET /login HTTP/1.1" 302 -
+127.0.0.1 - - [11/Jul/2026 16:16:13] "GET /dashboard HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2026 16:16:13] "GET /static/css/style.css HTTP/1.1" 304 -
+127.0.0.1 - - [11/Jul/2026 16:16:17] "GET /emergency HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2026 16:16:17] "GET /static/css/style.css HTTP/1.1" 304 -
+127.0.0.1 - - [11/Jul/2026 16:16:17] "GET /static/css/style.css HTTP/1.1" 304 -
+127.0.0.1 - - [11/Jul/2026 16:17:06] "GET /dashboard HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2026 16:17:06] "GET /static/css/style.css HTTP/1.1" 304 -
+127.0.0.1 - - [11/Jul/2026 16:17:10] "GET /restaurants HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2026 16:17:13] "GET /static/css/style.css HTTP/1.1" 304 -
+127.0.0.1 - - [11/Jul/2026 16:17:19] "GET /booking HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2026 16:17:23] "GET /static/css/style.css HTTP/1.1" 304 -
+127.0.0.1 - - [11/Jul/2026 16:36:18] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2026 16:36:18] "GET /static/css/style.css HTTP/1.1" 304 -
+127.0.0.1 - - [11/Jul/2026 16:36:18] "GET /static/css/style.css HTTP/1.1" 304 -
+127.0.0.1 - - [11/Jul/2026 16:36:20] "GET /enter?next=login HTTP/1.1" 302 -
+127.0.0.1 - - [11/Jul/2026 16:36:20] "GET /login HTTP/1.1" 302 -
+127.0.0.1 - - [11/Jul/2026 16:36:20] "GET /dashboard HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2026 16:36:48] "GET /static/css/style.css HTTP/1.1" 304 -
+127.0.0.1 - - [11/Jul/2026 16:36:51] "GET /enter?next=login HTTP/1.1" 302 -
+127.0.0.1 - - [11/Jul/2026 16:36:51] "GET /login HTTP/1.1" 302 -
+127.0.0.1 - - [11/Jul/2026 16:36:51] "GET /dashboard HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2026 16:37:21] "GET /static/css/style.css HTTP/1.1" 304 -
+127.0.0.1 - - [11/Jul/2026 16:37:25] "GET /enter?next=hotels HTTP/1.1" 302 -
+127.0.0.1 - - [11/Jul/2026 16:37:25] "GET /hotels HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2026 16:37:27] "GET /static/css/style.css HTTP/1.1" 304 -
+127.0.0.1 - - [11/Jul/2026 16:37:37] "GET /enter?next=login HTTP/1.1" 302 -
+127.0.0.1 - - [11/Jul/2026 16:37:37] "GET /login HTTP/1.1" 302 -
+127.0.0.1 - - [11/Jul/2026 16:37:37] "GET /dashboard HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2026 16:38:37] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2026 16:38:37] "GET /static/css/style.css HTTP/1.1" 304 -
+127.0.0.1 - - [11/Jul/2026 16:38:37] "GET /static/css/style.css HTTP/1.1" 304 -
+127.0.0.1 - - [11/Jul/2026 16:38:40] "GET /enter?next=login HTTP/1.1" 302 -
+127.0.0.1 - - [11/Jul/2026 16:38:40] "GET /login HTTP/1.1" 302 -
+127.0.0.1 - - [11/Jul/2026 16:38:40] "GET /dashboard HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2026 16:38:40] "GET /static/css/style.css HTTP/1.1" 304 -
+127.0.0.1 - - [11/Jul/2026 16:38:50] "GET /dashboard HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2026 16:38:50] "GET /static/css/style.css HTTP/1.1" 304 -
+127.0.0.1 - - [11/Jul/2026 16:38:51] "GET /hotels HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2026 16:38:56] "GET /static/css/style.css HTTP/1.1" 304 -
+127.0.0.1 - - [11/Jul/2026 16:38:59] "GET /restaurants HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2026 16:39:02] "GET /static/css/style.css HTTP/1.1" 304 -
+127.0.0.1 - - [11/Jul/2026 16:39:04] "GET /map HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2026 16:39:08] "GET /static/css/style.css HTTP/1.1" 304 -
+127.0.0.1 - - [11/Jul/2026 16:39:11] "GET /emergency HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2026 16:39:11] "GET /static/css/style.css HTTP/1.1" 304 -
+127.0.0.1 - - [11/Jul/2026 16:39:17] "GET /static/css/style.css HTTP/1.1" 304 -
+127.0.0.1 - - [11/Jul/2026 16:42:54] "GET /chatbot HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2026 22:03:50] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2026 22:03:50] "GET /static/css/style.css HTTP/1.1" 304 -
+127.0.0.1 - - [11/Jul/2026 22:03:51] "GET /static/css/style.css HTTP/1.1" 304 -
+127.0.0.1 - - [11/Jul/2026 22:03:53] "GET /enter?next=login HTTP/1.1" 302 -
+127.0.0.1 - - [11/Jul/2026 22:03:53] "GET /login HTTP/1.1" 302 -
+127.0.0.1 - - [11/Jul/2026 22:03:53] "GET /dashboard HTTP/1.1" 500 -
+Traceback (most recent call last):
+  File "C:\Users\shree vaishnavi\Desktop\NomadX AI\venv\Lib\site-packages\flask\app.py", line 1536, in __call__
+    return self.wsgi_app(environ, start_response)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\shree vaishnavi\Desktop\NomadX AI\venv\Lib\site-packages\flask\app.py", line 1514, in wsgi_app
+    response = self.handle_exception(e)
+  File "C:\Users\shree vaishnavi\Desktop\NomadX AI\venv\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\shree vaishnavi\Desktop\NomadX AI\venv\Lib\site-packages\flask\app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\shree vaishnavi\Desktop\NomadX AI\venv\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\shree vaishnavi\Desktop\NomadX AI\venv\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\shree vaishnavi\Desktop\NomadX AI\app.py", line 159, in wrapped
+    display_name = profile.get("username") or profile.get("google_name") or profile.get("email") or "NomadX"
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\shree vaishnavi\Desktop\NomadX AI\app.py", line 923, in dashboard
+    return render_template("forgot_password.html", reset_url=reset_url, error=error, message=message)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\shree vaishnavi\Desktop\NomadX AI\venv\Lib\site-packages\flask\templating.py", line 151, in render_template
+    return _render(app, template, context)
+  File "C:\Users\shree vaishnavi\Desktop\NomadX AI\venv\Lib\site-packages\flask\templating.py", line 132, in _render
+    rv = template.render(context)
+  File "C:\Users\shree vaishnavi\Desktop\NomadX AI\venv\Lib\site-packages\jinja2\environment.py", line 1295, in render
+    self.environment.handle_exception()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\shree vaishnavi\Desktop\NomadX AI\venv\Lib\site-packages\jinja2\environment.py", line 942, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "C:\Users\shree vaishnavi\Desktop\NomadX AI\templates\dashboard.html", line 502, in top-level template code
+    {% if current_profile.photo_url %}
+    ^^^^^
+  File "C:\Users\shree vaishnavi\Desktop\NomadX AI\venv\Lib\site-packages\jinja2\environment.py", line 490, in getattr
+    return getattr(obj, attribute)
+jinja2.exceptions.UndefinedError: 'current_profile' is undefined
+127.0.0.1 - - [11/Jul/2026 22:03:54] "GET /dashboard?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 304 -
+127.0.0.1 - - [11/Jul/2026 22:03:54] "GET /dashboard?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 304 -
+127.0.0.1 - - [11/Jul/2026 22:03:54] "GET /dashboard?__debugger__=yes&cmd=resource&f=console.png&s=RFCOwy8zKiOdwByKr5L4 HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2026 22:04:14] "GET /static/css/style.css HTTP/1.1" 304 -
+127.0.0.1 - - [11/Jul/2026 22:04:17] "GET /enter?next=login HTTP/1.1" 302 -
+127.0.0.1 - - [11/Jul/2026 22:04:17] "GET /login HTTP/1.1" 302 -
+127.0.0.1 - - [11/Jul/2026 22:04:17] "GET /dashboard HTTP/1.1" 500 -
+Traceback (most recent call last):
+  File "C:\Users\shree vaishnavi\Desktop\NomadX AI\venv\Lib\site-packages\flask\app.py", line 1536, in __call__
+    return self.wsgi_app(environ, start_response)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\shree vaishnavi\Desktop\NomadX AI\venv\Lib\site-packages\flask\app.py", line 1514, in wsgi_app
+    response = self.handle_exception(e)
+  File "C:\Users\shree vaishnavi\Desktop\NomadX AI\venv\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\shree vaishnavi\Desktop\NomadX AI\venv\Lib\site-packages\flask\app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\shree vaishnavi\Desktop\NomadX AI\venv\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\shree vaishnavi\Desktop\NomadX AI\venv\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\shree vaishnavi\Desktop\NomadX AI\app.py", line 159, in wrapped
+    display_name = profile.get("username") or profile.get("google_name") or profile.get("email") or "NomadX"
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\shree vaishnavi\Desktop\NomadX AI\app.py", line 923, in dashboard
+    return render_template("forgot_password.html", reset_url=reset_url, error=error, message=message)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\shree vaishnavi\Desktop\NomadX AI\venv\Lib\site-packages\flask\templating.py", line 151, in render_template
+    return _render(app, template, context)
+  File "C:\Users\shree vaishnavi\Desktop\NomadX AI\venv\Lib\site-packages\flask\templating.py", line 132, in _render
+    rv = template.render(context)
+  File "C:\Users\shree vaishnavi\Desktop\NomadX AI\venv\Lib\site-packages\jinja2\environment.py", line 1295, in render
+    self.environment.handle_exception()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\shree vaishnavi\Desktop\NomadX AI\venv\Lib\site-packages\jinja2\environment.py", line 942, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "C:\Users\shree vaishnavi\Desktop\NomadX AI\templates\dashboard.html", line 502, in top-level template code
+    {% if current_profile.photo_url %}
+    ^^^^^
+  File "C:\Users\shree vaishnavi\Desktop\NomadX AI\venv\Lib\site-packages\jinja2\environment.py", line 490, in getattr
+    return getattr(obj, attribute)
+jinja2.exceptions.UndefinedError: 'current_profile' is undefined
+127.0.0.1 - - [11/Jul/2026 22:04:17] "GET /dashboard?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 304 -
+127.0.0.1 - - [11/Jul/2026 22:04:17] "GET /dashboard?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 304 -
+127.0.0.1 - - [11/Jul/2026 22:04:17] "GET /dashboard?__debugger__=yes&cmd=resource&f=console.png&s=RFCOwy8zKiOdwByKr5L4 HTTP/1.1" 304 -
+127.0.0.1 - - [11/Jul/2026 22:06:51] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2026 22:06:51] "GET /static/css/style.css HTTP/1.1" 304 -
+127.0.0.1 - - [11/Jul/2026 22:06:52] "GET /static/css/style.css HTTP/1.1" 304 -
+127.0.0.1 - - [11/Jul/2026 22:06:53] "GET /enter?next=login HTTP/1.1" 302 -
+127.0.0.1 - - [11/Jul/2026 22:06:53] "GET /login HTTP/1.1" 302 -
+127.0.0.1 - - [11/Jul/2026 22:06:53] "GET /dashboard HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2026 22:06:53] "GET /static/js/dashboard-profile.js HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2026 22:06:53] "GET /static/css/style.css HTTP/1.1" 304 -
+127.0.0.1 - - [11/Jul/2026 22:07:58] "PATCH /api/profile HTTP/1.1" 404 -
+127.0.0.1 - - [11/Jul/2026 22:08:00] "PATCH /api/profile HTTP/1.1" 404 -
+127.0.0.1 - - [11/Jul/2026 22:08:00] "PATCH /api/profile HTTP/1.1" 404 -
+127.0.0.1 - - [11/Jul/2026 22:08:00] "PATCH /api/profile HTTP/1.1" 404 -
+127.0.0.1 - - [11/Jul/2026 22:08:01] "PATCH /api/profile HTTP/1.1" 404 -
+127.0.0.1 - - [11/Jul/2026 22:08:02] "PATCH /api/profile HTTP/1.1" 404 -
+127.0.0.1 - - [11/Jul/2026 22:08:02] "PATCH /api/profile HTTP/1.1" 404 -
+127.0.0.1 - - [11/Jul/2026 22:08:02] "PATCH /api/profile HTTP/1.1" 404 -
+127.0.0.1 - - [11/Jul/2026 22:08:02] "PATCH /api/profile HTTP/1.1" 404 -
+127.0.0.1 - - [11/Jul/2026 22:08:02] "PATCH /api/profile HTTP/1.1" 404 -
+127.0.0.1 - - [11/Jul/2026 22:08:03] "PATCH /api/profile HTTP/1.1" 404 -
+127.0.0.1 - - [11/Jul/2026 22:08:40] "PATCH /api/profile HTTP/1.1" 404 -
+127.0.0.1 - - [11/Jul/2026 22:08:40] "PATCH /api/profile HTTP/1.1" 404 -
+127.0.0.1 - - [11/Jul/2026 22:08:41] "PATCH /api/profile HTTP/1.1" 404 -
+127.0.0.1 - - [11/Jul/2026 22:08:41] "PATCH /api/profile HTTP/1.1" 404 -
+127.0.0.1 - - [11/Jul/2026 22:08:41] "PATCH /api/profile HTTP/1.1" 404 -
+127.0.0.1 - - [11/Jul/2026 22:08:41] "PATCH /api/profile HTTP/1.1" 404 -
+127.0.0.1 - - [11/Jul/2026 22:08:42] "PATCH /api/profile HTTP/1.1" 404 -
+127.0.0.1 - - [11/Jul/2026 22:10:02] "POST /api/profile/google HTTP/1.1" 404 -
+127.0.0.1 - - [11/Jul/2026 22:10:02] "POST /api/profile/google HTTP/1.1" 404 -
+127.0.0.1 - - [11/Jul/2026 22:10:03] "POST /api/profile/google HTTP/1.1" 404 -
+127.0.0.1 - - [11/Jul/2026 22:10:03] "POST /api/profile/google HTTP/1.1" 404 -
+127.0.0.1 - - [11/Jul/2026 22:10:03] "POST /api/profile/google HTTP/1.1" 404 -
+127.0.0.1 - - [11/Jul/2026 22:10:05] "PATCH /api/profile HTTP/1.1" 404 -
+127.0.0.1 - - [11/Jul/2026 22:10:05] "PATCH /api/profile HTTP/1.1" 404 -
+127.0.0.1 - - [11/Jul/2026 22:10:05] "PATCH /api/profile HTTP/1.1" 404 -
+127.0.0.1 - - [11/Jul/2026 22:10:05] "PATCH /api/profile HTTP/1.1" 404 -
+127.0.0.1 - - [11/Jul/2026 22:10:06] "PATCH /api/profile HTTP/1.1" 404 -
+127.0.0.1 - - [11/Jul/2026 22:10:06] "PATCH /api/profile HTTP/1.1" 404 -
+127.0.0.1 - - [11/Jul/2026 22:14:18] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2026 22:14:18] "GET /static/css/style.css HTTP/1.1" 304 -
+127.0.0.1 - - [11/Jul/2026 22:14:19] "GET /static/css/style.css HTTP/1.1" 304 -
+127.0.0.1 - - [11/Jul/2026 22:15:05] "GET /enter?next=login HTTP/1.1" 302 -
+127.0.0.1 - - [11/Jul/2026 22:15:05] "GET /login HTTP/1.1" 302 -
+127.0.0.1 - - [11/Jul/2026 22:15:05] "GET /dashboard HTTP/1.1" 500 -
+Traceback (most recent call last):
+  File "C:\Users\shree vaishnavi\Desktop\NomadX AI\venv\Lib\site-packages\flask\app.py", line 1536, in __call__
+    return self.wsgi_app(environ, start_response)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\shree vaishnavi\Desktop\NomadX AI\venv\Lib\site-packages\flask\app.py", line 1514, in wsgi_app
+    response = self.handle_exception(e)
+  File "C:\Users\shree vaishnavi\Desktop\NomadX AI\venv\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\shree vaishnavi\Desktop\NomadX AI\venv\Lib\site-packages\flask\app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\shree vaishnavi\Desktop\NomadX AI\venv\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\shree vaishnavi\Desktop\NomadX AI\venv\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\shree vaishnavi\Desktop\NomadX AI\app.py", line 159, in wrapped
+    display_name = profile.get("username") or profile.get("google_name") or profile.get("email") or "NomadX"
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\shree vaishnavi\Desktop\NomadX AI\app.py", line 923, in dashboard
+    return render_template("forgot_password.html", reset_url=reset_url, error=error, message=message)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\shree vaishnavi\Desktop\NomadX AI\venv\Lib\site-packages\flask\templating.py", line 151, in render_template
+    return _render(app, template, context)
+  File "C:\Users\shree vaishnavi\Desktop\NomadX AI\venv\Lib\site-packages\flask\templating.py", line 132, in _render
+    rv = template.render(context)
+  File "C:\Users\shree vaishnavi\Desktop\NomadX AI\venv\Lib\site-packages\jinja2\environment.py", line 1295, in render
+    self.environment.handle_exception()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\shree vaishnavi\Desktop\NomadX AI\venv\Lib\site-packages\jinja2\environment.py", line 942, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "C:\Users\shree vaishnavi\Desktop\NomadX AI\templates\dashboard.html", line 524, in top-level template code
+    <form id="profileForm" method="POST" action="{{ url_for('save_profile') }}" enctype="multipart/form-data">
+    ^^^^^^^^^
+  File "C:\Users\shree vaishnavi\Desktop\NomadX AI\venv\Lib\site-packages\flask\app.py", line 1121, in url_for
+    return self.handle_url_build_error(error, endpoint, values)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\shree vaishnavi\Desktop\NomadX AI\venv\Lib\site-packages\flask\app.py", line 1110, in url_for
+    rv = url_adapter.build(  # type: ignore[union-attr]
+    
+  File "C:\Users\shree vaishnavi\Desktop\NomadX AI\venv\Lib\site-packages\werkzeug\routing\map.py", line 901, in build
+    raise BuildError(endpoint, values, method, self)
+werkzeug.routing.exceptions.BuildError: Could not build url for endpoint 'save_profile'. Did you mean 'api.api_profile_photo' instead?
+127.0.0.1 - - [11/Jul/2026 22:15:06] "GET /dashboard?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 304 -
+127.0.0.1 - - [11/Jul/2026 22:15:06] "GET /dashboard?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 304 -
+127.0.0.1 - - [11/Jul/2026 22:15:06] "GET /dashboard?__debugger__=yes&cmd=resource&f=console.png&s=RFCOwy8zKiOdwByKr5L4 HTTP/1.1" 304 -
+127.0.0.1 - - [11/Jul/2026 22:15:06] "GET /dashboard?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 304 -
+127.0.0.1 - - [11/Jul/2026 22:15:12] "GET /static/css/style.css HTTP/1.1" 304 -
+127.0.0.1 - - [11/Jul/2026 22:15:15] "GET /enter?next=register HTTP/1.1" 302 -
+127.0.0.1 - - [11/Jul/2026 22:15:15] "GET /register HTTP/1.1" 302 -
+127.0.0.1 - - [11/Jul/2026 22:15:15] "GET /dashboard HTTP/1.1" 500 -
+Traceback (most recent call last):
+  File "C:\Users\shree vaishnavi\Desktop\NomadX AI\venv\Lib\site-packages\flask\app.py", line 1536, in __call__
+    return self.wsgi_app(environ, start_response)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\shree vaishnavi\Desktop\NomadX AI\venv\Lib\site-packages\flask\app.py", line 1514, in wsgi_app
+    response = self.handle_exception(e)
+  File "C:\Users\shree vaishnavi\Desktop\NomadX AI\venv\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\shree vaishnavi\Desktop\NomadX AI\venv\Lib\site-packages\flask\app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\shree vaishnavi\Desktop\NomadX AI\venv\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\shree vaishnavi\Desktop\NomadX AI\venv\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\shree vaishnavi\Desktop\NomadX AI\app.py", line 159, in wrapped
+    display_name = profile.get("username") or profile.get("google_name") or profile.get("email") or "NomadX"
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\shree vaishnavi\Desktop\NomadX AI\app.py", line 923, in dashboard
+    return render_template("forgot_password.html", reset_url=reset_url, error=error, message=message)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\shree vaishnavi\Desktop\NomadX AI\venv\Lib\site-packages\flask\templating.py", line 151, in render_template
+    return _render(app, template, context)
+  File "C:\Users\shree vaishnavi\Desktop\NomadX AI\venv\Lib\site-packages\flask\templating.py", line 132, in _render
+    rv = template.render(context)
+  File "C:\Users\shree vaishnavi\Desktop\NomadX AI\venv\Lib\site-packages\jinja2\environment.py", line 1295, in render
+    self.environment.handle_exception()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\shree vaishnavi\Desktop\NomadX AI\venv\Lib\site-packages\jinja2\environment.py", line 942, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "C:\Users\shree vaishnavi\Desktop\NomadX AI\templates\dashboard.html", line 524, in top-level template code
+    <form id="profileForm" method="POST" action="{{ url_for('save_profile') }}" enctype="multipart/form-data">
+    ^^^^^^^^^
+  File "C:\Users\shree vaishnavi\Desktop\NomadX AI\venv\Lib\site-packages\flask\app.py", line 1121, in url_for
+    return self.handle_url_build_error(error, endpoint, values)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\shree vaishnavi\Desktop\NomadX AI\venv\Lib\site-packages\flask\app.py", line 1110, in url_for
+    rv = url_adapter.build(  # type: ignore[union-attr]
+    
+  File "C:\Users\shree vaishnavi\Desktop\NomadX AI\venv\Lib\site-packages\werkzeug\routing\map.py", line 901, in build
+    raise BuildError(endpoint, values, method, self)
+werkzeug.routing.exceptions.BuildError: Could not build url for endpoint 'save_profile'. Did you mean 'api.api_profile_photo' instead?
+127.0.0.1 - - [11/Jul/2026 22:15:15] "GET /dashboard?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 304 -
+127.0.0.1 - - [11/Jul/2026 22:15:15] "GET /dashboard?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 304 -
+127.0.0.1 - - [11/Jul/2026 22:15:15] "GET /dashboard?__debugger__=yes&cmd=resource&f=console.png&s=RFCOwy8zKiOdwByKr5L4 HTTP/1.1" 304 -
+127.0.0.1 - - [11/Jul/2026 22:18:17] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2026 22:18:18] "GET /static/css/style.css HTTP/1.1" 304 -
+127.0.0.1 - - [11/Jul/2026 22:18:18] "GET /static/css/style.css HTTP/1.1" 304 -
+127.0.0.1 - - [11/Jul/2026 22:18:20] "GET /enter?next=login HTTP/1.1" 302 -
+127.0.0.1 - - [11/Jul/2026 22:18:20] "GET /login HTTP/1.1" 302 -
+127.0.0.1 - - [11/Jul/2026 22:18:20] "GET /dashboard HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2026 22:18:20] "GET /static/css/style.css HTTP/1.1" 304 -
+127.0.0.1 - - [11/Jul/2026 22:18:20] "GET /static/js/dashboard-profile.js?v=20260711-profile-save HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2026 22:19:38] "POST /api/profile HTTP/1.1" 404 -
+127.0.0.1 - - [11/Jul/2026 22:19:39] "POST /api/profile HTTP/1.1" 404 -
+127.0.0.1 - - [11/Jul/2026 22:19:39] "POST /api/profile HTTP/1.1" 404 -
+127.0.0.1 - - [11/Jul/2026 22:19:39] "POST /api/profile HTTP/1.1" 404 -
+127.0.0.1 - - [11/Jul/2026 22:19:39] "POST /api/profile HTTP/1.1" 404 -
+127.0.0.1 - - [11/Jul/2026 22:19:40] "POST /api/profile HTTP/1.1" 404 -
+127.0.0.1 - - [11/Jul/2026 22:19:40] "POST /api/profile HTTP/1.1" 404 -
+127.0.0.1 - - [11/Jul/2026 22:19:40] "POST /api/profile HTTP/1.1" 404 -
+127.0.0.1 - - [11/Jul/2026 22:19:40] "POST /api/profile HTTP/1.1" 404 -
+127.0.0.1 - - [11/Jul/2026 22:20:18] "POST /api/profile/google HTTP/1.1" 404 -
+127.0.0.1 - - [11/Jul/2026 22:20:20] "POST /api/profile/google HTTP/1.1" 404 -
+127.0.0.1 - - [11/Jul/2026 22:20:20] "POST /api/profile/google HTTP/1.1" 404 -
+127.0.0.1 - - [11/Jul/2026 22:20:20] "POST /api/profile/google HTTP/1.1" 404 -
+127.0.0.1 - - [11/Jul/2026 22:20:21] "POST /api/profile/google HTTP/1.1" 404 -
+127.0.0.1 - - [11/Jul/2026 22:20:22] "POST /api/profile/google HTTP/1.1" 404 -
+127.0.0.1 - - [11/Jul/2026 22:20:22] "POST /api/profile/google HTTP/1.1" 404 -
+127.0.0.1 - - [11/Jul/2026 22:20:22] "POST /api/profile/google HTTP/1.1" 404 -
+127.0.0.1 - - [11/Jul/2026 22:20:22] "POST /api/profile/google HTTP/1.1" 404 -
+127.0.0.1 - - [11/Jul/2026 22:20:23] "POST /api/profile/google HTTP/1.1" 404 -
+127.0.0.1 - - [11/Jul/2026 22:22:29] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2026 22:22:29] "GET /static/css/style.css HTTP/1.1" 304 -
+127.0.0.1 - - [11/Jul/2026 22:22:30] "GET /static/css/style.css HTTP/1.1" 304 -
+127.0.0.1 - - [11/Jul/2026 22:22:33] "GET /enter?next=dashboard HTTP/1.1" 302 -
+127.0.0.1 - - [11/Jul/2026 22:22:33] "GET /dashboard HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2026 22:22:33] "GET /static/js/dashboard-profile.js?v=20260711-profile-save HTTP/1.1" 304 -
+127.0.0.1 - - [11/Jul/2026 22:22:33] "GET /static/css/style.css HTTP/1.1" 304 -
+127.0.0.1 - - [11/Jul/2026 22:34:47] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2026 22:34:48] "GET /static/css/style.css HTTP/1.1" 304 -
+127.0.0.1 - - [11/Jul/2026 22:34:48] "GET /static/css/style.css HTTP/1.1" 304 -
+127.0.0.1 - - [11/Jul/2026 22:34:50] "GET /enter?next=login HTTP/1.1" 302 -
+127.0.0.1 - - [11/Jul/2026 22:34:50] "GET /login HTTP/1.1" 302 -
+127.0.0.1 - - [11/Jul/2026 22:34:50] "GET /dashboard HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2026 22:41:22] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2026 22:41:22] "GET /static/css/style.css HTTP/1.1" 304 -
+127.0.0.1 - - [11/Jul/2026 22:41:24] "GET /enter?next=login HTTP/1.1" 302 -
+127.0.0.1 - - [11/Jul/2026 22:41:24] "GET /login HTTP/1.1" 302 -
+127.0.0.1 - - [11/Jul/2026 22:41:24] "GET /dashboard HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2026 22:42:00] "GET /logout HTTP/1.1" 302 -
+127.0.0.1 - - [11/Jul/2026 22:42:00] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2026 22:42:00] "GET /static/css/style.css HTTP/1.1" 304 -
+127.0.0.1 - - [11/Jul/2026 22:42:04] "GET /enter?next=login HTTP/1.1" 302 -
+127.0.0.1 - - [11/Jul/2026 22:42:04] "GET /login HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2026 22:42:04] "GET /static/css/style.css HTTP/1.1" 304 -
+127.0.0.1 - - [11/Jul/2026 22:42:04] "GET /static/js/app.js HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2026 22:42:22] "POST /login HTTP/1.1" 302 -
+127.0.0.1 - - [11/Jul/2026 22:42:22] "GET /dashboard HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2026 22:49:55] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2026 22:49:56] "GET /static/css/style.css HTTP/1.1" 304 -
+127.0.0.1 - - [11/Jul/2026 22:49:56] "GET /static/css/style.css HTTP/1.1" 304 -
+127.0.0.1 - - [11/Jul/2026 22:49:58] "GET /enter?next=login HTTP/1.1" 302 -
+127.0.0.1 - - [11/Jul/2026 22:49:58] "GET /login HTTP/1.1" 302 -
+127.0.0.1 - - [11/Jul/2026 22:49:58] "GET /dashboard HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2026 22:57:39] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2026 22:57:39] "GET /static/css/style.css HTTP/1.1" 304 -
+127.0.0.1 - - [11/Jul/2026 22:57:40] "GET /static/css/style.css HTTP/1.1" 304 -
+127.0.0.1 - - [11/Jul/2026 22:57:42] "GET /enter?next=login HTTP/1.1" 302 -
+127.0.0.1 - - [11/Jul/2026 22:57:42] "GET /login HTTP/1.1" 302 -
+127.0.0.1 - - [11/Jul/2026 22:57:42] "GET /dashboard HTTP/1.1" 500 -
+Traceback (most recent call last):
+  File "C:\Users\shree vaishnavi\Desktop\NomadX AI\venv\Lib\site-packages\flask\app.py", line 1536, in __call__
+    return self.wsgi_app(environ, start_response)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\shree vaishnavi\Desktop\NomadX AI\venv\Lib\site-packages\flask\app.py", line 1514, in wsgi_app
+    response = self.handle_exception(e)
+  File "C:\Users\shree vaishnavi\Desktop\NomadX AI\venv\Lib\site-packages\flask\app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\shree vaishnavi\Desktop\NomadX AI\venv\Lib\site-packages\flask\app.py", line 919, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\shree vaishnavi\Desktop\NomadX AI\venv\Lib\site-packages\flask\app.py", line 917, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\shree vaishnavi\Desktop\NomadX AI\venv\Lib\site-packages\flask\app.py", line 902, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\shree vaishnavi\Desktop\NomadX AI\app.py", line 159, in wrapped
+    display_name = profile.get("username") or profile.get("google_name") or profile.get("email") or "NomadX"
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\shree vaishnavi\Desktop\NomadX AI\app.py", line 923, in dashboard
+    return render_template("forgot_password.html", reset_url=reset_url, error=error, message=message)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\shree vaishnavi\Desktop\NomadX AI\venv\Lib\site-packages\flask\templating.py", line 151, in render_template
+    return _render(app, template, context)
+  File "C:\Users\shree vaishnavi\Desktop\NomadX AI\venv\Lib\site-packages\flask\templating.py", line 132, in _render
+    rv = template.render(context)
+  File "C:\Users\shree vaishnavi\Desktop\NomadX AI\venv\Lib\site-packages\jinja2\environment.py", line 1295, in render
+    self.environment.handle_exception()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\shree vaishnavi\Desktop\NomadX AI\venv\Lib\site-packages\jinja2\environment.py", line 942, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "C:\Users\shree vaishnavi\Desktop\NomadX AI\templates\dashboard.html", line 1213, in top-level template code
+    'data:image/jpeg;base64,{{ user.photo }}' { %
+    ^^^^^^^^^^^^^
+  File "C:\Users\shree vaishnavi\Desktop\NomadX AI\venv\Lib\site-packages\jinja2\environment.py", line 490, in getattr
+    return getattr(obj, attribute)
+jinja2.exceptions.UndefinedError: 'user' is undefined
+127.0.0.1 - - [11/Jul/2026 22:57:42] "GET /dashboard?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 304 -
+127.0.0.1 - - [11/Jul/2026 22:57:42] "GET /dashboard?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 304 -
+127.0.0.1 - - [11/Jul/2026 22:57:42] "GET /dashboard?__debugger__=yes&cmd=resource&f=console.png&s=RFCOwy8zKiOdwByKr5L4 HTTP/1.1" 304 -
+127.0.0.1 - - [11/Jul/2026 23:02:23] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2026 23:02:24] "GET /static/css/style.css HTTP/1.1" 304 -
+127.0.0.1 - - [11/Jul/2026 23:02:24] "GET /static/css/style.css HTTP/1.1" 304 -
+127.0.0.1 - - [11/Jul/2026 23:02:25] "GET /enter?next=login HTTP/1.1" 302 -
+127.0.0.1 - - [11/Jul/2026 23:02:25] "GET /login HTTP/1.1" 302 -
+127.0.0.1 - - [11/Jul/2026 23:02:26] "GET /dashboard HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2026 23:02:26] "GET /api/profile HTTP/1.1" 404 -
+127.0.0.1 - - [11/Jul/2026 23:02:41] "POST /api/profile/photo HTTP/1.1" 400 -
+127.0.0.1 - - [11/Jul/2026 23:02:51] "POST /api/profile/photo HTTP/1.1" 400 -
+127.0.0.1 - - [11/Jul/2026 23:03:40] "POST /api/profile/update HTTP/1.1" 404 -
+127.0.0.1 - - [11/Jul/2026 23:03:41] "POST /api/profile/update HTTP/1.1" 404 -
+127.0.0.1 - - [11/Jul/2026 23:03:42] "POST /api/profile/update HTTP/1.1" 404 -
+127.0.0.1 - - [11/Jul/2026 23:05:03] "GET /restaurants HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2026 23:05:10] "GET /emergency HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2026 23:05:10] "GET /static/css/style.css HTTP/1.1" 304 -
+127.0.0.1 - - [11/Jul/2026 23:05:16] "GET /chatbot HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2026 23:05:21] "GET /booking HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2026 23:24:26] "GET /dashboard HTTP/1.1" 302 -
+127.0.0.1 - - [11/Jul/2026 23:24:33] "GET /dashboard HTTP/1.1" 302 -
+127.0.0.1 - - [11/Jul/2026 23:24:33] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2026 23:24:39] "GET /static/js/dashboard-profile-menu.js HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2026 23:27:44] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2026 23:27:44] "GET /static/css/style.css HTTP/1.1" 304 -
+127.0.0.1 - - [11/Jul/2026 23:27:44] "GET /static/css/style.css HTTP/1.1" 304 -
+127.0.0.1 - - [11/Jul/2026 23:27:46] "GET /enter?next=login HTTP/1.1" 302 -
+127.0.0.1 - - [11/Jul/2026 23:27:46] "GET /login HTTP/1.1" 302 -
+127.0.0.1 - - [11/Jul/2026 23:27:46] "GET /dashboard HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2026 23:27:46] "GET /static/js/dashboard-profile-menu.js HTTP/1.1" 200 -
+127.0.0.1 - - [11/Jul/2026 23:27:46] "GET /api/profile HTTP/1.1" 404 -
+127.0.0.1 - - [11/Jul/2026 23:28:35] "GET /api/profile HTTP/1.1" 404 -
+127.0.0.1 - - [11/Jul/2026 23:28:35] "GET /static/js/dashboard-profile-menu.js HTTP/1.1" 200 -

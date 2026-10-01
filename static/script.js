@@ -1,0 +1,1 @@
+console.log("NomadX AI Running");

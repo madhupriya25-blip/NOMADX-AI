@@ -1,0 +1,116 @@
+{% set profile = current_profile or {} %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/profile-system.css') }}">
+
+<script>
+    window.NOMADX_PROFILE = {{ profile|tojson }};
+    window.NOMADX_LANGUAGES = {{ supported_languages|tojson }};
+    window.NOMADX_GOOGLE_CLIENT_ID = {{ google_client_id|tojson }};
+</script>
+
+<div class="nx-profile-layer" id="nxProfileLayer">
+    <div class="nx-profile-menu" id="nxProfileMenu" hidden>
+        <div class="nx-profile-menu__header">
+            <div class="nx-avatar nx-avatar--large" data-profile-avatar></div>
+            <div>
+                <strong data-profile-name>NomadX Traveler</strong>
+                <span data-profile-email>traveler@nomadx.ai</span>
+            </div>
+        </div>
+        <button type="button" class="nx-menu-item" id="nxEditProfileBtn">
+            <i class="fas fa-user-pen"></i>
+            <span data-i18n="profile.edit">Edit Profile</span>
+        </button>
+        <button type="button" class="nx-menu-item" id="nxUploadPhotoBtn">
+            <i class="fas fa-camera"></i>
+            <span data-i18n="profile.photo">Upload Photo</span>
+        </button>
+        <button type="button" class="nx-menu-item" id="nxGoogleBtn">
+            <i class="fab fa-google"></i>
+            <span data-i18n="profile.google">Link Google Account</span>
+            <small id="nxGoogleStatus">Connect</small>
+        </button>
+        <button type="button" class="nx-menu-item" id="nxSettingsBtn">
+            <i class="fas fa-gear"></i>
+            <span data-i18n="settings.title">Settings</span>
+        </button>
+        <a class="nx-menu-item nx-menu-item--danger" href="/logout">
+            <i class="fas fa-right-from-bracket"></i>
+            <span data-i18n="nav.logout">Logout</span>
+        </a>
+    </div>
+
+    <input type="file" id="nxProfilePhotoInput" accept="image/png,image/jpeg,image/webp" hidden>
+
+    <div class="nx-modal" id="nxSettingsModal" hidden>
+        <form class="nx-modal__panel" id="nxSettingsForm">
+            <div class="nx-modal__header">
+                <div>
+                    <h2 data-i18n="settings.title">Settings</h2>
+                    <p data-i18n="settings.subtitle">Manage your profile, preferences, and global language.</p>
+                </div>
+                <button type="button" class="nx-icon-btn" id="nxCloseSettingsBtn" aria-label="Close">
+                    <i class="fas fa-xmark"></i>
+                </button>
+            </div>
+
+            <div class="nx-form-grid">
+                <label>
+                    <span data-i18n="profile.name">Name</span>
+                    <input id="nxNameInput" name="username" maxlength="80" autocomplete="name" required>
+                </label>
+                <label>
+                    <span data-i18n="profile.email">Email</span>
+                    <input id="nxEmailInput" name="email" type="email" autocomplete="email">
+                </label>
+                <label>
+                    <span data-i18n="profile.phone">Phone Number</span>
+                    <input id="nxPhoneInput" name="phone_number" maxlength="30" autocomplete="tel">
+                </label>
+                <label>
+                    <span data-i18n="settings.theme">Theme</span>
+                    <select id="nxThemeSelect" name="theme">
+                        <option value="dark" data-i18n="theme.dark">Dark</option>
+                        <option value="light" data-i18n="theme.light">Light</option>
+                        <option value="auto" data-i18n="theme.auto">Auto</option>
+                    </select>
+                </label>
+                <label class="nx-form-grid__wide">
+                    <span data-i18n="settings.language">Language</span>
+                    <select id="nxLanguageSelect" name="language">
+                        {% for language in supported_languages %}
+                        <option value="{{ language.code }}" {% if profile.language == language.code %}selected{% endif %}>
+                            {{ language.name }} - {{ language.native }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </label>
+                <label>
+                    <span data-i18n="settings.currency">Currency</span>
+                    <select id="nxCurrencySelect" name="currency">
+                        {% for code in ["USD", "EUR", "GBP", "INR", "JPY", "AUD"] %}
+                        <option value="{{ code }}" {% if profile.currency == code %}selected{% endif %}>{{ code }}</option>
+                        {% endfor %}
+                    </select>
+                </label>
+                <label class="nx-check">
+                    <input type="checkbox" id="nxNotificationsInput">
+                    <span data-i18n="settings.notifications">Enable notifications</span>
+                </label>
+                <label class="nx-check">
+                    <input type="checkbox" id="nxEmailPrefsInput">
+                    <span data-i18n="settings.emailPrefs">Email travel recommendations</span>
+                </label>
+            </div>
+
+            <div class="nx-modal__actions">
+                <button type="button" class="nx-btn nx-btn--ghost" id="nxCancelSettingsBtn" data-i18n="actions.cancel">Cancel</button>
+                <button type="submit" class="nx-btn nx-btn--primary" data-i18n="actions.save">Save Changes</button>
+            </div>
+            <p class="nx-status" id="nxProfileStatus" role="status"></p>
+        </form>
+    </div>
+
+    <div class="nx-toast-container" id="nxToastContainer" aria-live="polite"></div>
+</div>
+
+<script src="{{ url_for('static', filename='js/profile-settings.js') }}" defer></script>

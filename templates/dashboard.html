@@ -1,0 +1,1594 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NomadX AI - Dashboard</title>
+
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <style>
+        /* ================= GLOBAL ================= */
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0B192C;
+            color: #ffffff;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+        
+         ::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+         ::-webkit-scrollbar-track {
+            background: #0B192C;
+        }
+        
+         ::-webkit-scrollbar-thumb {
+            background: #FF6500;
+            border-radius: 10px;
+        }
+        /* ================= NAVBAR ================= */
+        
+        .navbar-custom {
+            background: rgba(11, 25, 44, 0.92);
+            backdrop-filter: blur(18px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            padding: 12px 30px;
+            position: sticky;
+            top: 0;
+            z-index: 1050;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4);
+        }
+        
+        .navbar-custom .logo {
+            font-size: 24px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #FF6500, #FF8C42);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .navbar-custom .logo i {
+            color: #FF6500;
+            font-size: 26px;
+        }
+        
+        .navbar-custom .logo span {
+            color: #ffffff;
+            font-weight: 300;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 22px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .nav-links a {
+            color: rgba(255, 255, 255, 0.6);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s;
+            padding: 6px 0;
+            position: relative;
+        }
+        
+        .nav-links a:hover {
+            color: #ffffff;
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #FF6500;
+            transition: width 0.3s;
+        }
+        
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        
+        .nav-links a.active {
+            color: #FF6500;
+        }
+        
+        .nav-links a.active::after {
+            width: 100%;
+        }
+        
+        .profile-dropdown {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 6px 14px 6px 6px;
+            border-radius: 50px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            background: rgba(255, 255, 255, 0.03);
+            transition: all 0.3s;
+            position: relative;
+        }
+        
+        .profile-dropdown:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 101, 0, 0.3);
+        }
+        
+        .profile-dropdown .avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #FF6500, #FF8C42);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 14px;
+            color: #fff;
+            flex-shrink: 0;
+            object-fit: cover;
+            overflow: hidden;
+        }
+        
+        .profile-dropdown .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .profile-dropdown .user-name {
+            font-size: 14px;
+            font-weight: 500;
+            color: #fff;
+        }
+        
+        .profile-dropdown .dropdown-arrow {
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 12px;
+        }
+        /* ================= DROPDOWN MENU ================= */
+        
+        .profile-menu {
+            position: absolute;
+            top: 72px;
+            right: 30px;
+            background: rgba(11, 25, 44, 0.97);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 20px;
+            padding: 20px;
+            min-width: 340px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+            display: none;
+            z-index: 1060;
+            animation: slideDown 0.3s ease;
+        }
+        
+        .profile-menu.show {
+            display: block;
+        }
+        
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px) scale(0.98);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+        
+        .profile-menu .menu-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        }
+        
+        .profile-menu .menu-header .avatar-lg {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #FF6500, #FF8C42);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: 700;
+            color: #fff;
+            flex-shrink: 0;
+            object-fit: cover;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .profile-menu .menu-header .avatar-lg img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .profile-menu .menu-header .avatar-lg .avatar-placeholder {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            font-size: 24px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #FF6500, #FF8C42);
+            color: #fff;
+        }
+        
+        .profile-menu .menu-header .user-info h5 {
+            margin: 0;
+            font-weight: 600;
+            font-size: 16px;
+            color: #fff;
+        }
+        
+        .profile-menu .menu-header .user-info p {
+            margin: 0;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.5);
+        }
+        
+        .profile-menu .menu-divider {
+            height: 1px;
+            background: rgba(255, 255, 255, 0.06);
+            margin: 12px 0;
+        }
+        
+        .profile-menu .menu-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 10px 14px;
+            border-radius: 12px;
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: all 0.2s;
+            cursor: pointer;
+            font-size: 14px;
+            border: none;
+            background: none;
+            width: 100%;
+            text-align: left;
+        }
+        
+        .profile-menu .menu-item:hover {
+            background: rgba(255, 101, 0, 0.1);
+            color: #FF6500;
+        }
+        
+        .profile-menu .menu-item i {
+            width: 20px;
+            color: #FF6500;
+        }
+        
+        .profile-menu .menu-item .google-badge {
+            margin-left: auto;
+            font-size: 10px;
+            background: rgba(255, 255, 255, 0.06);
+            padding: 2px 10px;
+            border-radius: 20px;
+            color: rgba(255, 255, 255, 0.4);
+        }
+        
+        .profile-menu .menu-item .google-badge.connected {
+            background: rgba(16, 185, 129, 0.15);
+            color: #10b981;
+        }
+        
+        .profile-menu .menu-item.logout {
+            color: #ef4444;
+        }
+        
+        .profile-menu .menu-item.logout i {
+            color: #ef4444;
+        }
+        
+        .profile-menu .menu-item.logout:hover {
+            background: rgba(239, 68, 68, 0.1);
+        }
+        /* File input hidden */
+        
+        #profileImageInput {
+            display: none;
+        }
+        /* ================= SETTINGS MODAL ================= */
+        
+        .settings-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .settings-modal.show {
+            display: flex;
+        }
+        
+        .settings-modal .modal-box {
+            background: rgba(11, 25, 44, 0.97);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 24px;
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            animation: slideDown 0.3s ease;
+        }
+        
+        .settings-modal .modal-box h3 {
+            font-weight: 700;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .settings-modal .modal-box h3 i {
+            color: #FF6500;
+        }
+        
+        .settings-modal .setting-group {
+            margin-bottom: 20px;
+        }
+        
+        .settings-modal .setting-group label {
+            font-size: 13px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.6);
+            display: block;
+            margin-bottom: 6px;
+        }
+        
+        .settings-modal .setting-group input,
+        .settings-modal .setting-group select {
+            width: 100%;
+            padding: 12px 16px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            background: rgba(255, 255, 255, 0.04);
+            color: #fff;
+            font-family: inherit;
+            font-size: 14px;
+            outline: none;
+            transition: all 0.3s;
+        }
+        
+        .settings-modal .setting-group input:focus,
+        .settings-modal .setting-group select:focus {
+            border-color: #FF6500;
+            box-shadow: 0 0 20px rgba(255, 101, 0, 0.1);
+        }
+        
+        .settings-modal .setting-group input[type="checkbox"] {
+            width: auto;
+            margin-right: 10px;
+        }
+        
+        .settings-modal .setting-group .checkbox-label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: rgba(255, 255, 255, 0.8);
+            cursor: pointer;
+        }
+        
+        .settings-modal .modal-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+        }
+        
+        .settings-modal .modal-actions button {
+            padding: 12px 28px;
+            border-radius: 50px;
+            border: none;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .settings-modal .modal-actions .btn-save {
+            background: linear-gradient(135deg, #FF6500, #e05a00);
+            color: #fff;
+        }
+        
+        .settings-modal .modal-actions .btn-save:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(255, 101, 0, 0.3);
+        }
+        
+        .settings-modal .modal-actions .btn-close-modal {
+            background: rgba(255, 255, 255, 0.06);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+        
+        .settings-modal .modal-actions .btn-close-modal:hover {
+            background: rgba(255, 255, 255, 0.12);
+        }
+        /* ================= WELCOME BANNER ================= */
+        
+        .welcome-banner {
+            background: linear-gradient(135deg, #1E3E62, #0B192C, #1a1a3e);
+            border-radius: 28px;
+            padding: 40px 45px;
+            margin: 24px 0 30px;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.3);
+        }
+        
+        .welcome-banner::before {
+            content: '';
+            position: absolute;
+            top: -40%;
+            right: -10%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(255, 101, 0, 0.08), transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+        
+        .welcome-banner h1 {
+            font-size: 34px;
+            font-weight: 800;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .welcome-banner h1 span {
+            background: linear-gradient(135deg, #FF6500, #FF8C42);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .welcome-banner p {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 16px;
+            margin-top: 8px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .welcome-banner .quick-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .welcome-banner .quick-actions .qa-btn {
+            padding: 10px 24px;
+            border-radius: 50px;
+            border: none;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .qa-btn.primary {
+            background: linear-gradient(135deg, #FF6500, #e05a00);
+            color: #fff;
+            box-shadow: 0 4px 20px rgba(255, 101, 0, 0.3);
+        }
+        
+        .qa-btn.primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(255, 101, 0, 0.4);
+        }
+        
+        .qa-btn.secondary {
+            background: rgba(255, 255, 255, 0.06);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        
+        .qa-btn.secondary:hover {
+            background: rgba(255, 255, 255, 0.12);
+            transform: translateY(-2px);
+        }
+        
+        .qa-btn.purple {
+            background: linear-gradient(135deg, #7c3aed, #a855f7);
+            color: #fff;
+            box-shadow: 0 4px 20px rgba(124, 58, 237, 0.3);
+        }
+        
+        .qa-btn.purple:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(124, 58, 237, 0.4);
+        }
+        /* ================= STATS CARDS ================= */
+        
+        .section-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin: 30px 0 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .section-title i {
+            color: #FF6500;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 18px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(12px);
+            border-radius: 20px;
+            padding: 20px 24px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.4s;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(255, 101, 0, 0.2);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+        }
+        
+        .stat-card .stat-number {
+            font-size: 28px;
+            font-weight: 800;
+            color: #FF6500;
+        }
+        
+        .stat-card .stat-label {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.5);
+            margin-top: 4px;
+        }
+        
+        .stat-card .stat-icon {
+            float: right;
+            font-size: 32px;
+            opacity: 0.2;
+            color: #FF6500;
+        }
+        /* ================= DASHBOARD CARDS ================= */
+        
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 24px;
+        }
+        
+        .dash-card {
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(12px);
+            border-radius: 24px;
+            padding: 24px 26px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .dash-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(255, 101, 0, 0.03), transparent 60%);
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+        
+        .dash-card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(255, 101, 0, 0.2);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+        }
+        
+        .dash-card:hover::before {
+            opacity: 1;
+        }
+        
+        .dash-card .card-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            margin-bottom: 14px;
+        }
+        
+        .card-icon.orange {
+            background: rgba(255, 101, 0, 0.15);
+            color: #FF6500;
+        }
+        
+        .card-icon.purple {
+            background: rgba(124, 58, 237, 0.15);
+            color: #a855f7;
+        }
+        
+        .card-icon.blue {
+            background: rgba(59, 130, 246, 0.15);
+            color: #3b82f6;
+        }
+        
+        .card-icon.green {
+            background: rgba(16, 185, 129, 0.15);
+            color: #10b981;
+        }
+        
+        .card-icon.pink {
+            background: rgba(236, 72, 153, 0.15);
+            color: #ec4899;
+        }
+        
+        .card-icon.yellow {
+            background: rgba(245, 158, 11, 0.15);
+            color: #f59e0b;
+        }
+        
+        .card-icon.red {
+            background: rgba(239, 68, 68, 0.15);
+            color: #ef4444;
+        }
+        
+        .card-icon.cyan {
+            background: rgba(6, 182, 212, 0.15);
+            color: #06b6d4;
+        }
+        
+        .dash-card h5 {
+            font-weight: 600;
+            font-size: 16px;
+            margin-bottom: 6px;
+        }
+        
+        .dash-card p {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 13px;
+            margin-bottom: 12px;
+        }
+        
+        .dash-card .card-number {
+            font-size: 28px;
+            font-weight: 800;
+            color: #fff;
+        }
+        
+        .dash-card .card-footer-text {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.35);
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .dash-card .card-footer-text i {
+            color: #10b981;
+        }
+        /* ================= TOAST ================= */
+        
+        .toast-container-custom {
+            position: fixed;
+            top: 90px;
+            right: 20px;
+            z-index: 9999;
+        }
+        
+        .toast-custom {
+            background: rgba(11, 25, 44, 0.95);
+            backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 16px 24px;
+            color: #fff;
+            margin-bottom: 10px;
+            min-width: 300px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            animation: slideIn 0.4s ease;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        .toast-custom .toast-title {
+            font-weight: 600;
+            font-size: 15px;
+        }
+        
+        .toast-custom .toast-message {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.6);
+            margin-top: 4px;
+        }
+        
+        .toast-custom .toast-close {
+            float: right;
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.4);
+            cursor: pointer;
+            font-size: 18px;
+        }
+        /* ================= RESPONSIVE ================= */
+        
+        @media (max-width: 992px) {
+            .navbar-custom .container-fluid {
+                flex-wrap: wrap;
+                gap: 12px;
+            }
+            .nav-links {
+                gap: 14px;
+            }
+            .nav-links a {
+                font-size: 12px;
+            }
+            .profile-menu {
+                right: 10px;
+                min-width: 300px;
+            }
+            .welcome-banner h1 {
+                font-size: 28px;
+            }
+            .settings-modal .modal-box {
+                max-width: 95%;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .navbar-custom {
+                padding: 10px 16px;
+            }
+            .navbar-custom .logo {
+                font-size: 20px;
+            }
+            .nav-links {
+                gap: 10px;
+                width: 100%;
+                justify-content: center;
+            }
+            .nav-links a {
+                font-size: 11px;
+            }
+            .profile-dropdown .user-name {
+                display: none;
+            }
+            .welcome-banner {
+                padding: 24px 20px;
+                margin: 16px 0 20px;
+            }
+            .welcome-banner h1 {
+                font-size: 22px;
+            }
+            .welcome-banner .quick-actions .qa-btn {
+                padding: 8px 16px;
+                font-size: 12px;
+            }
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+            .profile-menu {
+                right: 10px;
+                left: 10px;
+                min-width: auto;
+                width: auto;
+            }
+            .section-title {
+                font-size: 17px;
+            }
+            .settings-modal .modal-box {
+                padding: 20px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .navbar-custom .logo {
+                font-size: 17px;
+            }
+            .profile-dropdown {
+                padding: 4px 10px 4px 4px;
+            }
+            .profile-dropdown .avatar {
+                width: 30px;
+                height: 30px;
+                font-size: 12px;
+            }
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 10px;
+            }
+            .stat-card {
+                padding: 14px 16px;
+            }
+            .stat-card .stat-number {
+                font-size: 20px;
+            }
+            .welcome-banner h1 {
+                font-size: 19px;
+            }
+            .welcome-banner p {
+                font-size: 13px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ================= NAVBAR ================= -->
+    <nav class="navbar navbar-custom">
+        <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap">
+            <!-- Logo -->
+            <a href="#" class="logo">
+                <i class="fas fa-compass"></i> NomadX <span>AI</span>
+            </a>
+
+            <!-- Navigation Links -->
+            <div class="nav-links">
+                <a href="#" class="active">Dashboard</a>
+                <a href="/hotels">Hotels</a>
+                <a href="/restaurants">Restaurants</a>
+                <a href="/rentals">Rentals</a>
+                <a href="/map">Maps</a>
+                <a href="/weather">Weather</a>
+                <a href="/emergency">Emergency</a>
+                <a href="/chatbot">AI Chatbot</a>
+                <a href="/booking">Bookings</a>
+                <a href="/logout">Logout</a>
+            </div>
+
+            <!-- Profile Dropdown -->
+            <div class="profile-dropdown" id="profileToggle">
+                <div class="avatar" id="profileAvatar">
+                    <span id="avatarInitials">JD</span>
+                </div>
+                <span class="user-name" id="displayName">John Doe</span>
+                <i class="fas fa-chevron-down dropdown-arrow"></i>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ================= PROFILE DROPDOWN MENU ================= -->
+    <div class="profile-menu" id="profileMenu">
+        <div class="menu-header">
+            <div class="avatar-lg" id="profileAvatarLarge">
+                <div class="avatar-placeholder" id="avatarPlaceholder">JD</div>
+            </div>
+            <div class="user-info">
+                <h5 id="profileName">John Doe</h5>
+                <p id="profileEmail">john.doe@email.com</p>
+            </div>
+        </div>
+
+        <div class="menu-divider"></div>
+
+        <button class="menu-item" id="editNameBtn">
+            <i class="fas fa-user-edit"></i> Edit Name
+        </button>
+        <button class="menu-item" id="uploadPhotoBtn">
+            <i class="fas fa-camera"></i> Upload / Change Photo
+        </button>
+        <input type="file" id="profileImageInput" accept="image/*">
+
+        <button class="menu-item" id="linkGoogleBtn">
+            <i class="fab fa-google"></i> Link Google Account
+            <span class="google-badge" id="googleBadge">+ Connect</span>
+        </button>
+
+        <div class="menu-divider"></div>
+
+        <button class="menu-item" id="settingsBtn">
+            <i class="fas fa-cog"></i> Settings
+        </button>
+
+        <div class="menu-divider"></div>
+
+        <button class="menu-item logout" id="logoutBtn">
+            <i class="fas fa-sign-out-alt"></i> Logout
+        </button>
+    </div>
+
+    <!-- ================= SETTINGS MODAL ================= -->
+    <div class="settings-modal" id="settingsModal">
+        <div class="modal-box">
+            <h3><i class="fas fa-cog"></i> Settings</h3>
+
+            <div class="setting-group">
+                <label>Theme Preference</label>
+                <select id="themeSelect">
+                    <option value="dark">Dark (Current)</option>
+                    <option value="light">Light</option>
+                    <option value="auto">Auto</option>
+                </select>
+            </div>
+
+            <div class="setting-group">
+                <label>Language</label>
+                <select id="languageSelect">
+                    <option value="en">English</option>
+                    <option value="es">Spanish</option>
+                    <option value="fr">French</option>
+                    <option value="de">German</option>
+                    <option value="hi">Hindi</option>
+                    <option value="ja">Japanese</option>
+                </select>
+            </div>
+
+            <div class="setting-group">
+                <label>Notifications</label>
+                <label class="checkbox-label">
+                    <input type="checkbox" id="notifToggle" checked>
+                    Enable push notifications
+                </label>
+            </div>
+
+            <div class="setting-group">
+                <label>Email Preferences</label>
+                <label class="checkbox-label">
+                    <input type="checkbox" id="emailToggle" checked>
+                    Receive travel recommendations via email
+                </label>
+            </div>
+
+            <div class="setting-group">
+                <label>Currency</label>
+                <select id="currencySelect">
+                    <option value="USD">USD ($)</option>
+                    <option value="EUR">EUR (€)</option>
+                    <option value="GBP">GBP (£)</option>
+                    <option value="INR">INR (₹)</option>
+                    <option value="JPY">JPY (¥)</option>
+                    <option value="AUD">AUD ($)</option>
+                </select>
+            </div>
+
+            <div class="modal-actions">
+                <button class="btn-save" id="saveSettingsBtn"><i class="fas fa-save"></i> Save Settings</button>
+                <button class="btn-close-modal" id="closeSettingsBtn">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= TOAST CONTAINER ================= -->
+    <div class="toast-container-custom" id="toastContainer"></div>
+
+    <!-- ================= MAIN CONTENT ================= -->
+    <div class="container-fluid px-4">
+
+        <!-- Welcome Banner -->
+        <div class="welcome-banner">
+            <h1>Welcome back, <span id="welcomeName">John</span>! ✈️</h1>
+            <p>Your next adventure is just a click away. Explore new destinations, plan trips, and track your journeys.</p>
+
+            <div class="quick-actions">
+                <button class="qa-btn primary" onclick="showToast('🚀 Planning new trip...')">
+                    <i class="fas fa-plus-circle"></i> Plan New Trip
+                </button>
+                <button class="qa-btn purple" onclick="showToast('🤖 AI Trip Planner loading...')">
+                    <i class="fas fa-robot"></i> AI Trip Planner
+                </button>
+                <button class="qa-btn secondary" onclick="window.location.href='/map'">
+                    <i class="fas fa-map-marked-alt"></i> Explore
+                </button>
+                <button class="qa-btn secondary" onclick="window.location.href='/weather'">
+                    <i class="fas fa-cloud-sun"></i> Weather
+                </button>
+            </div>
+        </div>
+
+        <!-- Stats -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon"><i class="fas fa-calendar-check"></i></div>
+                <div class="stat-number">3</div>
+                <div class="stat-label">Upcoming Trips</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon"><i class="fas fa-heart"></i></div>
+                <div class="stat-number">12</div>
+                <div class="stat-label">Saved Destinations</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon"><i class="fas fa-robot"></i></div>
+                <div class="stat-number">8</div>
+                <div class="stat-label">AI Plans</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon"><i class="fas fa-wallet"></i></div>
+                <div class="stat-number">$2,450</div>
+                <div class="stat-label">Budget Left</div>
+            </div>
+        </div>
+
+        <!-- Dashboard Grid -->
+        <div class="section-title">
+            <i class="fas fa-th-large"></i> Dashboard Overview
+        </div>
+
+        <div class="dashboard-grid">
+
+            <!-- Upcoming Trips -->
+            <div class="dash-card" onclick="showToast('📅 Viewing upcoming trips...')">
+                <div class="card-icon orange">
+                    <i class="fas fa-calendar-check"></i>
+                </div>
+                <h5>Upcoming Trips</h5>
+                <p>Your next adventures await</p>
+                <div class="card-number">3</div>
+                <div class="card-footer-text">
+                    <i class="fas fa-arrow-right"></i> Next: Bali • 12 days
+                </div>
+            </div>
+
+            <!-- Saved Destinations -->
+            <div class="dash-card" onclick="showToast('❤️ Loading saved destinations...')">
+                <div class="card-icon purple">
+                    <i class="fas fa-heart"></i>
+                </div>
+                <h5>Saved Destinations</h5>
+                <p>Places you've bookmarked</p>
+                <div class="card-number">12</div>
+                <div class="card-footer-text">
+                    <i class="fas fa-map-pin"></i> 5 new recommendations
+                </div>
+            </div>
+
+            <!-- AI Trip Planner -->
+            <div class="dash-card" onclick="showToast('🤖 AI Trip Planner activated!')">
+                <div class="card-icon blue">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <h5>AI Trip Planner</h5>
+                <p>Smart itineraries powered by AI</p>
+                <div class="card-number">8</div>
+                <div class="card-footer-text">
+                    <i class="fas fa-sparkles"></i> Generate new plan
+                </div>
+            </div>
+
+            <!-- Weather -->
+            <div class="dash-card" onclick="showToast('🌤️ Weather updated!')">
+                <div class="card-icon yellow">
+                    <i class="fas fa-cloud-sun"></i>
+                </div>
+                <h5>Weather</h5>
+                <p>Current conditions worldwide</p>
+                <div class="card-number">28°C</div>
+                <div class="card-footer-text">
+                    <i class="fas fa-sun"></i> Sunny • Bangalore
+                </div>
+            </div>
+
+            <!-- Emergency Assistance -->
+            <div class="dash-card" onclick="window.location.href='/emergency'">
+                <div class="card-icon red">
+                    <i class="fas fa-triangle-exclamation"></i>
+                </div>
+                <h5>Emergency Assistance</h5>
+                <p>24/7 safety & support</p>
+                <div class="card-number">🆘</div>
+                <div class="card-footer-text">
+                    <i class="fas fa-shield-alt"></i> Quick access
+                </div>
+            </div>
+
+            <!-- Budget Tracker -->
+            <div class="dash-card" onclick="showToast('💰 Budget tracker opened')">
+                <div class="card-icon green">
+                    <i class="fas fa-wallet"></i>
+                </div>
+                <h5>Budget Tracker</h5>
+                <p>Manage your travel finances</p>
+                <div class="card-number">$2,450</div>
+                <div class="card-footer-text">
+                    <i class="fas fa-arrow-up" style="color:#10b981;"></i> $350 left
+                </div>
+            </div>
+
+            <!-- Travel History -->
+            <div class="dash-card" onclick="showToast('📜 Loading travel history...')">
+                <div class="card-icon cyan">
+                    <i class="fas fa-history"></i>
+                </div>
+                <h5>Travel History</h5>
+                <p>Your past journeys</p>
+                <div class="card-number">8</div>
+                <div class="card-footer-text">
+                    <i class="fas fa-globe"></i> Countries visited
+                </div>
+            </div>
+
+            <!-- Recent Activities -->
+            <div class="dash-card" onclick="showToast('⚡ Recent activities loaded')">
+                <div class="card-icon pink">
+                    <i class="fas fa-bolt"></i>
+                </div>
+                <h5>Recent Activities</h5>
+                <p>What's happening</p>
+                <div class="card-number">4</div>
+                <div class="card-footer-text">
+                    <i class="fas fa-clock"></i> Last 24 hours
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Footer -->
+        <div style="text-align: center; padding: 30px 0 20px; color: rgba(255,255,255,0.2); font-size: 13px; border-top: 1px solid rgba(255,255,255,0.04); margin-top: 10px;">
+            © 2026 NomadX AI — The Future of Travel
+        </div>
+
+    </div>
+
+    <!-- ================= SCRIPTS ================= -->
+    <script>
+        // ================= PROFILE DATA =================
+        let userProfile = {
+            name: 'John Doe',
+            email: 'john.doe@email.com',
+            initials: 'JD',
+            photo: null,
+            googleLinked: false,
+            googleName: '',
+            googleEmail: '',
+            googlePhoto: ''
+        };
+
+        // Settings data
+        let userSettings = {
+            theme: 'dark',
+            language: 'en',
+            notifications: true,
+            emailPrefs: true,
+            currency: 'USD'
+        };
+
+        // ================= LOAD PROFILE =================
+        function loadProfile() {
+            const saved = localStorage.getItem('nomadx_profile');
+            if (saved) {
+                try {
+                    const parsed = JSON.parse(saved);
+                    userProfile = {...userProfile,
+                        ...parsed
+                    };
+                } catch (e) {
+                    console.error('Error loading profile:', e);
+                }
+            }
+
+            const savedSettings = localStorage.getItem('nomadx_settings');
+            if (savedSettings) {
+                try {
+                    const parsed = JSON.parse(savedSettings);
+                    userSettings = {...userSettings,
+                        ...parsed
+                    };
+                } catch (e) {
+                    console.error('Error loading settings:', e);
+                }
+            }
+
+            updateProfileUI();
+        }
+
+        // ================= SAVE PROFILE =================
+        function saveProfile() {
+            try {
+                localStorage.setItem('nomadx_profile', JSON.stringify(userProfile));
+                localStorage.setItem('nomadx_settings', JSON.stringify(userSettings));
+                updateProfileUI();
+                return true;
+            } catch (e) {
+                console.error('Error saving profile:', e);
+                return false;
+            }
+        }
+
+        // ================= UPDATE UI =================
+        function updateProfileUI() {
+            const initials = userProfile.initials || userProfile.name.split(' ').map(n => n[0]).join('').toUpperCase();
+
+            // Update avatar initials
+            document.querySelectorAll('#avatarInitials, #avatarPlaceholder').forEach(el => {
+                if (el) el.textContent = initials;
+            });
+
+            // Update name displays
+            document.querySelectorAll('#displayName, #profileName, #welcomeName').forEach(el => {
+                if (el) el.textContent = userProfile.name;
+            });
+
+            // Update email
+            const emailEl = document.getElementById('profileEmail');
+            if (emailEl) emailEl.textContent = userProfile.email;
+
+            // Update avatar images
+            const avatarContainers = document.querySelectorAll('#profileAvatar, #profileAvatarLarge');
+            if (userProfile.photo) {
+                avatarContainers.forEach(container => {
+                    const existingImg = container.querySelector('img');
+                    if (existingImg) {
+                        existingImg.src = userProfile.photo;
+                    } else {
+                        const img = document.createElement('img');
+                        img.src = userProfile.photo;
+                        img.alt = userProfile.name;
+                        container.innerHTML = '';
+                        container.appendChild(img);
+                    }
+                });
+            }
+
+            // Update Google badge
+            const badge = document.getElementById('googleBadge');
+            if (badge) {
+                if (userProfile.googleLinked) {
+                    badge.textContent = '✅ Connected';
+                    badge.className = 'google-badge connected';
+                } else {
+                    badge.textContent = '+ Connect';
+                    badge.className = 'google-badge';
+                }
+            }
+
+            // Update settings in modal
+            const themeSelect = document.getElementById('themeSelect');
+            const languageSelect = document.getElementById('languageSelect');
+            const notifToggle = document.getElementById('notifToggle');
+            const emailToggle = document.getElementById('emailToggle');
+            const currencySelect = document.getElementById('currencySelect');
+
+            if (themeSelect) themeSelect.value = userSettings.theme || 'dark';
+            if (languageSelect) languageSelect.value = userSettings.language || 'en';
+            if (notifToggle) notifToggle.checked = userSettings.notifications !== false;
+            if (emailToggle) emailToggle.checked = userSettings.emailPrefs !== false;
+            if (currencySelect) currencySelect.value = userSettings.currency || 'USD';
+        }
+
+        // ================= EDIT NAME - FULLY WORKING =================
+        function editProfileName() {
+            // Show prompt with current name
+            const newName = prompt('Enter your full name:', userProfile.name);
+
+            // Check if user clicked Cancel
+            if (newName === null) {
+                return;
+            }
+
+            // Check if name is not empty after trimming
+            if (newName.trim() === '') {
+                showToast('⚠️ Name cannot be empty', 'Error');
+                return;
+            }
+
+            // Update profile with new name
+            const trimmedName = newName.trim();
+            userProfile.name = trimmedName;
+
+            // Generate initials from name (first letter of each word)
+            userProfile.initials = trimmedName.split(' ').map(n => n[0]).join('').toUpperCase();
+
+            // Save and update UI
+            if (saveProfile()) {
+                // Update the welcome message with first name only
+                const firstName = trimmedName.split(' ')[0];
+                document.getElementById('welcomeName').textContent = firstName;
+                showToast('✅ Profile name updated successfully to "' + trimmedName + '"!', 'Success');
+            } else {
+                showToast('⚠️ Error saving profile name', 'Error');
+            }
+        }
+
+        // ================= HANDLE PHOTO UPLOAD =================
+        function triggerPhotoUpload() {
+            document.getElementById('profileImageInput').click();
+        }
+
+        document.getElementById('profileImageInput').addEventListener('change', function(e) {
+            const file = this.files[0];
+            if (file) {
+                if (!file.type.startsWith('image/')) {
+                    showToast('⚠️ Please select an image file', 'Error');
+                    this.value = '';
+                    return;
+                }
+
+                if (file.size > 5 * 1024 * 1024) {
+                    showToast('⚠️ Image size should be less than 5MB', 'Error');
+                    this.value = '';
+                    return;
+                }
+
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    userProfile.photo = event.target.result;
+                    saveProfile();
+                    showToast('📸 Profile picture updated successfully!', 'Success');
+                };
+                reader.onerror = function() {
+                    showToast('⚠️ Error reading file. Please try again.', 'Error');
+                };
+                reader.readAsDataURL(file);
+            }
+            this.value = '';
+        });
+
+        // ================= GOOGLE ACCOUNT LINK =================
+        function handleGoogleLink() {
+            if (userProfile.googleLinked) {
+                if (confirm('Do you want to unlink your Google account?')) {
+                    userProfile.googleLinked = false;
+                    userProfile.googleName = '';
+                    userProfile.googleEmail = '';
+                    userProfile.googlePhoto = '';
+                    saveProfile();
+                    showToast('🔗 Google account unlinked', 'Success');
+                }
+                return;
+            }
+
+            showToast('🔗 Please enter your Google details', 'Google Connect');
+
+            setTimeout(() => {
+                const googleName = prompt('Enter your Google Name:', 'Shree Vaishnavi G');
+                if (googleName && googleName.trim()) {
+                    const googleEmail = prompt('Enter your Google Email:', 'shree@gmail.com');
+                    if (googleEmail && googleEmail.trim()) {
+                        userProfile.googleLinked = true;
+                        userProfile.googleName = googleName.trim();
+                        userProfile.googleEmail = googleEmail.trim();
+                        userProfile.name = googleName.trim();
+                        userProfile.initials = googleName.trim().split(' ').map(n => n[0]).join('').toUpperCase();
+                        saveProfile();
+                        showToast('✅ Google account linked successfully!', 'Success');
+                    }
+                }
+            }, 500);
+        }
+
+        // ================= SETTINGS =================
+        function openSettings() {
+            document.getElementById('settingsModal').classList.add('show');
+            document.getElementById('themeSelect').value = userSettings.theme || 'dark';
+            document.getElementById('languageSelect').value = userSettings.language || 'en';
+            document.getElementById('notifToggle').checked = userSettings.notifications !== false;
+            document.getElementById('emailToggle').checked = userSettings.emailPrefs !== false;
+            document.getElementById('currencySelect').value = userSettings.currency || 'USD';
+        }
+
+        function closeSettings() {
+            document.getElementById('settingsModal').classList.remove('show');
+        }
+
+        function saveSettings() {
+            userSettings.theme = document.getElementById('themeSelect').value;
+            userSettings.language = document.getElementById('languageSelect').value;
+            userSettings.notifications = document.getElementById('notifToggle').checked ? 1 : 0;
+            userSettings.emailPrefs = document.getElementById('emailToggle').checked ? 1 : 0;
+            userSettings.currency = document.getElementById('currencySelect').value;
+
+            saveProfile();
+            closeSettings();
+            showToast('✅ Settings saved successfully!', 'Success');
+        }
+
+        // ================= LOGOUT =================
+        function handleLogout() {
+            if (confirm('Are you sure you want to logout?')) {
+                showToast('👋 Logging out...', 'Goodbye');
+                setTimeout(() => {
+                    window.location.href = '/logout';
+                }, 1000);
+            }
+        }
+
+        // ================= TOAST SYSTEM =================
+        function showToast(message, title = '') {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = 'toast-custom';
+
+            const iconMap = {
+                'Success': '✅',
+                'Google Connect': '🔗',
+                'Goodbye': '👋',
+                'Settings': '⚙️',
+                'Error': '⚠️'
+            };
+            const icon = iconMap[title] || 'ℹ️';
+
+            toast.innerHTML = `
+                <button class="toast-close" onclick="this.parentElement.remove()">×</button>
+                <div class="toast-title">${title ? icon + ' ' + title : 'ℹ️ Notification'}</div>
+                <div class="toast-message">${message}</div>
+            `;
+
+            container.appendChild(toast);
+
+            setTimeout(() => {
+                if (toast.parentElement) {
+                    toast.style.opacity = '0';
+                    toast.style.transition = 'opacity 0.4s';
+                    setTimeout(() => {
+                        if (toast.parentElement) toast.remove();
+                    }, 400);
+                }
+            }, 4000);
+        }
+
+        // ================= EVENT LISTENERS =================
+        document.addEventListener('DOMContentLoaded', function() {
+            const profileToggle = document.getElementById('profileToggle');
+            const profileMenu = document.getElementById('profileMenu');
+
+            // Load profile data
+            loadProfile();
+
+            // Toggle profile menu
+            profileToggle.addEventListener('click', function(e) {
+                e.stopPropagation();
+                profileMenu.classList.toggle('show');
+            });
+
+            document.addEventListener('click', function(e) {
+                if (!profileToggle.contains(e.target) && !profileMenu.contains(e.target)) {
+                    profileMenu.classList.remove('show');
+                }
+            });
+
+            // Edit Name - Fully working
+            const editNameBtn = document.getElementById('editNameBtn');
+            if (editNameBtn) {
+                editNameBtn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    profileMenu.classList.remove('show');
+                    editProfileName();
+                });
+            }
+
+            // Upload Photo
+            const uploadPhotoBtn = document.getElementById('uploadPhotoBtn');
+            if (uploadPhotoBtn) {
+                uploadPhotoBtn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    profileMenu.classList.remove('show');
+                    triggerPhotoUpload();
+                });
+            }
+
+            // Google Link
+            const linkGoogleBtn = document.getElementById('linkGoogleBtn');
+            if (linkGoogleBtn) {
+                linkGoogleBtn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    profileMenu.classList.remove('show');
+                    handleGoogleLink();
+                });
+            }
+
+            // Settings
+            const settingsBtn = document.getElementById('settingsBtn');
+            if (settingsBtn) {
+                settingsBtn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    profileMenu.classList.remove('show');
+                    openSettings();
+                });
+            }
+
+            // Logout
+            const logoutBtn = document.getElementById('logoutBtn');
+            if (logoutBtn) {
+                logoutBtn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    profileMenu.classList.remove('show');
+                    handleLogout();
+                });
+            }
+
+            // Settings modal controls
+            const closeSettingsBtn = document.getElementById('closeSettingsBtn');
+            const saveSettingsBtn = document.getElementById('saveSettingsBtn');
+
+            if (closeSettingsBtn) {
+                closeSettingsBtn.addEventListener('click', closeSettings);
+            }
+            if (saveSettingsBtn) {
+                saveSettingsBtn.addEventListener('click', saveSettings);
+            }
+
+            // Close settings on backdrop click
+            const settingsModal = document.getElementById('settingsModal');
+            if (settingsModal) {
+                settingsModal.addEventListener('click', function(e) {
+                    if (e.target === this) closeSettings();
+                });
+            }
+
+            // Close settings on Escape key
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') closeSettings();
+            });
+
+            console.log('🚀 NomadX AI Dashboard loaded successfully!');
+            console.log('👤 Profile:', userProfile);
+            console.log('⚙️ Settings:', userSettings);
+        });
+    </script>
+
+</body>
+
+</html>

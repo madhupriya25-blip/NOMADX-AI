@@ -1,0 +1,1599 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NomadX AI - Booking Management</title>
+
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Leaflet CSS for Map -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+    <style>
+        /* ================= GLOBAL ================= */
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0B192C;
+            color: #ffffff;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+        
+         ::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+         ::-webkit-scrollbar-track {
+            background: #0B192C;
+        }
+        
+         ::-webkit-scrollbar-thumb {
+            background: #FF6500;
+            border-radius: 10px;
+        }
+        /* ================= NAVBAR ================= */
+        
+        .navbar-custom {
+            background: rgba(11, 25, 44, 0.92);
+            backdrop-filter: blur(18px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            padding: 12px 30px;
+            position: sticky;
+            top: 0;
+            z-index: 1050;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4);
+        }
+        
+        .navbar-custom .logo {
+            font-size: 24px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #FF6500, #FF8C42);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .navbar-custom .logo i {
+            color: #FF6500;
+            font-size: 26px;
+        }
+        
+        .navbar-custom .logo span {
+            color: #ffffff;
+            font-weight: 300;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 22px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .nav-links a {
+            color: rgba(255, 255, 255, 0.6);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s;
+            padding: 6px 0;
+            position: relative;
+        }
+        
+        .nav-links a:hover {
+            color: #ffffff;
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #FF6500;
+            transition: width 0.3s;
+        }
+        
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        
+        .nav-links a.active {
+            color: #FF6500;
+        }
+        
+        .nav-links a.active::after {
+            width: 100%;
+        }
+        
+        .profile-dropdown {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 6px 14px 6px 6px;
+            border-radius: 50px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            background: rgba(255, 255, 255, 0.03);
+            transition: all 0.3s;
+            position: relative;
+        }
+        
+        .profile-dropdown:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 101, 0, 0.3);
+        }
+        
+        .profile-dropdown .avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #FF6500, #FF8C42);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 14px;
+            color: #fff;
+            flex-shrink: 0;
+        }
+        
+        .profile-dropdown .user-name {
+            font-size: 14px;
+            font-weight: 500;
+            color: #fff;
+        }
+        
+        .profile-dropdown .dropdown-arrow {
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 12px;
+        }
+        
+        .profile-menu {
+            position: absolute;
+            top: 72px;
+            right: 30px;
+            background: rgba(11, 25, 44, 0.97);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 20px;
+            padding: 20px;
+            min-width: 340px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+            display: none;
+            z-index: 1060;
+            animation: slideDown 0.3s ease;
+        }
+        
+        .profile-menu.show {
+            display: block;
+        }
+        
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px) scale(0.98);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+        
+        .profile-menu .menu-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        }
+        
+        .profile-menu .menu-header .avatar-lg {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #FF6500, #FF8C42);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: 700;
+            color: #fff;
+            flex-shrink: 0;
+        }
+        
+        .profile-menu .menu-header .user-info h5 {
+            margin: 0;
+            font-weight: 600;
+            font-size: 16px;
+            color: #fff;
+        }
+        
+        .profile-menu .menu-header .user-info p {
+            margin: 0;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.5);
+        }
+        
+        .profile-menu .menu-divider {
+            height: 1px;
+            background: rgba(255, 255, 255, 0.06);
+            margin: 12px 0;
+        }
+        
+        .profile-menu .menu-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 10px 14px;
+            border-radius: 12px;
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: all 0.2s;
+            cursor: pointer;
+            font-size: 14px;
+            border: none;
+            background: none;
+            width: 100%;
+            text-align: left;
+        }
+        
+        .profile-menu .menu-item:hover {
+            background: rgba(255, 101, 0, 0.1);
+            color: #FF6500;
+        }
+        
+        .profile-menu .menu-item i {
+            width: 20px;
+            color: #FF6500;
+        }
+        
+        .profile-menu .menu-item.logout {
+            color: #ef4444;
+        }
+        
+        .profile-menu .menu-item.logout i {
+            color: #ef4444;
+        }
+        
+        .profile-menu .menu-item.logout:hover {
+            background: rgba(239, 68, 68, 0.1);
+        }
+        /* ================= HERO ================= */
+        
+        .hero-section {
+            background: linear-gradient(135deg, rgba(30, 62, 98, 0.3), rgba(11, 25, 44, 0.5));
+            backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 28px;
+            padding: 30px 35px;
+            margin: 24px 0 30px;
+            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.3);
+        }
+        
+        .hero-section h1 {
+            font-size: 32px;
+            font-weight: 800;
+        }
+        
+        .hero-section h1 i {
+            color: #f59e0b;
+        }
+        
+        .hero-section p {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 16px;
+            margin-top: 6px;
+        }
+        /* ================= STATS CARDS ================= */
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 18px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(12px);
+            border-radius: 20px;
+            padding: 20px 24px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.4s;
+            text-align: center;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(255, 101, 0, 0.2);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+        }
+        
+        .stat-card .stat-number {
+            font-size: 32px;
+            font-weight: 800;
+            color: #FF6500;
+        }
+        
+        .stat-card .stat-label {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.5);
+            margin-top: 4px;
+        }
+        
+        .stat-card .stat-icon {
+            font-size: 32px;
+            opacity: 0.2;
+            color: #FF6500;
+            display: block;
+            margin-bottom: 8px;
+        }
+        /* ================= SEARCH & FILTERS ================= */
+        
+        .search-filter-section {
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(12px);
+            border-radius: 24px;
+            padding: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            margin-bottom: 30px;
+        }
+        
+        .search-wrapper {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 16px;
+        }
+        
+        .search-wrapper input {
+            flex: 1;
+            padding: 12px 20px;
+            border-radius: 60px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
+            font-family: inherit;
+            font-size: 14px;
+            outline: none;
+            min-width: 200px;
+            transition: all 0.3s;
+        }
+        
+        .search-wrapper input:focus {
+            border-color: #FF6500;
+            box-shadow: 0 0 20px rgba(255, 101, 0, 0.1);
+        }
+        
+        .search-wrapper input::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+        }
+        
+        .search-wrapper .btn-primary-sm {
+            padding: 12px 28px;
+            border-radius: 60px;
+            border: none;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: linear-gradient(135deg, #FF6500, #e05a00);
+            color: #fff;
+            box-shadow: 0 4px 20px rgba(255, 101, 0, 0.3);
+        }
+        
+        .search-wrapper .btn-primary-sm:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(255, 101, 0, 0.4);
+        }
+        
+        .filter-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            align-items: center;
+        }
+        
+        .filter-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .filter-group label {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.5);
+            font-weight: 500;
+        }
+        
+        .filter-group select,
+        .filter-group input[type="date"],
+        .filter-group input[type="number"] {
+            padding: 8px 16px;
+            border-radius: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
+            font-family: inherit;
+            font-size: 13px;
+            outline: none;
+        }
+        
+        .filter-group select:focus,
+        .filter-group input:focus {
+            border-color: #FF6500;
+        }
+        
+        .filter-group select option {
+            background: #0B192C;
+        }
+        /* ================= BOOKING CARDS ================= */
+        
+        .booking-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 24px;
+            margin-bottom: 30px;
+        }
+        
+        .booking-card {
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(12px);
+            border-radius: 24px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.4s;
+        }
+        
+        .booking-card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(255, 101, 0, 0.2);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+        }
+        
+        .booking-card .card-image {
+            height: 200px;
+            width: 100%;
+            object-fit: cover;
+            position: relative;
+        }
+        
+        .booking-card .card-image .badge-offer {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: linear-gradient(135deg, #FF6500, #e05a00);
+            padding: 4px 14px;
+            border-radius: 30px;
+            font-size: 11px;
+            font-weight: 700;
+            color: #fff;
+        }
+        
+        .booking-card .card-body {
+            padding: 20px 22px;
+        }
+        
+        .booking-card .card-body .title {
+            font-size: 18px;
+            font-weight: 700;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .booking-card .card-body .rating {
+            background: #fbbf24;
+            color: #1e293b;
+            padding: 2px 10px;
+            border-radius: 30px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+        
+        .booking-card .card-body .location {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.5);
+            margin: 6px 0;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .booking-card .card-body .type-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            margin: 6px 0;
+        }
+        
+        .type-hotel {
+            background: rgba(59, 130, 246, 0.2);
+            color: #60a5fa;
+        }
+        
+        .type-restaurant {
+            background: rgba(245, 158, 11, 0.2);
+            color: #fbbf24;
+        }
+        
+        .type-rental {
+            background: rgba(16, 185, 129, 0.2);
+            color: #34d399;
+        }
+        
+        .booking-card .card-body .price {
+            font-size: 20px;
+            font-weight: 700;
+            color: #4ade80;
+            margin: 8px 0;
+        }
+        
+        .booking-card .card-body .price span {
+            font-size: 13px;
+            font-weight: 400;
+            color: rgba(255, 255, 255, 0.4);
+        }
+        
+        .booking-card .card-body .availability {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+        
+        .avail-available {
+            background: rgba(34, 197, 94, 0.2);
+            color: #22c55e;
+        }
+        
+        .avail-limited {
+            background: rgba(245, 158, 11, 0.2);
+            color: #f59e0b;
+        }
+        
+        .avail-booked {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+        }
+        
+        .booking-card .card-body .features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin: 8px 0;
+        }
+        
+        .booking-card .card-body .features .feature {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
+        .booking-card .card-body .dates {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.5);
+            margin: 8px 0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        
+        .booking-card .card-body .dates i {
+            color: #60a5fa;
+        }
+        
+        .booking-card .card-body .review {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 12px;
+            padding: 10px 14px;
+            margin: 8px 0;
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.7);
+            border-left: 3px solid #fbbf24;
+        }
+        
+        .booking-card .card-body .actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 12px;
+            flex-wrap: wrap;
+        }
+        
+        .booking-card .card-body .actions button {
+            padding: 8px 16px;
+            border-radius: 30px;
+            border: none;
+            font-weight: 600;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            flex: 1;
+        }
+        
+        .booking-card .card-body .actions .btn-book {
+            background: linear-gradient(135deg, #FF6500, #e05a00);
+            color: #fff;
+        }
+        
+        .booking-card .card-body .actions .btn-book:hover {
+            transform: scale(1.03);
+        }
+        
+        .booking-card .card-body .actions .btn-wishlist {
+            background: rgba(255, 255, 255, 0.06);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            flex: 0.5;
+        }
+        
+        .booking-card .card-body .actions .btn-wishlist:hover {
+            background: rgba(239, 68, 68, 0.15);
+            border-color: #ef4444;
+            color: #ef4444;
+        }
+        
+        .booking-card .card-body .actions .btn-wishlist.active {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+            border-color: #ef4444;
+        }
+        /* ================= AI RECOMMENDATIONS ================= */
+        
+        .ai-recommendations {
+            background: linear-gradient(135deg, rgba(108, 99, 255, 0.08), rgba(138, 43, 226, 0.04));
+            border: 1px solid rgba(108, 99, 255, 0.15);
+            border-radius: 24px;
+            padding: 24px;
+            margin-bottom: 30px;
+        }
+        
+        .ai-recommendations .ai-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #a855f7;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+        
+        .ai-recommendations .ai-message {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        
+        .ai-recommendations .ai-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 12px;
+        }
+        
+        .ai-recommendations .ai-tags .tag {
+            background: rgba(108, 99, 255, 0.12);
+            padding: 6px 16px;
+            border-radius: 30px;
+            font-size: 12px;
+            color: #a855f7;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        
+        .ai-recommendations .ai-tags .tag:hover {
+            background: rgba(108, 99, 255, 0.25);
+        }
+        /* ================= MAP SECTION ================= */
+        
+        .map-section {
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(12px);
+            border-radius: 24px;
+            padding: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            margin-bottom: 30px;
+        }
+        
+        .map-section .map-container {
+            height: 300px;
+            border-radius: 20px;
+            overflow: hidden;
+            background: rgba(15, 23, 42, 0.5);
+        }
+        
+        .map-section .map-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        /* ================= TOAST ================= */
+        
+        .toast-container-custom {
+            position: fixed;
+            top: 90px;
+            right: 20px;
+            z-index: 9999;
+        }
+        
+        .toast-custom {
+            background: rgba(11, 25, 44, 0.95);
+            backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 16px 24px;
+            color: #fff;
+            margin-bottom: 10px;
+            min-width: 300px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            animation: slideIn 0.4s ease;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        .toast-custom .toast-title {
+            font-weight: 600;
+            font-size: 15px;
+        }
+        
+        .toast-custom .toast-message {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.6);
+            margin-top: 4px;
+        }
+        
+        .toast-custom .toast-close {
+            float: right;
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.4);
+            cursor: pointer;
+            font-size: 18px;
+        }
+        /* ================= RESPONSIVE ================= */
+        
+        @media (max-width: 992px) {
+            .navbar-custom .container-fluid {
+                flex-wrap: wrap;
+                gap: 12px;
+            }
+            .nav-links {
+                gap: 14px;
+            }
+            .nav-links a {
+                font-size: 12px;
+            }
+            .booking-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .navbar-custom {
+                padding: 10px 16px;
+            }
+            .navbar-custom .logo {
+                font-size: 20px;
+            }
+            .nav-links {
+                gap: 10px;
+                width: 100%;
+                justify-content: center;
+            }
+            .nav-links a {
+                font-size: 11px;
+            }
+            .profile-dropdown .user-name {
+                display: none;
+            }
+            .hero-section {
+                padding: 20px;
+            }
+            .hero-section h1 {
+                font-size: 24px;
+            }
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .booking-grid {
+                grid-template-columns: 1fr;
+            }
+            .filter-row {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .profile-menu {
+                right: 10px;
+                left: 10px;
+                min-width: auto;
+                width: auto;
+            }
+            .search-wrapper {
+                flex-direction: column;
+            }
+            .search-wrapper input {
+                min-width: auto;
+            }
+            .search-wrapper .btn-primary-sm {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .navbar-custom .logo {
+                font-size: 17px;
+            }
+            .profile-dropdown {
+                padding: 4px 10px 4px 4px;
+            }
+            .profile-dropdown .avatar {
+                width: 30px;
+                height: 30px;
+                font-size: 12px;
+            }
+            .hero-section h1 {
+                font-size: 20px;
+            }
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 10px;
+            }
+            .stat-card {
+                padding: 14px 16px;
+            }
+            .stat-card .stat-number {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ================= NAVBAR ================= -->
+    <nav class="navbar navbar-custom">
+        <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap">
+            <a href="#" class="logo">
+                <i class="fas fa-compass"></i> NomadX <span>AI</span>
+            </a>
+            <div class="nav-links">
+                <a href="/dashboard">Dashboard</a>
+                <a href="/hotels">Hotels</a>
+                <a href="/restaurants">Restaurants</a>
+                <a href="/rentals">Rentals</a>
+                <a href="/map">Maps</a>
+                <a href="/weather">Weather</a>
+                <a href="/emergency">Emergency</a>
+                <a href="/chatbot">AI Chatbot</a>
+                <a href="/booking" class="active">Bookings</a>
+                <a href="/logout">Logout</a>
+            </div>
+            <div class="profile-dropdown" id="profileToggle">
+                <div class="avatar" id="profileAvatar">
+                    <span id="avatarInitials">JD</span>
+                </div>
+                <span class="user-name" id="displayName">John Doe</span>
+                <i class="fas fa-chevron-down dropdown-arrow"></i>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ================= PROFILE MENU ================= -->
+    <div class="profile-menu" id="profileMenu">
+        <div class="menu-header">
+            <div class="avatar-lg">JD</div>
+            <div class="user-info">
+                <h5>John Doe</h5>
+                <p>john.doe@email.com</p>
+            </div>
+        </div>
+        <div class="menu-divider"></div>
+        <button class="menu-item" onclick="showToast('✏️ Edit profile coming soon')">
+            <i class="fas fa-user-edit"></i> Edit Profile
+        </button>
+        <button class="menu-item" onclick="showToast('🔧 Settings coming soon')">
+            <i class="fas fa-cog"></i> Settings
+        </button>
+        <div class="menu-divider"></div>
+        <button class="menu-item logout" onclick="if(confirm('Logout?')){window.location.href='/logout'}">
+            <i class="fas fa-sign-out-alt"></i> Logout
+        </button>
+    </div>
+
+    <!-- ================= TOAST ================= -->
+    <div class="toast-container-custom" id="toastContainer"></div>
+
+    <!-- ================= MAIN CONTENT ================= -->
+    <div class="container-fluid px-4">
+
+        <!-- Hero Section -->
+        <div class="hero-section">
+            <h1><i class="fas fa-calendar-check"></i> Booking Management</h1>
+            <p>Manage your hotel, restaurant, and rental bookings seamlessly. Search, filter, and book with ease.</p>
+        </div>
+
+        <!-- Stats Section -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <span class="stat-icon"><i class="fas fa-hotel"></i></span>
+                <div class="stat-number" id="totalHotels">24</div>
+                <div class="stat-label">Total Hotels</div>
+            </div>
+            <div class="stat-card">
+                <span class="stat-icon"><i class="fas fa-utensils"></i></span>
+                <div class="stat-number" id="totalRestaurants">18</div>
+                <div class="stat-label">Total Restaurants</div>
+            </div>
+            <div class="stat-card">
+                <span class="stat-icon"><i class="fas fa-car"></i></span>
+                <div class="stat-number" id="totalRentals">12</div>
+                <div class="stat-label">Total Rentals</div>
+            </div>
+            <div class="stat-card">
+                <span class="stat-icon"><i class="fas fa-door-open"></i></span>
+                <div class="stat-number" id="availableRooms">156</div>
+                <div class="stat-label">Available Rooms</div>
+            </div>
+            <div class="stat-card">
+                <span class="stat-icon"><i class="fas fa-ban"></i></span>
+                <div class="stat-number" id="fullyBooked">8</div>
+                <div class="stat-label">Fully Booked</div>
+            </div>
+        </div>
+
+        <!-- Search & Filters -->
+        <div class="search-filter-section">
+            <div class="search-wrapper">
+                <input type="text" id="searchInput" placeholder="Search by name, location, or type..." value="London">
+                <button class="btn-primary-sm" id="searchBtn"><i class="fas fa-search"></i> Search</button>
+            </div>
+            <div class="filter-row">
+                <div class="filter-group">
+                    <label>⭐ Rating</label>
+                    <select id="ratingFilter">
+                        <option value="all">All Ratings</option>
+                        <option value="4.5">4.5+</option>
+                        <option value="4.0">4.0+</option>
+                        <option value="3.5">3.5+</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>💰 Price</label>
+                    <select id="priceFilter">
+                        <option value="all">All Prices</option>
+                        <option value="budget">Budget ($)</option>
+                        <option value="mid">Moderate ($$)</option>
+                        <option value="luxury">Luxury ($$$)</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>📍 Location</label>
+                    <select id="locationFilter">
+                        <option value="all">All Locations</option>
+                        <option value="london">London</option>
+                        <option value="paris">Paris</option>
+                        <option value="tokyo">Tokyo</option>
+                        <option value="dubai">Dubai</option>
+                        <option value="newyork">New York</option>
+                        <option value="bali">Bali</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>📅 Check-in</label>
+                    <input type="date" id="checkinDate">
+                </div>
+                <div class="filter-group">
+                    <label>📅 Check-out</label>
+                    <input type="date" id="checkoutDate">
+                </div>
+                <div class="filter-group">
+                    <label>👤 Guests</label>
+                    <input type="number" id="guestCount" value="2" min="1" max="10" style="width:70px;">
+                </div>
+            </div>
+        </div>
+
+        <!-- AI Recommendations -->
+        <div class="ai-recommendations">
+            <div class="ai-title">
+                <i class="fas fa-robot"></i> AI Travel Recommendations
+            </div>
+            <div class="ai-message" id="aiMessage">
+                Based on your search history and preferences, we recommend these top-rated options for your next trip.
+            </div>
+            <div class="ai-tags" id="aiTags">
+                <span class="tag" onclick="applyFilter('luxury')">🌟 Luxury Stays</span>
+                <span class="tag" onclick="applyFilter('budget')">💰 Budget Picks</span>
+                <span class="tag" onclick="applyFilter('family')">👨‍👩‍👧‍👦 Family Friendly</span>
+                <span class="tag" onclick="applyFilter('romantic')">💑 Romantic Getaways</span>
+                <span class="tag" onclick="applyFilter('beach')">🏖️ Beachfront</span>
+            </div>
+        </div>
+
+        <!-- Results Header -->
+        <div class="results-header" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+            <h2 style="font-size:20px;"><i class="fas fa-list" style="color:#FF6500;"></i> Available Bookings</h2>
+            <span class="results-count" style="font-size:14px; color:rgba(255,255,255,0.5);">
+                Showing <span id="resultCount">0</span> results
+            </span>
+        </div>
+
+        <!-- Booking Grid -->
+        <div class="booking-grid" id="bookingGrid">
+            <!-- Rendered by JavaScript -->
+        </div>
+
+        <!-- Map Section -->
+        <div class="map-section">
+            <h3 style="font-size:16px; font-weight:600; margin-bottom:12px;">
+                <i class="fas fa-map-marked-alt" style="color:#f59e0b;"></i> Nearby Locations
+            </h3>
+            <div class="map-container">
+                <iframe src="https://www.openstreetmap.org/export/embed.html?bbox=-0.5,51.2,0.3,51.6&layer=mapnik&marker=51.5,-0.1" allowfullscreen></iframe>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div style="text-align: center; padding: 30px 0 20px; color: rgba(255,255,255,0.2); font-size: 13px; border-top: 1px solid rgba(255,255,255,0.04); margin-top: 10px;">
+            © 2026 NomadX AI — Booking Management | Your Travel, Simplified
+        </div>
+
+    </div>
+
+    <!-- ================= SCRIPTS ================= -->
+    <script>
+        // ================= BOOKING DATABASE =================
+        const bookingDatabase = [{
+            id: 1,
+            name: "The Ritz London",
+            type: "hotel",
+            location: "london",
+            rating: 4.9,
+            price: 450,
+            priceCategory: "luxury",
+            availability: "available",
+            roomsAvailable: 5,
+            image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=400&h=250&fit=crop",
+            features: ["Spa", "Pool", "Fine Dining", "Concierge"],
+            checkin: "2026-07-20",
+            checkout: "2026-07-25",
+            review: "Amazing stay! The service was impeccable.",
+            offer: "20% off for 5+ nights"
+        }, {
+            id: 2,
+            name: "Le Jules Verne",
+            type: "restaurant",
+            location: "paris",
+            rating: 4.8,
+            price: 120,
+            priceCategory: "luxury",
+            availability: "available",
+            roomsAvailable: 8,
+            image: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=400&h=250&fit=crop",
+            features: ["Michelin Star", "Eiffel View", "Wine Cellar"],
+            checkin: "2026-07-21",
+            checkout: "2026-07-21",
+            review: "Unforgettable dining experience with a view!",
+            offer: "Complimentary Champagne"
+        }, {
+            id: 3,
+            name: "Avis Premium Rentals",
+            type: "rental",
+            location: "london",
+            rating: 4.7,
+            price: 85,
+            priceCategory: "mid",
+            availability: "available",
+            roomsAvailable: 3,
+            image: "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?w=400&h=250&fit=crop",
+            features: ["GPS", "Insurance", "24/7 Support"],
+            checkin: "2026-07-22",
+            checkout: "2026-07-28",
+            review: "Great car, smooth rental process.",
+            offer: "Free upgrade"
+        }, {
+            id: 4,
+            name: "Four Seasons Tokyo",
+            type: "hotel",
+            location: "tokyo",
+            rating: 4.9,
+            price: 550,
+            priceCategory: "luxury",
+            availability: "available",
+            roomsAvailable: 2,
+            image: "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=400&h=250&fit=crop",
+            features: ["Spa", "Pool", "City View", "Michelin Restaurant"],
+            checkin: "2026-08-01",
+            checkout: "2026-08-07",
+            review: "Perfect blend of luxury and Japanese hospitality.",
+            offer: "10% off for early booking"
+        }, {
+            id: 5,
+            name: "Burj Al Arab Restaurant",
+            type: "restaurant",
+            location: "dubai",
+            rating: 4.9,
+            price: 200,
+            priceCategory: "luxury",
+            availability: "limited",
+            roomsAvailable: 1,
+            image: "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=400&h=250&fit=crop",
+            features: ["Seafood", "Sky View", "Live Music"],
+            checkin: "2026-07-25",
+            checkout: "2026-07-25",
+            review: "Spectacular dining experience in the sky!",
+            offer: "Complimentary valet parking"
+        }, {
+            id: 6,
+            name: "Enterprise NYC",
+            type: "rental",
+            location: "newyork",
+            rating: 4.6,
+            price: 120,
+            priceCategory: "mid",
+            availability: "available",
+            roomsAvailable: 4,
+            image: "https://images.unsplash.com/photo-1555215695-3004980ad54e?w=400&h=250&fit=crop",
+            features: ["GPS", "Insurance", "Free Cancellation"],
+            checkin: "2026-07-23",
+            checkout: "2026-07-30",
+            review: "Reliable and professional service.",
+            offer: "15% off for 7+ days"
+        }, {
+            id: 7,
+            name: "Ayana Resort Bali",
+            type: "hotel",
+            location: "bali",
+            rating: 4.8,
+            price: 350,
+            priceCategory: "luxury",
+            availability: "booked",
+            roomsAvailable: 0,
+            image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=400&h=250&fit=crop",
+            features: ["Beachfront", "Spa", "Infinity Pool", "Yoga"],
+            checkin: "2026-08-10",
+            checkout: "2026-08-17",
+            review: "Paradise on earth! Absolutely stunning.",
+            offer: "Fully booked"
+        }, {
+            id: 8,
+            name: "Dishoom London",
+            type: "restaurant",
+            location: "london",
+            rating: 4.7,
+            price: 45,
+            priceCategory: "budget",
+            availability: "available",
+            roomsAvailable: 6,
+            image: "https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=400&h=250&fit=crop",
+            features: ["Indian", "Cocktails", "Brunch"],
+            checkin: "2026-07-26",
+            checkout: "2026-07-26",
+            review: "Best Indian food in London!",
+            offer: "2-for-1 cocktails"
+        }, {
+            id: 9,
+            name: "Park Hyatt Paris",
+            type: "hotel",
+            location: "paris",
+            rating: 4.8,
+            price: 420,
+            priceCategory: "luxury",
+            availability: "limited",
+            roomsAvailable: 1,
+            image: "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=400&h=250&fit=crop",
+            features: ["Spa", "Pool", "Eiffel View", "Michelin Star"],
+            checkin: "2026-08-05",
+            checkout: "2026-08-10",
+            review: "Luxury redefined in the heart of Paris.",
+            offer: "Complimentary breakfast"
+        }, {
+            id: 10,
+            name: "Royal Brothers Bikes",
+            type: "rental",
+            location: "bali",
+            rating: 4.8,
+            price: 15,
+            priceCategory: "budget",
+            availability: "available",
+            roomsAvailable: 10,
+            image: "https://images.unsplash.com/photo-1558981804-ec4f8a6b2d2a?w=400&h=250&fit=crop",
+            features: ["Helmet", "Insurance", "Tour Guide"],
+            checkin: "2026-07-28",
+            checkout: "2026-08-05",
+            review: "Best way to explore Bali!",
+            offer: "10% off for 5+ days"
+        }];
+
+        // ================= STATE =================
+        let currentBookings = [...bookingDatabase];
+        let wishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
+
+        // ================= TOAST =================
+        function showToast(message, title = '') {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = 'toast-custom';
+            const iconMap = {
+                'Success': '✅',
+                'Error': '⚠️',
+                'Warning': '⚠️',
+                'Info': 'ℹ️'
+            };
+            const icon = iconMap[title] || 'ℹ️';
+            toast.innerHTML = `
+                <button class="toast-close" onclick="this.parentElement.remove()">×</button>
+                <div class="toast-title">${title ? icon + ' ' + title : 'ℹ️ Notification'}</div>
+                <div class="toast-message">${message}</div>
+            `;
+            container.appendChild(toast);
+            setTimeout(() => {
+                if (toast.parentElement) {
+                    toast.style.opacity = '0';
+                    toast.style.transition = 'opacity 0.4s';
+                    setTimeout(() => {
+                        if (toast.parentElement) toast.remove();
+                    }, 400);
+                }
+            }, 5000);
+        }
+
+        // ================= GET TYPE BADGE =================
+        function getTypeBadge(type) {
+            const map = {
+                hotel: 'type-hotel',
+                restaurant: 'type-restaurant',
+                rental: 'type-rental'
+            };
+            return map[type] || '';
+        }
+
+        function getTypeLabel(type) {
+            const map = {
+                hotel: '🏨 Hotel',
+                restaurant: '🍽️ Restaurant',
+                rental: '🚗 Rental'
+            };
+            return map[type] || type;
+        }
+
+        function getAvailabilityClass(availability) {
+            const map = {
+                available: 'avail-available',
+                limited: 'avail-limited',
+                booked: 'avail-booked'
+            };
+            return map[availability] || '';
+        }
+
+        function getPriceLabel(price) {
+            const map = {
+                budget: '$',
+                mid: '$$',
+                luxury: '$$$'
+            };
+            return map[price] || '';
+        }
+
+        function getRatingStars(rating) {
+            const full = Math.floor(rating);
+            const half = rating % 1 >= 0.5 ? 1 : 0;
+            let stars = '';
+            for (let i = 0; i < full; i++) stars += '⭐';
+            if (half) stars += '⭐';
+            return stars;
+        }
+
+        function isInWishlist(id) {
+            return wishlist.includes(id);
+        }
+
+        // ================= RENDER BOOKINGS =================
+        function renderBookings(bookings) {
+            const grid = document.getElementById('bookingGrid');
+            const count = document.getElementById('resultCount');
+
+            if (!bookings || bookings.length === 0) {
+                grid.innerHTML = `
+                    <div style="grid-column:1/-1; text-align:center; padding:60px; background:rgba(255,255,255,0.03); border-radius:24px;">
+                        <i class="fas fa-calendar-times" style="font-size:48px; color:rgba(255,255,255,0.2);"></i>
+                        <p style="margin-top:15px; color:rgba(255,255,255,0.5);">No bookings found. Try different search criteria!</p>
+                    </div>
+                `;
+                count.textContent = '0';
+                return;
+            }
+
+            count.textContent = bookings.length;
+
+            grid.innerHTML = bookings.map(booking => `
+                <div class="booking-card">
+                    <div style="position:relative;">
+                        <img class="card-image" src="${booking.image}" alt="${booking.name}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1566073771259-6a8506099945?w=400&h=250&fit=crop'">
+                        ${booking.offer && booking.availability !== 'booked' ? `<span class="badge-offer">${booking.offer}</span>` : ''}
+                        ${booking.availability === 'booked' ? `<span class="badge-offer" style="background:#ef4444;">FULLY BOOKED</span>` : ''}
+                    </div>
+                    <div class="card-body">
+                        <div class="title">
+                            ${booking.name}
+                            <span class="rating">${getRatingStars(booking.rating)} ${booking.rating}</span>
+                        </div>
+                        <div class="location"><i class="fas fa-map-marker-alt"></i> ${booking.location.charAt(0).toUpperCase() + booking.location.slice(1)}</div>
+                        <div>
+                            <span class="type-badge ${getTypeBadge(booking.type)}">${getTypeLabel(booking.type)}</span>
+                            <span style="margin-left:8px; font-size:13px; color:rgba(255,255,255,0.4);">${getPriceLabel(booking.priceCategory)}</span>
+                        </div>
+                        <div class="price">$${booking.price} <span>/ ${booking.type === 'hotel' ? 'night' : (booking.type === 'restaurant' ? 'meal' : 'day')}</span></div>
+                        <div>
+                            <span class="availability ${getAvailabilityClass(booking.availability)}">
+                                ${booking.availability === 'available' ? '✅ Available' : 
+                                  booking.availability === 'limited' ? '⚠️ Limited' : '❌ Fully Booked'}
+                            </span>
+                            ${booking.roomsAvailable > 0 ? ` <span style="font-size:12px; color:rgba(255,255,255,0.4);">(${booking.roomsAvailable} left)</span>` : ''}
+                        </div>
+                        <div class="features">
+                            ${booking.features.map(f => `<span class="feature">${f}</span>`).join('')}
+                        </div>
+                        <div class="dates">
+                            <span><i class="fas fa-calendar-check"></i> ${booking.checkin}</span>
+                            <span><i class="fas fa-calendar-times"></i> ${booking.checkout}</span>
+                        </div>
+                        <div class="review">
+                            <i class="fas fa-quote-left" style="color:#fbbf24; margin-right:6px;"></i>
+                            ${booking.review}
+                        </div>
+                        <div class="actions">
+                            <button class="btn-book" onclick="bookNow(${booking.id})" ${booking.availability === 'booked' ? 'disabled style="opacity:0.5;"' : ''}>
+                                <i class="fas fa-calendar-plus"></i> ${booking.availability === 'booked' ? 'Unavailable' : 'Book Now'}
+                            </button>
+                            <button class="btn-wishlist ${isInWishlist(booking.id) ? 'active' : ''}" onclick="toggleWishlist(${booking.id})">
+                                <i class="fas fa-heart"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // ================= FILTER & SEARCH =================
+        function filterBookings() {
+            const searchQuery = document.getElementById('searchInput').value.toLowerCase().trim();
+            const ratingFilter = document.getElementById('ratingFilter').value;
+            const priceFilter = document.getElementById('priceFilter').value;
+            const locationFilter = document.getElementById('locationFilter').value;
+            const guests = parseInt(document.getElementById('guestCount').value) || 1;
+
+            let filtered = [...bookingDatabase];
+
+            // Search filter
+            if (searchQuery) {
+                filtered = filtered.filter(b =>
+                    b.name.toLowerCase().includes(searchQuery) ||
+                    b.location.toLowerCase().includes(searchQuery) ||
+                    b.type.toLowerCase().includes(searchQuery)
+                );
+            }
+
+            // Rating filter
+            if (ratingFilter !== 'all') {
+                const minRating = parseFloat(ratingFilter);
+                filtered = filtered.filter(b => b.rating >= minRating);
+            }
+
+            // Price filter
+            if (priceFilter !== 'all') {
+                filtered = filtered.filter(b => b.priceCategory === priceFilter);
+            }
+
+            // Location filter
+            if (locationFilter !== 'all') {
+                filtered = filtered.filter(b => b.location === locationFilter);
+            }
+
+            currentBookings = filtered;
+            renderBookings(filtered);
+            updateStats();
+            generateAIRecommendations(filtered);
+        }
+
+        // ================= UPDATE STATS =================
+        function updateStats() {
+            const hotels = bookingDatabase.filter(b => b.type === 'hotel');
+            const restaurants = bookingDatabase.filter(b => b.type === 'restaurant');
+            const rentals = bookingDatabase.filter(b => b.type === 'rental');
+            const available = bookingDatabase.filter(b => b.availability === 'available');
+            const booked = bookingDatabase.filter(b => b.availability === 'booked');
+
+            document.getElementById('totalHotels').textContent = hotels.length;
+            document.getElementById('totalRestaurants').textContent = restaurants.length;
+            document.getElementById('totalRentals').textContent = rentals.length;
+            
+            const totalAvailable = available.reduce((sum, b) => sum + b.roomsAvailable, 0);
+            document.getElementById('availableRooms').textContent = totalAvailable;
+            document.getElementById('fullyBooked').textContent = booked.length;
+        }
+
+        // ================= AI RECOMMENDATIONS =================
+        function generateAIRecommendations(bookings) {
+            const message = document.getElementById('aiMessage');
+            const tags = document.getElementById('aiTags');
+
+            if (bookings.length === 0) {
+                message.textContent = 'No recommendations available for your current search. Try different filters!';
+                return;
+            }
+
+            const topRated = [...bookings].sort((a, b) => b.rating - a.rating).slice(0, 3);
+            const bestValue = [...bookings].filter(b => b.priceCategory === 'budget').slice(0, 2);
+
+            let msg = `🌟 Based on your search, we found ${bookings.length} options. `;
+            if (topRated.length > 0) {
+                msg += `Top pick: <strong>${topRated[0].name}</strong> with ${topRated[0].rating}⭐ rating. `;
+            }
+            if (bestValue.length > 0) {
+                msg += `Best budget option: <strong>${bestValue[0].name}</strong> at $${bestValue[0].price}/day.`;
+            }
+            message.innerHTML = msg;
+
+            // Update tags based on results
+            const hasLuxury = bookings.some(b => b.priceCategory === 'luxury');
+            const hasBudget = bookings.some(b => b.priceCategory === 'budget');
+            const hasBeach = bookings.some(b => b.location === 'bali' || b.location === 'miami');
+
+            let tagHtml = '';
+            if (hasLuxury) tagHtml += `<span class="tag" onclick="applyFilter('luxury')">🌟 Luxury Stays</span>`;
+            if (hasBudget) tagHtml += `<span class="tag" onclick="applyFilter('budget')">💰 Budget Picks</span>`;
+            if (hasBeach) tagHtml += `<span class="tag" onclick="applyFilter('beach')">🏖️ Beachfront</span>`;
+            if (bookings.some(b => b.type === 'hotel')) {
+                tagHtml += `<span class="tag" onclick="applyFilter('family')">👨‍👩‍👧‍👦 Family Friendly</span>`;
+            }
+            if (bookings.some(b => b.type === 'restaurant')) {
+                tagHtml += `<span class="tag" onclick="applyFilter('romantic')">💑 Romantic Dining</span>`;
+            }
+
+            tags.innerHTML = tagHtml || `<span class="tag" style="color:rgba(255,255,255,0.4);">✨ Try different search for more recommendations</span>`;
+        }
+
+        // ================= APPLY FILTER =================
+        function applyFilter(filter) {
+            const filterMap = {
+                'luxury': () => { document.getElementById('priceFilter').value = 'luxury'; },
+                'budget': () => { document.getElementById('priceFilter').value = 'budget'; },
+                'family': () => { document.getElementById('ratingFilter').value = '4.0'; },
+                'romantic': () => { document.getElementById('searchInput').value = 'fine dining'; },
+                'beach': () => { document.getElementById('locationFilter').value = 'bali'; }
+            };
+
+            if (filterMap[filter]) {
+                filterMap[filter]();
+                filterBookings();
+                showToast(`🔍 Showing ${filter} recommendations`, 'Info');
+            }
+        }
+
+        // ================= BOOK NOW =================
+        function bookNow(id) {
+            const booking = bookingDatabase.find(b => b.id === id);
+            if (!booking) return;
+
+            if (booking.availability === 'booked') {
+                showToast('❌ This booking is fully booked', 'Error');
+                return;
+            }
+
+            // Reduce available rooms
+            const index = bookingDatabase.findIndex(b => b.id === id);
+            if (index !== -1) {
+                bookingDatabase[index].roomsAvailable--;
+                if (bookingDatabase[index].roomsAvailable === 0) {
+                    bookingDatabase[index].availability = 'booked';
+                }
+                showToast(`✅ Successfully booked ${booking.name}!`, 'Success');
+                filterBookings();
+                updateStats();
+            }
+        }
+
+        // ================= WISHLIST =================
+        function toggleWishlist(id) {
+            const index = wishlist.indexOf(id);
+            if (index === -1) {
+                wishlist.push(id);
+                showToast(`❤️ Added to wishlist!`, 'Success');
+            } else {
+                wishlist.splice(index, 1);
+                showToast(`💔 Removed from wishlist`, 'Info');
+            }
+            localStorage.setItem('wishlist', JSON.stringify(wishlist));
+            filterBookings();
+        }
+
+        // ================= SEARCH =================
+        function performSearch() {
+            filterBookings();
+        }
+
+        // ================= EVENT LISTENERS =================
+        document.addEventListener('DOMContentLoaded', function() {
+            // Profile dropdown
+            const profileToggle = document.getElementById('profileToggle');
+            const profileMenu = document.getElementById('profileMenu');
+            if (profileToggle && profileMenu) {
+                profileToggle.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    profileMenu.classList.toggle('show');
+                });
+                document.addEventListener('click', (e) => {
+                    if (!profileToggle.contains(e.target) && !profileMenu.contains(e.target)) {
+                        profileMenu.classList.remove('show');
+                    }
+                });
+            }
+
+            // Search
+            document.getElementById('searchBtn').addEventListener('click', performSearch);
+            document.getElementById('searchInput').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') performSearch();
+            });
+
+            // Filters
+            document.getElementById('ratingFilter').addEventListener('change', performSearch);
+            document.getElementById('priceFilter').addEventListener('change', performSearch);
+            document.getElementById('locationFilter').addEventListener('change', performSearch);
+            document.getElementById('guestCount').addEventListener('change', performSearch);
+
+            // Set default dates
+            const today = new Date();
+            const tomorrow = new Date(today);
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            const weekLater = new Date(today);
+            weekLater.setDate(weekLater.getDate() + 7);
+
+            document.getElementById('checkinDate').value = tomorrow.toISOString().split('T')[0];
+            document.getElementById('checkoutDate').value = weekLater.toISOString().split('T')[0];
+
+            // Initial load
+            performSearch();
+
+            console.log('📋 Booking Management loaded successfully!');
+        });
+    </script>
+
+</body>
+
+</html>

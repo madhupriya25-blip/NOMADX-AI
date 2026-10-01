@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Register | NomadX AI</title>
+
+    <style>
+        /* ===============================
+   GOOGLE FONT
+================================= */
+        
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        /* ===============================
+   BODY
+================================= */
+        
+        body {
+            min-height: 100vh;
+            background: radial-gradient(circle at top left, #014F86 0%, transparent 30%), radial-gradient(circle at bottom right, #013A63 0%, transparent 30%), linear-gradient(135deg, #012A4A, #013A63, #01497C);
+            overflow-x: hidden;
+            color: #fff;
+        }
+        /* ===============================
+   NAVBAR
+================================= */
+        
+        .navbar {
+            width: 100%;
+            padding: 18px 7%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(14px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        
+        .logo {
+            font-size: 28px;
+            font-weight: 700;
+            color: #A9D6E5;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 28px;
+            flex-wrap: wrap;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: #89C2D9;
+            font-size: 15px;
+            transition: 0.3s;
+            position: relative;
+        }
+        
+        .nav-links a:hover {
+            color: #fff;
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -5px;
+            width: 0%;
+            height: 2px;
+            background: #2C7DA0;
+            transition: 0.3s;
+        }
+        
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        /* ===============================
+   MAIN CONTAINER
+================================= */
+        
+        .main-container {
+            width: 100%;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 120px 20px 40px;
+        }
+        /* ===============================
+   REGISTER CARD
+================================= */
+        
+        .register-card {
+            width: 100%;
+            max-width: 470px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(18px);
+            border-radius: 28px;
+            padding: 45px 35px;
+            box-shadow: 0 0 25px rgba(44, 125, 160, 0.25), 0 0 80px rgba(1, 58, 99, 0.3);
+            animation: floatCard 4s ease-in-out infinite;
+        }
+        /* ===============================
+   CARD ANIMATION
+================================= */
+        
+        @keyframes floatCard {
+            0% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-8px);
+            }
+            100% {
+                transform: translateY(0px);
+            }
+        }
+        /* ===============================
+   HEADING
+================================= */
+        
+        .register-card h1 {
+            font-size: 34px;
+            color: #A9D6E5;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        
+        .register-card p {
+            color: #89C2D9;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+        /* ===============================
+   INPUT GROUP
+================================= */
+        
+        .input-group {
+            margin-bottom: 22px;
+        }
+        
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #A9D6E5;
+            font-size: 14px;
+        }
+        
+        .input-group input {
+            width: 100%;
+            padding: 15px 18px;
+            border-radius: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.06);
+            color: #fff;
+            font-size: 15px;
+            outline: none;
+            transition: 0.3s;
+        }
+        
+        .input-group input::placeholder {
+            color: #89C2D9;
+        }
+        
+        .input-group input:focus {
+            border-color: #61A5C2;
+            box-shadow: 0 0 10px rgba(97, 165, 194, 0.5), 0 0 25px rgba(44, 125, 160, 0.25);
+            transform: scale(1.01);
+        }
+        /* ===============================
+   CHECKBOX
+================================= */
+        
+        .terms {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 25px;
+            color: #A9D6E5;
+            font-size: 14px;
+        }
+        
+        .terms input {
+            accent-color: #2C7DA0;
+        }
+        /* ===============================
+   BUTTON
+================================= */
+        
+        .register-btn {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 14px;
+            background: linear-gradient(135deg, #2C7DA0, #468FAF);
+            color: #fff;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        
+        .register-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0 20px rgba(70, 143, 175, 0.5), 0 0 40px rgba(44, 125, 160, 0.3);
+        }
+        /* ===============================
+   LOGIN LINK
+================================= */
+        
+        .bottom-text {
+            text-align: center;
+            margin-top: 22px;
+            color: #89C2D9;
+            font-size: 14px;
+        }
+        
+        .bottom-text a {
+            color: #A9D6E5;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .bottom-text a:hover {
+            text-decoration: underline;
+        }
+        /* ===============================
+   RESPONSIVE
+================================= */
+        
+        @media(max-width:900px) {
+            .navbar {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .nav-links {
+                justify-content: center;
+            }
+        }
+        
+        @media(max-width:600px) {
+            .register-card {
+                padding: 35px 22px;
+            }
+            .register-card h1 {
+                font-size: 28px;
+            }
+            .nav-links {
+                gap: 15px;
+            }
+            .nav-links a {
+                font-size: 13px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ===========================
+     NAVBAR
+============================ -->
+    <nav class="navbar">
+
+        <div class="logo">
+            NomadX AI
+        </div>
+
+        <div class="nav-links">
+            <a href="/">Home</a>
+            <a href="/dashboard">Dashboard</a>
+            <a href="/hotels">Hotels</a>
+            <a href="/restaurants">Restaurants</a>
+            <a href="/map">Maps</a>
+            <a href="/emergency">Emergency</a>
+            <a href="/chatbot">AI Chatbot</a>
+            <a href="/login">Login</a>
+            <a href="/register">Register</a>
+        </div>
+
+    </nav>
+
+    <!-- ===========================
+     MAIN
+============================ -->
+    <div class="main-container">
+
+        <div class="register-card">
+
+            <h1>Create Account</h1>
+
+            <p>
+                Join NomadX AI and explore the future of smart travel.
+            </p>
+
+            <form method="POST" action="/register">
+
+                {% if error %}
+                <div class="form-error">{{ error }}</div>
+                {% endif %}
+
+                <div class="input-group">
+                    <label>Username</label>
+
+                    <input type="text" name="username" placeholder="Enter your username" required>
+                </div>
+
+                <div class="input-group">
+                    <label>Email Address</label>
+
+                    <input type="email" name="email" placeholder="Enter your email" required>
+                </div>
+
+                <div class="input-group">
+                    <label>Password</label>
+
+                    <input type="password" name="password" placeholder="Create password" required>
+                </div>
+
+                <div class="input-group">
+                    <label>Confirm Password</label>
+
+                    <input type="password" name="confirm_password" placeholder="Confirm password" required>
+                </div>
+
+                <div class="terms">
+
+                    <input type="checkbox" required>
+
+                    <span>
+I agree to the Terms & Conditions
+</span>
+
+                </div>
+
+                <button type="submit" class="register-btn">
+Create Account
+</button>
+
+            </form>
+
+            <div class="bottom-text">
+                Already have an account?
+                <a href="/login">Login</a>
+            </div>
+
+        </div>
+
+    </div>
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+
+</body>
+
+</html>

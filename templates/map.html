@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>LiveTracker | Real-Time Route Map & Navigation</title>
+    <!-- Leaflet CSS + JS (OpenStreetMap) -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <!-- Leaflet Routing Machine for route planning -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.css" />
+    <script src="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.js"></script>
+    <!-- Font Awesome & Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #1a2a32;
+            color: #eef4ff;
+            overflow-x: hidden;
+        }
+        /* Header */
+        
+        .header {
+            background: linear-gradient(135deg, #0f212e, #0a2f3f);
+            padding: 1rem 2rem;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            position: relative;
+            z-index: 10;
+        }
+        
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .logo {
+            font-size: 1.6rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo i {
+            color: #2ecc71;
+            font-size: 1.8rem;
+        }
+        
+        .tagline {
+            font-size: 0.85rem;
+            opacity: 0.8;
+        }
+        /* Main container */
+        
+        .map-container {
+            max-width: 1400px;
+            margin: 25px auto;
+            padding: 0 20px;
+        }
+        
+        .card-panel {
+            background: rgba(20, 35, 45, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 28px;
+            padding: 20px 24px;
+            margin-bottom: 20px;
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(46, 204, 113, 0.2);
+        }
+        
+        .search-header {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            align-items: flex-end;
+        }
+        
+        .input-group {
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        .input-group label {
+            display: block;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: #2ecc71;
+        }
+        
+        .input-group input {
+            width: 100%;
+            padding: 12px 16px;
+            border-radius: 60px;
+            border: none;
+            background: #2d3e48;
+            color: white;
+            font-family: inherit;
+            font-size: 0.9rem;
+            outline: none;
+            transition: 0.2s;
+        }
+        
+        .input-group input:focus {
+            background: #1e3a4a;
+            box-shadow: 0 0 0 2px #2ecc71;
+        }
+        
+        .btn-primary {
+            background: #2ecc71;
+            border: none;
+            padding: 12px 28px;
+            border-radius: 60px;
+            font-weight: bold;
+            color: #0f212e;
+            cursor: pointer;
+            transition: 0.2s;
+            font-family: inherit;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-primary:hover {
+            background: #27ae60;
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background: #e67e22;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 60px;
+            font-weight: bold;
+            color: white;
+            cursor: pointer;
+            transition: 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-secondary:hover {
+            background: #d35400;
+        }
+        
+        .btn-outline {
+            background: transparent;
+            border: 1.5px solid #2ecc71;
+            color: #2ecc71;
+            padding: 10px 20px;
+            border-radius: 60px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+        
+        .btn-outline:hover {
+            background: #2ecc71;
+            color: #0f212e;
+        }
+        
+        .status-bar {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+            padding-top: 12px;
+            border-top: 1px solid rgba(46, 204, 113, 0.3);
+        }
+        
+        .live-badge {
+            background: #e74c3c;
+            padding: 4px 12px;
+            border-radius: 40px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            animation: pulse 1.5s infinite;
+        }
+        
+        @keyframes pulse {
+            0% {
+                opacity: 0.7;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.05);
+                background: #ff5555;
+            }
+            100% {
+                opacity: 0.7;
+                transform: scale(1);
+            }
+        }
+        
+        .info-text {
+            font-size: 0.8rem;
+            background: #1e3a3f;
+            padding: 6px 14px;
+            border-radius: 40px;
+        }
+        /* Map Wrapper */
+        
+        .map-wrapper {
+            border-radius: 28px;
+            overflow: hidden;
+            box-shadow: 0 20px 35px -10px black;
+            border: 2px solid rgba(46, 204, 113, 0.4);
+            background: #0a1a1f;
+        }
+        
+        #map {
+            height: 550px;
+            width: 100%;
+            z-index: 1;
+        }
+        
+        .legend {
+            display: flex;
+            gap: 20px;
+            margin-top: 15px;
+            justify-content: center;
+            font-size: 0.75rem;
+            flex-wrap: wrap;
+        }
+        
+        .legend span {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 24px;
+            background: #0a1a1f;
+            margin-top: 40px;
+            font-size: 0.8rem;
+        }
+        
+        @media (max-width: 760px) {
+            .search-header {
+                flex-direction: column;
+            }
+            .btn-primary,
+            .btn-secondary {
+                width: 100%;
+                justify-content: center;
+            }
+            #map {
+                height: 450px;
+            }
+            .legend {
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="header">
+        <div class="nav">
+            <div class="logo">
+                <i class="fas fa-location-dot"></i>
+                <span>LiveTracker<span style="font-size: 0.8rem; margin-left: 6px;">🚀</span></span>
+            </div>
+            <div class="tagline"><i class="fas fa-satellite-dish"></i> Real-time GPS | Route Planner | Live Tracking</div>
+        </div>
+    </div>
+
+    <div class="map-container">
+        <div class="card-panel">
+            <div class="search-header">
+                <div class="input-group">
+                    <label><i class="fas fa-map-pin"></i> START POINT (Source)</label>
+                    <input type="text" id="sourceInput" placeholder="e.g., Current Location, Bangalore, or address..." value="Current Location">
+                </div>
+                <div class="input-group">
+                    <label><i class="fas fa-flag-checkered"></i> DESTINATION</label>
+                    <input type="text" id="destInput" placeholder="Enter destination city / landmark" value="Mysore Palace">
+                </div>
+                <button id="planRouteBtn" class="btn-primary"><i class="fas fa-route"></i> PLAN ROUTE</button>
+                <button id="getCurrentLocBtn" class="btn-secondary"><i class="fas fa-crosshairs"></i> MY LOCATION</button>
+            </div>
+            <div class="status-bar">
+                <div class="live-badge"><i class="fas fa-circle"></i> LIVE TRACKING ACTIVE</div>
+                <div id="trackStatus" class="info-text"><i class="fas fa-map-marker-alt"></i> Click 'My Location' or allow GPS</div>
+                <div><i class="fas fa-info-circle"></i> Source → Destination route | Real-time position updates</div>
+            </div>
+        </div>
+
+        <div class="map-wrapper">
+            <div id="map"></div>
+        </div>
+        <div class="legend">
+            <span><i class="fas fa-map-marker-alt" style="color:#2ecc71;"></i> Your Live Location</span>
+            <span><i class="fas fa-flag-checkered" style="color:#e67e22;"></i> Destination</span>
+            <span style="background:#3498db; width:20px; height:4px; display:inline-block; border-radius:4px;"></span> Route Path
+            <span><i class="fas fa-sync-alt"></i> Auto-refresh every 5s (live tracking)</span>
+        </div>
+    </div>
+
+    <footer>
+        <i class="fas fa-map-marked-alt"></i> Live navigation using OpenStreetMap & Leaflet | Simulated live tracking watches your location & updates route dynamically | Source → Destination with turn-by-turn routing
+    </footer>
+
+    <script>
+        // ================= FIXED: SAFE INIT WITH ERROR HANDLING =================
+        document.addEventListener('DOMContentLoaded', function() {
+
+            // Check if Leaflet is loaded
+            if (typeof L === 'undefined') {
+                document.getElementById('trackStatus').innerHTML = '⚠️ Map library not loaded. Please refresh.';
+                return;
+            }
+
+            // ================= INIT MAP =================
+            let map;
+            try {
+                map = L.map('map').setView([12.9716, 77.5946], 12);
+            } catch (e) {
+                document.getElementById('trackStatus').innerHTML = '⚠️ Error initializing map.';
+                return;
+            }
+
+            // Load OpenStreetMap tiles
+            L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> & CartoDB',
+                subdomains: 'abcd',
+                maxZoom: 19,
+                minZoom: 4
+            }).addTo(map);
+
+            // ================= MARKERS =================
+            const sourceIcon = L.divIcon({
+                className: 'custom-div-icon',
+                html: '<div style="background-color:#2ecc71; width:12px; height:12px; border-radius:50%; border:3px solid white; box-shadow:0 0 0 2px #2ecc71;"></div>',
+                iconSize: [16, 16],
+                popupAnchor: [0, -8]
+            });
+
+            const destIcon = L.icon({
+                iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+                shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
+                iconSize: [25, 41],
+                iconAnchor: [12, 41],
+                popupAnchor: [1, -34]
+            });
+
+            // ================= STATE =================
+            let currentLocationMarker = null;
+            let routingControl = null;
+            let currentPosition = {
+                lat: 12.9716,
+                lng: 77.5946
+            };
+            let watchId = null;
+            let routePlanned = false;
+            let destMarker = null;
+            let isRouting = false;
+
+            // ================= UPDATE LOCATION MARKER =================
+            function updateCurrentLocationMarker(lat, lng) {
+                try {
+                    if (currentLocationMarker) {
+                        currentLocationMarker.setLatLng([lat, lng]);
+                    } else {
+                        const liveIcon = L.divIcon({
+                            className: 'live-marker',
+                            html: `<div style="background-color:#e74c3c; width:14px; height:14px; border-radius:50%; border:3px solid white; box-shadow:0 0 0 4px rgba(231,76,60,0.6);"></div>`,
+                            iconSize: [20, 20],
+                            popupAnchor: [0, -10]
+                        });
+                        currentLocationMarker = L.marker([lat, lng], {
+                            icon: liveIcon
+                        }).addTo(map);
+                        currentLocationMarker.bindPopup("<b>📍 You are here</b><br>Live position");
+                    }
+                    if (!routePlanned) {
+                        map.setView([lat, lng], 14);
+                    }
+                    document.getElementById('sourceInput').value = "Current Location (Live)";
+                } catch (e) {
+                    console.warn('Marker update error:', e);
+                }
+            }
+
+            // ================= GEOCODE ADDRESS =================
+            async function geocodeAddress(address) {
+                if (!address || address.toLowerCase() === "current location" || address.toLowerCase() === "current location (live)") {
+                    return currentPosition;
+                }
+                try {
+                    const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(address)}&limit=1`;
+                    const response = await fetch(url);
+                    const data = await response.json();
+                    if (data && data.length > 0) {
+                        return {
+                            lat: parseFloat(data[0].lat),
+                            lng: parseFloat(data[0].lon)
+                        };
+                    }
+                    return null;
+                } catch (err) {
+                    console.error("Geocoding error:", err);
+                    return null;
+                }
+            }
+
+            // ================= PLAN ROUTE =================
+            async function planRoute(sourceAddr, destAddr) {
+                if (isRouting) return;
+                isRouting = true;
+
+                try {
+                    if (routingControl) {
+                        map.removeControl(routingControl);
+                        routingControl = null;
+                    }
+
+                    let sourceCoords;
+                    if (sourceAddr.toLowerCase().includes("current")) {
+                        sourceCoords = currentPosition;
+                    } else {
+                        sourceCoords = await geocodeAddress(sourceAddr);
+                    }
+
+                    const destCoords = await geocodeAddress(destAddr);
+
+                    if (!sourceCoords) {
+                        alert("Could not find source location. Try a valid city or use 'Current Location'.");
+                        isRouting = false;
+                        return false;
+                    }
+                    if (!destCoords) {
+                        alert("Destination not found. Please enter a valid landmark or city.");
+                        isRouting = false;
+                        return false;
+                    }
+
+                    // Remove old destination marker
+                    if (destMarker) {
+                        map.removeLayer(destMarker);
+                        destMarker = null;
+                    }
+                    destMarker = L.marker([destCoords.lat, destCoords.lng], {
+                        icon: destIcon
+                    }).addTo(map);
+                    destMarker.bindPopup(`<b>Destination</b><br>${destAddr}`).openPopup();
+
+                    // Create routing control
+                    routingControl = L.Routing.control({
+                        waypoints: [
+                            L.latLng(sourceCoords.lat, sourceCoords.lng),
+                            L.latLng(destCoords.lat, destCoords.lng)
+                        ],
+                        routeWhileDragging: false,
+                        showAlternatives: false,
+                        fitSelectedRoutes: true,
+                        lineOptions: {
+                            styles: [{
+                                color: '#3498db',
+                                weight: 5,
+                                opacity: 0.8
+                            }],
+                            extendToWaypoints: true,
+                            missingRouteTolerance: 0
+                        },
+                        addWaypoints: false,
+                        draggableWaypoints: false,
+                        show: true,
+                        collapsible: true,
+                        showPlanButton: false,
+                        plan: null,
+                        router: L.Routing.osrmv1({
+                            serviceUrl: 'https://router.project-osrm.org/route/v1/'
+                        })
+                    }).addTo(map);
+
+                    routingControl.on('routesfound', function(e) {
+                        const route = e.routes[0];
+                        const distance = (route.summary.totalDistance / 1000).toFixed(2);
+                        const time = (route.summary.totalTime / 60).toFixed(1);
+                        document.getElementById('trackStatus').innerHTML =
+                            `<i class="fas fa-road"></i> Route: ${distance} km | Est. ${time} mins | Live tracking active`;
+                    });
+
+                    routePlanned = true;
+                    isRouting = false;
+                    return true;
+
+                } catch (e) {
+                    console.error('Route planning error:', e);
+                    alert('Error planning route. Please try again.');
+                    isRouting = false;
+                    return false;
+                }
+            }
+
+            // ================= PLAN ROUTE FROM CURRENT POSITION =================
+            async function planRouteFromCurrentPosition(destAddr) {
+                if (isRouting) return;
+                isRouting = true;
+
+                try {
+                    if (routingControl) {
+                        map.removeControl(routingControl);
+                        routingControl = null;
+                    }
+
+                    const destCoords = await geocodeAddress(destAddr);
+                    if (!destCoords) {
+                        alert("Destination invalid. Please enter correct place.");
+                        isRouting = false;
+                        return;
+                    }
+
+                    if (destMarker) {
+                        map.removeLayer(destMarker);
+                        destMarker = null;
+                    }
+                    destMarker = L.marker([destCoords.lat, destCoords.lng], {
+                        icon: destIcon
+                    }).addTo(map);
+                    destMarker.bindPopup(`<b>Destination</b><br>${destAddr}`);
+
+                    routingControl = L.Routing.control({
+                        waypoints: [
+                            L.latLng(currentPosition.lat, currentPosition.lng),
+                            L.latLng(destCoords.lat, destCoords.lng)
+                        ],
+                        routeWhileDragging: false,
+                        showAlternatives: false,
+                        fitSelectedRoutes: true,
+                        lineOptions: {
+                            styles: [{
+                                color: '#2ecc71',
+                                weight: 5
+                            }]
+                        },
+                        addWaypoints: false,
+                        draggableWaypoints: false,
+                        router: L.Routing.osrmv1({
+                            serviceUrl: 'https://router.project-osrm.org/route/v1/'
+                        })
+                    }).addTo(map);
+
+                    routingControl.on('routesfound', function(e) {
+                        const dist = (e.routes[0].summary.totalDistance / 1000).toFixed(2);
+                        const dur = (e.routes[0].summary.totalTime / 60).toFixed(1);
+                        document.getElementById('trackStatus').innerHTML =
+                            `<i class="fas fa-sync-alt"></i> Live route: ${dist} km, ${dur} min (from your GPS)`;
+                    });
+
+                    routePlanned = true;
+                    isRouting = false;
+
+                } catch (e) {
+                    console.error('Route from position error:', e);
+                    isRouting = false;
+                }
+            }
+
+            // ================= START LIVE TRACKING =================
+            function startLiveTracking() {
+                if (watchId) {
+                    navigator.geolocation.clearWatch(watchId);
+                }
+                if (!navigator.geolocation) {
+                    document.getElementById('trackStatus').innerHTML = "<i class='fas fa-exclamation-triangle'></i> Geolocation not supported";
+                    return;
+                }
+
+                watchId = navigator.geolocation.watchPosition(
+                    (position) => {
+                        const lat = position.coords.latitude;
+                        const lng = position.coords.longitude;
+                        currentPosition = {
+                            lat,
+                            lng
+                        };
+                        updateCurrentLocationMarker(lat, lng);
+                        document.getElementById('trackStatus').innerHTML =
+                            `<i class="fas fa-check-circle"></i> Live tracking active | Lat: ${lat.toFixed(4)}, Lng: ${lng.toFixed(4)}`;
+
+                        const destValue = document.getElementById('destInput').value.trim();
+                        if (routePlanned && destValue && !isRouting) {
+                            planRouteFromCurrentPosition(destValue);
+                        }
+                    },
+                    (error) => {
+                        console.warn('Geolocation error:', error);
+                        let errMsg = "Location error. Using default.";
+                        if (error.code === 1) errMsg = "Permission denied. Allow location.";
+                        document.getElementById('trackStatus').innerHTML = `<i class="fas fa-ban"></i> ${errMsg}`;
+                        updateCurrentLocationMarker(12.9716, 77.5946);
+                        currentPosition = {
+                            lat: 12.9716,
+                            lng: 77.5946
+                        };
+                    }, {
+                        enableHighAccuracy: true,
+                        maximumAge: 5000,
+                        timeout: 15000
+                    }
+                );
+            }
+
+            // ================= EVENT LISTENERS =================
+            document.getElementById('planRouteBtn').addEventListener('click', async function() {
+                let sourceVal = document.getElementById('sourceInput').value.trim() || "Current Location";
+                let destVal = document.getElementById('destInput').value.trim();
+                if (!destVal) {
+                    alert("Please enter a destination.");
+                    return;
+                }
+                document.getElementById('trackStatus').innerHTML = '<i class="fas fa-spinner fa-pulse"></i> Planning route...';
+                await planRoute(sourceVal, destVal);
+            });
+
+            document.getElementById('getCurrentLocBtn').addEventListener('click', function() {
+                if (!navigator.geolocation) {
+                    alert("Geolocation not supported by browser.");
+                    return;
+                }
+                navigator.geolocation.getCurrentPosition(
+                    (pos) => {
+                        const {
+                            latitude,
+                            longitude
+                        } = pos.coords;
+                        currentPosition = {
+                            lat: latitude,
+                            lng: longitude
+                        };
+                        updateCurrentLocationMarker(latitude, longitude);
+                        map.setView([latitude, longitude], 15);
+                        document.getElementById('sourceInput').value = "Current Location (Live)";
+                        document.getElementById('trackStatus').innerHTML =
+                            `<i class="fas fa-check"></i> Location updated: ${latitude.toFixed(4)}, ${longitude.toFixed(4)}`;
+
+                        const dest = document.getElementById('destInput').value.trim();
+                        if (dest && routePlanned && !isRouting) {
+                            planRouteFromCurrentPosition(dest);
+                        }
+                    },
+                    () => {
+                        alert("Could not get location. Please enable permissions.");
+                    }, {
+                        enableHighAccuracy: true
+                    }
+                );
+            });
+
+            document.getElementById('destInput').addEventListener('keypress', async function(e) {
+                if (e.key === 'Enter') {
+                    let dest = this.value.trim();
+                    if (dest) {
+                        let sourceVal = document.getElementById('sourceInput').value.trim() || "Current Location";
+                        await planRoute(sourceVal, dest);
+                    }
+                }
+            });
+
+            // ================= INITIALIZE =================
+            startLiveTracking();
+
+            setTimeout(async function() {
+                const defaultDest = "Mysore Palace";
+                document.getElementById('destInput').value = defaultDest;
+                await planRoute("Current Location", defaultDest);
+            }, 1500);
+
+            // Auto-refresh route every 5 seconds
+            setInterval(async function() {
+                if (routePlanned && document.getElementById('sourceInput').value.toLowerCase().includes("current")) {
+                    const destVal = document.getElementById('destInput').value.trim();
+                    if (destVal && currentPosition && !isRouting) {
+                        try {
+                            const destCoord = await geocodeAddress(destVal);
+                            if (destCoord && routingControl) {
+                                routingControl.setWaypoints([
+                                    L.latLng(currentPosition.lat, currentPosition.lng),
+                                    L.latLng(destCoord.lat, destCoord.lng)
+                                ]);
+                            }
+                        } catch (e) {
+                            console.warn('Auto-refresh route error:', e);
+                        }
+                    }
+                }
+            }, 5000);
+
+            console.log('🗺️ LiveTracker initialized successfully!');
+
+        }); // End DOMContentLoaded
+    </script>
+
+</body>
+
+</html>

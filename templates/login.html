@@ -1,0 +1,252 @@
+<div class="login-container">
+
+    <div class="login-box">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+        <h1>NomadX AI</h1>
+
+        <p class="subtitle">
+            The Future of Smart Travel
+        </p>
+
+        <form method="POST" action="/login">
+
+            {% if error %}
+            <div class="form-error">{{ error }}</div>
+            {% endif %}
+
+            <div class="input-group">
+
+                <label>Email Address</label>
+
+                <input type="email" name="email" placeholder="Enter your email" required>
+
+            </div>
+
+            <div class="input-group">
+
+                <label>Password</label>
+
+                <input type="password" name="password" placeholder="Enter your password" required>
+
+            </div>
+
+            <div class="options">
+
+                <label class="remember">
+
+<input type="checkbox">
+<span>Remember me</span>
+
+</label>
+
+                <a href="/forgot-password" class="forgot">
+Forgot Password?
+</a>
+
+            </div>
+
+            <button type="submit" class="login-btn">
+Login
+</button>
+
+        </form>
+
+        <div class="register-text">
+            Don't have an account?
+            <a href="/register">Register</a>
+        </div>
+
+    </div>
+
+</div>
+
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Poppins', sans-serif;
+        background: linear-gradient(135deg, #012A4A, #013A63, #01497C, #014F86);
+        min-height: 100vh;
+        overflow: hidden;
+    }
+    /* ===== GLOW EFFECT ===== */
+    
+    body::before {
+        content: '';
+        position: absolute;
+        width: 450px;
+        height: 450px;
+        background: rgba(97, 165, 194, 0.15);
+        border-radius: 50%;
+        top: -120px;
+        left: -100px;
+        filter: blur(50px);
+    }
+    
+    body::after {
+        content: '';
+        position: absolute;
+        width: 400px;
+        height: 400px;
+        background: rgba(44, 125, 160, 0.12);
+        border-radius: 50%;
+        bottom: -120px;
+        right: -100px;
+        filter: blur(50px);
+    }
+    /* ===== CONTAINER ===== */
+    
+    .login-container {
+        width: 100%;
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        z-index: 10;
+    }
+    /* ===== LOGIN BOX ===== */
+    
+    .login-box {
+        width: 400px;
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.10);
+        backdrop-filter: blur(16px);
+        border-radius: 30px;
+        padding: 40px;
+        box-shadow: 0 0 25px rgba(97, 165, 194, 0.25);
+        animation: floatBox 4s ease-in-out infinite;
+    }
+    /* ===== FLOAT EFFECT ===== */
+    
+    @keyframes floatBox {
+        0% {
+            transform: translateY(0px);
+        }
+        50% {
+            transform: translateY(-8px);
+        }
+        100% {
+            transform: translateY(0px);
+        }
+    }
+    /* ===== TITLE ===== */
+    
+    .login-box h1 {
+        color: white;
+        text-align: center;
+        font-size: 38px;
+        margin-bottom: 10px;
+    }
+    
+    .subtitle {
+        text-align: center;
+        color: #A9D6E5;
+        margin-bottom: 35px;
+        font-size: 15px;
+    }
+    /* ===== INPUTS ===== */
+    
+    .input-group {
+        margin-bottom: 22px;
+    }
+    
+    .input-group label {
+        display: block;
+        color: #A9D6E5;
+        margin-bottom: 8px;
+        font-size: 14px;
+    }
+    
+    .input-group input {
+        width: 100%;
+        padding: 15px;
+        border: none;
+        outline: none;
+        border-radius: 14px;
+        background: rgba(255, 255, 255, 0.07);
+        border: 1px solid rgba(255, 255, 255, 0.10);
+        color: white;
+        font-size: 15px;
+        transition: 0.3s;
+    }
+    
+    .input-group input:focus {
+        border: 1px solid #61A5C2;
+        box-shadow: 0 0 15px rgba(97, 165, 194, 0.3);
+    }
+    /* ===== OPTIONS ===== */
+    
+    .options {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 25px;
+    }
+    
+    .remember {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: #A9D6E5;
+        font-size: 14px;
+    }
+    
+    .forgot {
+        text-decoration: none;
+        color: #89C2D9;
+        font-size: 14px;
+    }
+    
+    .forgot:hover {
+        color: white;
+    }
+    /* ===== BUTTON ===== */
+    
+    .login-btn {
+        width: 100%;
+        padding: 15px;
+        border: none;
+        border-radius: 16px;
+        background: #2C7DA0;
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+        transition: 0.4s;
+    }
+    
+    .login-btn:hover {
+        background: #468FAF;
+        transform: translateY(-3px);
+        box-shadow: 0 0 18px rgba(97, 165, 194, 0.4);
+    }
+    /* ===== REGISTER ===== */
+    
+    .register-text {
+        margin-top: 25px;
+        text-align: center;
+        color: #A9D6E5;
+    }
+    
+    .register-text a {
+        color: #89C2D9;
+        text-decoration: none;
+    }
+    
+    .register-text a:hover {
+        color: white;
+    }
+    /* ===== RESPONSIVE ===== */
+    
+    @media(max-width:500px) {
+        .login-box {
+            width: 90%;
+            padding: 30px;
+        }
+        .login-box h1 {
+            font-size: 30px;
+        }
+    }
+</style>
+<script src="{{ url_for('static', filename='js/app.js') }}"></script>

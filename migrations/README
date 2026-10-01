@@ -1,0 +1,6 @@
+This directory is ready for Flask-Migrate.
+
+Initialize or update the database with:
+
+flask --app app db migrate -m "initial production backend"
+flask --app app db upgrade

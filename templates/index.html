@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NomadX AI - Intelligent Travel Starts Here</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            min-height: 100vh;
+            overflow-x: hidden;
+            background: #06131f;
+            color: #ffffff;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .landing-shell {
+            min-height: 100vh;
+            position: relative;
+            isolation: isolate;
+            overflow: hidden;
+        }
+        
+        .landing-bg {
+            position: absolute;
+            inset: 0;
+            z-index: -2;
+        }
+        
+        .landing-bg img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0;
+            transform: scale(1.08);
+            animation: heroImage 36s infinite;
+        }
+        
+        .landing-bg img:nth-child(2) {
+            animation-delay: 6s;
+        }
+        
+        .landing-bg img:nth-child(3) {
+            animation-delay: 12s;
+        }
+        
+        .landing-bg img:nth-child(4) {
+            animation-delay: 18s;
+        }
+        
+        .landing-bg img:nth-child(5) {
+            animation-delay: 24s;
+        }
+        
+        .landing-bg img:nth-child(6) {
+            animation-delay: 30s;
+        }
+        
+        .landing-shell::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            z-index: -1;
+            background: linear-gradient(90deg, rgba(3, 18, 31, 0.94) 0%, rgba(4, 28, 46, 0.78) 42%, rgba(5, 18, 29, 0.38) 100%), linear-gradient(0deg, rgba(3, 15, 24, 0.86) 0%, rgba(3, 15, 24, 0.12) 48%, rgba(3, 15, 24, 0.52) 100%);
+        }
+        
+        @keyframes heroImage {
+            0% {
+                opacity: 0;
+                transform: scale(1.08) translateX(0);
+            }
+            8% {
+                opacity: 1;
+            }
+            22% {
+                opacity: 1;
+            }
+            34% {
+                opacity: 0;
+                transform: scale(1.18) translateX(-1.8%);
+            }
+            100% {
+                opacity: 0;
+            }
+        }
+        
+        .navbar {
+            width: 100%;
+            padding: 18px clamp(20px, 5vw, 72px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            z-index: 10;
+            background: rgba(3, 18, 31, 0.54);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(16px);
+        }
+        
+        .logo {
+            color: #c8f2ff;
+            font-size: clamp(22px, 3vw, 30px);
+            font-weight: 800;
+            letter-spacing: 0;
+        }
+        
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            flex-wrap: wrap;
+        }
+        
+        .nav-links a {
+            color: #d8f4ff;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        .nav-links a:hover {
+            color: #8ee7ff;
+        }
+        
+        .nav-entry {
+            padding: 10px 16px;
+            border: 1px solid rgba(142, 231, 255, 0.54);
+            border-radius: 6px;
+            background: rgba(5, 45, 70, 0.5);
+        }
+        
+        .hero {
+            min-height: 100vh;
+            display: grid;
+            grid-template-columns: minmax(0, 760px) minmax(280px, 1fr);
+            align-items: center;
+            gap: clamp(28px, 6vw, 88px);
+            padding: 116px clamp(20px, 5vw, 72px) 42px;
+        }
+        
+        .hero-copy {
+            max-width: 760px;
+        }
+        
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            min-height: 34px;
+            padding: 7px 12px;
+            border: 1px solid rgba(142, 231, 255, 0.34);
+            border-radius: 6px;
+            background: rgba(8, 60, 87, 0.48);
+            color: #b9f1ff;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 22px;
+        }
+        
+        h1 {
+            max-width: 760px;
+            color: #ffffff;
+            font-size: clamp(44px, 7vw, 86px);
+            line-height: 1.02;
+            font-weight: 800;
+            letter-spacing: 0;
+            margin-bottom: 24px;
+        }
+        
+        .lead {
+            max-width: 650px;
+            color: #dceff6;
+            font-size: clamp(16px, 2vw, 20px);
+            line-height: 1.75;
+            margin-bottom: 34px;
+        }
+        
+        .hero-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+            margin-bottom: 34px;
+        }
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 50px;
+            padding: 13px 22px;
+            border-radius: 7px;
+            text-decoration: none;
+            border: 1px solid transparent;
+            color: #ffffff;
+            font-size: 15px;
+            font-weight: 700;
+            transition: transform 0.25s ease, background 0.25s ease, border-color 0.25s ease;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+        }
+        
+        .primary-btn {
+            background: #1e9fc7;
+            box-shadow: 0 16px 36px rgba(30, 159, 199, 0.28);
+        }
+        
+        .secondary-btn {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.34);
+        }
+        
+        .quick-strip {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(130px, 1fr));
+            gap: 12px;
+            max-width: 620px;
+        }
+        
+        .quick-item {
+            padding: 15px;
+            min-height: 92px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(12px);
+        }
+        
+        .quick-item strong {
+            display: block;
+            color: #ffffff;
+            font-size: 21px;
+            margin-bottom: 4px;
+        }
+        
+        .quick-item span {
+            color: #cceaf2;
+            font-size: 13px;
+            line-height: 1.45;
+        }
+        
+        .module-panel {
+            align-self: end;
+            width: min(100%, 460px);
+            margin-left: auto;
+            padding: 18px;
+            border-radius: 8px;
+            background: rgba(4, 24, 38, 0.62);
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            backdrop-filter: blur(18px);
+        }
+        
+        .module-panel h2 {
+            font-size: 20px;
+            margin-bottom: 14px;
+            color: #e9fbff;
+        }
+        
+        .module-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 10px;
+        }
+        
+        .module-grid a {
+            min-height: 72px;
+            padding: 14px;
+            border-radius: 7px;
+            background: rgba(255, 255, 255, 0.09);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 700;
+        }
+        
+        .module-grid a span {
+            display: block;
+            margin-top: 4px;
+            color: #c8e9f1;
+            font-size: 12px;
+            font-weight: 400;
+            line-height: 1.4;
+        }
+        
+        .image-rail {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 22px;
+            display: flex;
+            gap: 14px;
+            padding: 0 clamp(20px, 5vw, 72px);
+            pointer-events: none;
+            opacity: 0.92;
+        }
+        
+        .rail-card {
+            width: min(15.5vw, 190px);
+            min-width: 118px;
+            height: 78px;
+            border-radius: 7px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.24);
+            box-shadow: 0 18px 42px rgba(0, 0, 0, 0.28);
+            animation: railFloat 8s ease-in-out infinite;
+        }
+        
+        .rail-card:nth-child(2) {
+            animation-delay: 0.6s;
+        }
+        
+        .rail-card:nth-child(3) {
+            animation-delay: 1.2s;
+        }
+        
+        .rail-card:nth-child(4) {
+            animation-delay: 1.8s;
+        }
+        
+        .rail-card:nth-child(5) {
+            animation-delay: 2.4s;
+        }
+        
+        .rail-card:nth-child(6) {
+            animation-delay: 3s;
+        }
+        
+        .rail-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        @keyframes railFloat {
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+        
+        @media (max-width: 1060px) {
+            .hero {
+                grid-template-columns: 1fr;
+                align-items: start;
+                padding-bottom: 150px;
+            }
+            .module-panel {
+                width: 100%;
+                margin: 0;
+            }
+        }
+        
+        @media (max-width: 760px) {
+            .navbar {
+                position: absolute;
+                align-items: flex-start;
+                flex-direction: column;
+                gap: 12px;
+            }
+            .nav-links {
+                gap: 10px;
+            }
+            .nav-links a:not(.nav-entry) {
+                display: none;
+            }
+            .hero {
+                padding-top: 150px;
+                padding-bottom: 122px;
+            }
+            .quick-strip,
+            .module-grid {
+                grid-template-columns: 1fr;
+            }
+            .image-rail {
+                overflow: hidden;
+                bottom: 14px;
+            }
+            .rail-card {
+                width: 136px;
+                min-width: 136px;
+                height: 72px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <main class="landing-shell">
+        <div class="landing-bg" aria-hidden="true">
+            <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=2400&q=85" alt="">
+            <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=2400&q=85" alt="">
+            <img src="https://images.unsplash.com/photo-1494783367193-149034c05e8f?auto=format&fit=crop&w=2400&q=85" alt="">
+            <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=2400&q=85" alt="">
+            <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=2400&q=85" alt="">
+            <img src="https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=2400&q=85" alt="">
+        </div>
+
+        <nav class="navbar">
+            <div class="logo">NomadX AI</div>
+            <div class="nav-links">
+                <a href="{{ url_for('enter_app', next='dashboard') }}">Dashboard</a>
+                <a href="{{ url_for('enter_app', next='hotels') }}">Hotels</a>
+                <a href="{{ url_for('enter_app', next='restaurants') }}">Restaurants</a>
+                <a href="{{ url_for('enter_app', next='rentals') }}">Rentals</a>
+                <a href="{{ url_for('enter_app', next='map_page') }}">Maps</a>
+                <a href="{{ url_for('enter_app', next='chatbot') }}">AI Chatbot</a>
+                <a href="{{ url_for('enter_app', next='login') }}" class="nav-entry">Enter App</a>
+            </div>
+        </nav>
+
+        <section class="hero">
+            <div class="hero-copy">
+                <div class="eyebrow">AI travel planner, live maps, bookings, safety, weather</div>
+                <h1>NomadX AI</h1>
+                <p class="lead">
+                    Start every trip from one intelligent travel command center: discover stays, restaurants, routes, car rentals, weather, emergency help, scanners, and AI itinerary support before you move.
+                </p>
+
+                <div class="hero-actions">
+                    <a href="{{ url_for('enter_app', next='dashboard') }}" class="btn primary-btn">Start Journey</a>
+                    <a href="{{ url_for('enter_app', next='login') }}" class="btn secondary-btn">Login</a>
+                    <a href="{{ url_for('enter_app', next='register') }}" class="btn secondary-btn">Create Account</a>
+                </div>
+
+                <div class="quick-strip" aria-label="NomadX travel highlights">
+                    <div class="quick-item">
+                        <strong>Live</strong>
+                        <span>GPS, reverse geocoding, nearby search, route generation.</span>
+                    </div>
+                    <div class="quick-item">
+                        <strong>AI</strong>
+                        <span>Trip plans, chat memory, budget ideas, attraction picks.</span>
+                    </div>
+                    <div class="quick-item">
+                        <strong>SOS</strong>
+                        <span>Hospitals, police stations, emergency logging, location sharing.</span>
+                    </div>
+                </div>
+            </div>
+
+            <aside class="module-panel" aria-label="NomadX modules">
+                <h2>Open Travel Modules</h2>
+                <div class="module-grid">
+                    <a href="{{ url_for('enter_app', next='hotels') }}">Hotels <span>Search stays, ratings, prices, availability.</span></a>
+                    <a href="{{ url_for('enter_app', next='restaurants') }}">Restaurants <span>Nearby dining, reviews, open status.</span></a>
+                    <a href="{{ url_for('enter_app', next='rentals') }}">Car Rentals <span>Vehicles, registration, pricing, pickup.</span></a>
+                    <a href="{{ url_for('enter_app', next='tripplanner') }}">Trip Planner <span>Multi-day AI itinerary and budget.</span></a>
+                    <a href="{{ url_for('enter_app', next='weather') }}">Weather <span>Forecast, rain prediction, air quality.</span></a>
+                    <a href="{{ url_for('enter_app', next='emergency') }}">Emergency <span>SOS, hospitals, police, helplines.</span></a>
+                </div>
+            </aside>
+        </section>
+
+        <div class="image-rail" aria-hidden="true">
+            <div class="rail-card"><img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=520&q=85" alt=""></div>
+            <div class="rail-card"><img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=520&q=85" alt=""></div>
+            <div class="rail-card"><img src="https://images.unsplash.com/photo-1494783367193-149034c05e8f?auto=format&fit=crop&w=520&q=85" alt=""></div>
+            <div class="rail-card"><img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=520&q=85" alt=""></div>
+            <div class="rail-card"><img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=520&q=85" alt=""></div>
+            <div class="rail-card"><img src="https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=520&q=85" alt=""></div>
+        </div>
+    </main>
+</body>
+
+</html>
